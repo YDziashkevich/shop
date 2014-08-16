@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.52 (64 bit)
+SQLyog Ultimate v11.5 (64 bit)
 MySQL - 5.5.37-log : Database - shop_st
 *********************************************************************
 */
@@ -15,6 +15,23 @@ MySQL - 5.5.37-log : Database - shop_st
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`shop_st` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `shop_st`;
+
+/*Table structure for table `product2category` */
+
+DROP TABLE IF EXISTS `product2category`;
+
+CREATE TABLE `product2category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idCategory` int(10) unsigned NOT NULL,
+  `idProduct` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product2category_category` (`idCategory`),
+  KEY `product2category_product` (`idProduct`),
+  CONSTRAINT `product2category_product` FOREIGN KEY (`idProduct`) REFERENCES `st_products` (`id`),
+  CONSTRAINT `product2category_category` FOREIGN KEY (`idCategory`) REFERENCES `st_category` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `product2category` */
 
 /*Table structure for table `st_category` */
 
@@ -39,10 +56,10 @@ CREATE TABLE `st_items` (
   `idProduct` int(10) unsigned NOT NULL,
   `numProduct` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `items_order` (`idOrder`),
-  KEY `items_product` (`idProduct`),
-  CONSTRAINT `items_order` FOREIGN KEY (`idOrder`) REFERENCES `st_orders` (`id`),
-  CONSTRAINT `items_product` FOREIGN KEY (`idProduct`) REFERENCES `st_products` (`id`)
+  KEY `order2product_product` (`idProduct`),
+  KEY `order2product_order` (`idOrder`),
+  CONSTRAINT `order2product_order` FOREIGN KEY (`idOrder`) REFERENCES `st_orders` (`id`),
+  CONSTRAINT `order2product_product` FOREIGN KEY (`idProduct`) REFERENCES `st_products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `st_items` */
@@ -57,11 +74,29 @@ CREATE TABLE `st_orders` (
   `idItems` int(10) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `order_user` (`idUser`),
-  CONSTRAINT `order_user` FOREIGN KEY (`idUser`) REFERENCES `st_users` (`id`)
+  KEY `oreder2item` (`idItems`),
+  KEY `oreder2user` (`idUser`),
+  CONSTRAINT `oreder2user` FOREIGN KEY (`idUser`) REFERENCES `st_users` (`id`),
+  CONSTRAINT `oreder2item` FOREIGN KEY (`idItems`) REFERENCES `st_items` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `st_orders` */
+
+/*Table structure for table `st_product2property` */
+
+DROP TABLE IF EXISTS `st_product2property`;
+
+CREATE TABLE `st_product2property` (
+  `idProduct` int(10) unsigned NOT NULL,
+  `idProperty` int(10) unsigned NOT NULL,
+  `value` text NOT NULL,
+  KEY `product2property_product` (`idProduct`),
+  KEY `product2property_property` (`idProperty`),
+  CONSTRAINT `product2property_product` FOREIGN KEY (`idProduct`) REFERENCES `st_products` (`id`),
+  CONSTRAINT `product2property_property` FOREIGN KEY (`idProperty`) REFERENCES `st_properties` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `st_product2property` */
 
 /*Table structure for table `st_products` */
 
@@ -74,11 +109,26 @@ CREATE TABLE `st_products` (
   `price` float DEFAULT NULL,
   `idCategory` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `product_category` (`idCategory`),
-  CONSTRAINT `product_category` FOREIGN KEY (`idCategory`) REFERENCES `st_category` (`id`)
+  KEY `product2category` (`idCategory`),
+  CONSTRAINT `product2category` FOREIGN KEY (`idCategory`) REFERENCES `st_category` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `st_products` */
+
+/*Table structure for table `st_properties` */
+
+DROP TABLE IF EXISTS `st_properties`;
+
+CREATE TABLE `st_properties` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `property` varchar(255) NOT NULL,
+  `idCategory` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `property2category` (`idCategory`),
+  CONSTRAINT `property2category` FOREIGN KEY (`idCategory`) REFERENCES `st_category` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `st_properties` */
 
 /*Table structure for table `st_users` */
 
@@ -87,7 +137,7 @@ DROP TABLE IF EXISTS `st_users`;
 CREATE TABLE `st_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
+  `lastName` varchar(255) DEFAULT NULL,
   `address` text NOT NULL,
   `phone` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
