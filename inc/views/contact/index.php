@@ -81,8 +81,8 @@
 
     <div id="templatemo_menu" class="ddsmoothmenu">
         <ul>
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="products.html">Каталог</a>
+            <li><a href="<?php echo APP_BASE_URL;?>main/index">Главная</a></li>
+            <li><a href="<?php echo APP_BASE_URL;?>catalog/index">Каталог</a>
                 <ul>
                     <li><a href="#">Процессоры</a></li>
                     <li><a href="#">Видеокарты</a></li>
@@ -101,10 +101,9 @@
                     <li><a href="#">Клавиатуры</a></li>
                 </ul>
             </li>
-            <li><a href="about.html">О компании</a></li>
-            <!--<li><a href="faqs.html">FAQs</a></li>-->
-            <li><a href="checkout.html">Сделать заказ</a></li>
-            <li><a href="contact.html" class="selected">Контакты</a></li>
+            <li><a href="<?php echo APP_BASE_URL;?>about/index"  class="selected">О компании</a></li>
+            <li><a href="<?php echo APP_BASE_URL;?>basket/index">Сделать заказ</a></li>
+            <li><a href="<?php echo APP_BASE_URL;?>contact/index">Контакты</a></li>
         </ul>
         <br style="clear: left" />
     </div> <!-- end of templatemo_menu -->
