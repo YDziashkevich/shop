@@ -9,6 +9,6 @@ class MainController extends Controller
 
     public function indexAction()
     {
-        $this->view->renderPartial("index");
+        $this->view->render("main/index");
     }
 }

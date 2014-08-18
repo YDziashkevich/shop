@@ -16,4 +16,11 @@ class View
         require("inc/views/" . $name . ".php");
         require("inc/views/footer.php");
     }
+
+    /**
+     * @param $name имя шаблона, который надо отобразить, вида (user/index)
+     */
+    public function render($name){
+        require('inc/views/'.$name.'.php');
+    }
 }
