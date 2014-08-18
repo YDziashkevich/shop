@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.37-log : Database - shop_st
+SQLyog Ultimate v9.02 
+MySQL - 5.5.25 : Database - shop_st
 *********************************************************************
 */
 
@@ -15,23 +15,6 @@ MySQL - 5.5.37-log : Database - shop_st
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`shop_st` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `shop_st`;
-
-/*Table structure for table `product2category` */
-
-DROP TABLE IF EXISTS `product2category`;
-
-CREATE TABLE `product2category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `idCategory` int(10) unsigned NOT NULL,
-  `idProduct` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `product2category_category` (`idCategory`),
-  KEY `product2category_product` (`idProduct`),
-  CONSTRAINT `product2category_product` FOREIGN KEY (`idProduct`) REFERENCES `st_products` (`id`),
-  CONSTRAINT `product2category_category` FOREIGN KEY (`idCategory`) REFERENCES `st_category` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `product2category` */
 
 /*Table structure for table `st_category` */
 
