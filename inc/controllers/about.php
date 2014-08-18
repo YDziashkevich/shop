@@ -1,6 +1,6 @@
 <?php
 
-class MainController extends Controller
+class AboutController extends Controller
 {
     public function __construct()
     {
@@ -9,7 +9,7 @@ class MainController extends Controller
 
     public function indexAction()
     {
-        $this->view->render("main/index");
+        $this->view->render("about/index");
     }
 
 }

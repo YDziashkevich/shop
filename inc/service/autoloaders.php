@@ -23,7 +23,7 @@ spl_autoload_register( function($class){
     }
 
     if($class == "Controller"){
-        require_once("inc/service/controller.php");
+        require_once("inc/service/catalog.php");
         return true;
     }
 
