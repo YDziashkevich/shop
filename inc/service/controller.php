@@ -12,5 +12,12 @@ class Controller
         $this->view = new View();
         $this->session = new SessionModel();
         ob_start();
+
+        // Подлючение модели контактов
+        $contact = new ContactModel();
+        $this->contact = $contact;
+        $this->view->contact = $this->contact;
     }
+
+
 }

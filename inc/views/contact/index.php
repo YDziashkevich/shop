@@ -6,6 +6,7 @@
     <meta name="keywords" content="web store, free templates, website templates, CSS, HTML" />
     <meta name="description" content="Web Store Theme - free CSS template provided by templatemo.com" />
     <link href="<?php echo APP_BASE_URL; ?>css/templatemo_style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo APP_BASE_URL; ?>css/bootstrap.css" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" type="text/css" href="<?php echo APP_BASE_URL; ?>css/ddsmoothmenu.css" />
 
@@ -173,29 +174,78 @@
         </div> <!-- END of sidebar -->
 
         <div id="content">
-            <h2>Контактная информация</h2>
 
-            <div class="col col_13">
-                <p>Для связи с нами, заполните следующую форму.</p>
-                <div id="contact_form">
-                    <form method="post" name="contact" action="#">
+            <div class="col ">
+                <div id="">
+                    <form class="form-horizontal" method="post">
+                        <fieldset>
 
-                        <label for="author">Имя:</label> <input type="text" id="author" name="author" class="required input_field" />
-                        <div class="cleaner h10"></div>
+                            <!-- Form Name -->
+                            <legend>Контактная информация</legend>
 
-                        <label for="email">Email:</label> <input type="text" id="email" name="email" class="validate-email required input_field" />
-                        <div class="cleaner h10"></div>
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="name">Имя:</label>
+                                <div class="col-md-4">
+                                    <input id="name" name="name" type="text" placeholder="" class="form-control input-md" value="<?php echo $this->name; ?>">
 
-                        <label for="subject">Тема:</label> <input type="text" name="subject" id="subject" class="input_field" />
-                        <div class="cleaner h10"></div>
+                                </div>
+                            </div>
 
-                        <label for="text">Сообщение:</label> <textarea id="text" name="text" rows="0" cols="0" class="required"></textarea>
-                        <div class="cleaner h10"></div>
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="email">email</label>
+                                <div class="col-md-4">
+                                    <input id="email" name="email" type="email" placeholder="" class="form-control input-md" value="<?php echo $this->email; ?>">
 
-                        <input type="submit" value="Отправить" id="submit" name="submit" class="submit_btn float_l" />
-                        <input type="reset" value="Очистить" id="reset" name="reset" class="submit_btn float_r" />
+                                </div>
+                            </div>
 
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="topic">Тема</label>
+                                <div class="col-md-4">
+                                    <input id="topic" name="topic" type="text" placeholder="" class="form-control input-md" value="<?php echo $this->topic; ?>">
+
+                                </div>
+                            </div>
+
+                            <!-- Prepended text-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="captcha">Защита от ботов</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="padding: 0;""><img src="<?php echo APP_BASE_URL.'captcha/index'; ?>" ></span>
+                                        <input id="captcha" name="captcha" class="form-control" placeholder="" type="text">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Textarea -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="message">Сообщение</label>
+                                <div class="col-md-4">
+                                    <textarea class="form-control" id="message" name="message"><?php echo $this->message; ?></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Button (Double) -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="reset"></label>
+                                <div class="col-md-8">
+                                    <button type="reset" id="reset" name="reset" class="btn btn-default">Очистить</button>
+                                    <button type="submit" id="submit" name="submit" class="btn btn-success">Отправить</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
                     </form>
+                    <?php if(!empty($this->msg)){ ?>
+                        <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
+                            <?php echo @$this->msg; ?>
+                        </div><br />
+                    <?php } ?>
                 </div>
             </div>
             <div class="col col_13">
