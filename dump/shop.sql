@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.37-log : Database - shop_st
+SQLyog Ultimate v9.02 
+MySQL - 5.5.25 : Database - shop_st
 *********************************************************************
 */
 
@@ -31,6 +31,24 @@ CREATE TABLE `st_category` (
 /*Data for the table `st_category` */
 
 insert  into `st_category`(`id`,`name`,`description`,`img`) values (1,'cpu','Центра́льный проце́ссор (ЦП; также центральное процессорное устройство — ЦПУ; англ. central processing unit, CPU, дословно — центральное обрабатывающее устройство)','img/cpu/cpu.jpg'),(3,'videokarts','Видеока́рта (также видео ка́рта, видеоада́птер, графический ада́птер, графи́ческая пла́та, графи́ческая ка́рта, графи́ческий ускори́тель, 3D-ка́рта)  — электронное устройство, преобразующее графический образ, хранящийся как содержимое памяти компьютера (или самого адаптера), в форму, пригодную для дальнейшего вывода на экран монитора. Первые мониторы, построенные на электронно-лучевых трубках, работали по телевизионному принципу сканирования экрана электронным лучом, и для отображения требовался видеосигнал, генерируемый видеокартой.','img/videokart/videokart.jpg'),(4,'hdd','Накопи́тель на жёстких магни́тных ди́сках или НЖМД (англ. hard (magnetic) disk drive, HDD, HMDD), жёсткий диск, в компьютерном сленге «винче́стер» — запоминающее устройство (устройство хранения информации) произвольного доступа, основанное на принципе магнитной записи. Является основным накопителем данных в большинстве компьютеров.','img/hdd/hdd.jpg'),(5,'cooller','','img/cooller/cooller.jpg'),(6,'mb','Материнская плата (англ. motherboard, MB; также mainboard, сленг. мама, мать, материнка) — сложная многослойная печатная плата, являющаяся основой построения вычислительной системы (компьютера).','img/mb/mb.jpg'),(7,'ram','Операти́вная па́мять (англ. Random Access Memory, RAM, память с произвольным доступом; ОЗУ; комп. жарг. память, оперативка) — энергозависимая часть системы компьютерной памяти, в которой временно хранятся входные, выходные и промежуточные данные программы процессора. Наиболее распространенные типы DIMM и SIMM.','img/ram/ram.jpg'),(8,'body','','img/body/body.jpg'),(9,'powerSupply','','img/powerSupply/powerSupply.jpg');
+
+/*Table structure for table `st_contacts` */
+
+DROP TABLE IF EXISTS `st_contacts`;
+
+CREATE TABLE `st_contacts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `topic` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+/*Data for the table `st_contacts` */
+
+insert  into `st_contacts`(`id`,`name`,`email`,`topic`,`message`,`time`) values (1,'asf sd','anya.sergey@yandex.by','asdf asda sdf asdf','a sdfas dfasd fasdf asdf','2014-08-19 14:06:16'),(2,'Сергей','serge@serge.ru','Тест формы','тестовое сообщение для формы....','2014-08-19 14:07:10');
 
 /*Table structure for table `st_items` */
 
