@@ -103,11 +103,11 @@
                 <li><a href="#">Клавиатуры</a></li>
                 -->
                 <!------------------------------------------------------------------------------------------------>
-               <?php/*
-                $category = CategoryModel::getCategory();
+                <?php
+                $category = CategoryListModel::getCategoryList();
                 foreach($category as $value){
                     echo "<li><a href='#'>$value</a></li>";
-                }*/
+                }
                 ?>
             </ul>
         </li>
@@ -184,7 +184,7 @@
             -->
             <!------------------------------------------------------------------------------------------------>
             <?php
-            $category = CategoryModel::getCategory();
+            $category = CategoryListModel::getCategoryList();
             foreach($category as $value){
                 echo "<li><a href='#'>$value</a></li>";
             }

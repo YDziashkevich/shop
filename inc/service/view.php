@@ -4,7 +4,7 @@ class View
 {
     public function __construct()
     {
-        $category = new CategoryModel();
+        $category = new CategoryListModel();
     }
     /**
      * @param $name имя шаблона для вывода
