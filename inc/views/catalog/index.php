@@ -84,6 +84,8 @@
         <li><a href="<?php echo APP_BASE_URL;?>main/index">Главная</a></li>
         <li><a href="<?php echo APP_BASE_URL;?>catalog/index">Каталог</a>
             <ul>
+                <!------------------------------------------------------------------------------------------------>
+                <!--
                 <li><a href="#">Процессоры</a></li>
                 <li><a href="#">Видеокарты</a></li>
                 <li><a href="#">Жесткие диски</a></li>
@@ -99,6 +101,14 @@
                 <li><a href="#">Колонки</a></li>
                 <li><a href="#">Мыши</a></li>
                 <li><a href="#">Клавиатуры</a></li>
+                -->
+                <!------------------------------------------------------------------------------------------------>
+               <?php/*
+                $category = CategoryModel::getCategory();
+                foreach($category as $value){
+                    echo "<li><a href='#'>$value</a></li>";
+                }*/
+                ?>
             </ul>
         </li>
         <li><a href="<?php echo APP_BASE_URL;?>about/index"  class="selected">О компании</a></li>
@@ -154,6 +164,8 @@
     <div id="sidebar">
         <h3>Каталог</h3>
         <ul class="sidebar_menu">
+            <!------------------------------------------------------------------------------------------------>
+            <!--
             <li><a href="#">Процессоры</a></li>
             <li><a href="#">Видеокарты</a></li>
             <li><a href="#">Жесткие диски</a></li>
@@ -169,6 +181,14 @@
             <li><a href="#">Колонки</a></li>
             <li><a href="#">Мыши</a></li>
             <li><a href="#">Клавиатуры</a></li>
+            -->
+            <!------------------------------------------------------------------------------------------------>
+            <?php
+            $category = CategoryModel::getCategory();
+            foreach($category as $value){
+                echo "<li><a href='#'>$value</a></li>";
+            }
+            ?>
         </ul>
     </div> <!-- END of sidebar -->
 

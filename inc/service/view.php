@@ -2,6 +2,10 @@
 
 class View
 {
+    public function __construct()
+    {
+        $category = new CategoryModel();
+    }
     /**
      * @param $name имя шаблона для вывода
      * @param array $data данные для заполнения шаблона
