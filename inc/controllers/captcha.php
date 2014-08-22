@@ -10,7 +10,7 @@ class captchaController extends Controller{
         $captcha = ContactModel::generateCapcha();
 
         $pic = new ImageModel;
-        echo $pic->setText($captcha)->send();
+        return $pic->setText($captcha)->send();
 
     }
 }

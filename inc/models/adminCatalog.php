@@ -10,8 +10,7 @@ Class adminCatalogModel extends Model{
      * @return array
      */
     public function getCategory(){
-        self::model();
-        $st = self::$dbc->query("SELECT * FROM ".APP_DB_PREFIX."category`");
+        $st = self::getDbc()->query("SELECT * FROM ".APP_DB_PREFIX."category`");
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -23,8 +22,7 @@ Class adminCatalogModel extends Model{
      * @return bool true - добавлена категория, иначе false
      */
     public function addCategory($name, $description, $img = ''){
-        self::model();
-        $st = self::$dbc->prepare("INSERT INTO ".APP_DB_PREFIX."category(name, description, img) VALUES(:name, :description, :img)");
+        $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."category(name, description, img) VALUES(:name, :description, :img)");
         $st->bindValue(':name', $name);
         $st->bindValue(':description', $description);
         $st->bindValue(':img', $img);

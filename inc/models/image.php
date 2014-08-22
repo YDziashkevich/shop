@@ -6,10 +6,7 @@ class ImageModel extends Model {
     protected $fontSize = 15;
     protected $imgWidth = 60;
     protected $imgHeight = 32;
-    protected $text1;
-    protected $text2;
-    protected $text3;
-
+    protected $length;
 
 
     public function __construct($text = '') {
@@ -17,10 +14,8 @@ class ImageModel extends Model {
     }
 
     public function setText($text){
-        $text = str_split($text);
-        $this->text1 = $text[0];
-        $this->text2 = $text[1];
-        $this->text3 = $text[2];
+        $this->text = str_split($text);
+        $this->length = strlen($text);
         return $this;
     }
 
@@ -34,36 +29,22 @@ class ImageModel extends Model {
         // Цвет текста
         $textColor = imagecolorallocate( $img, rand(0, 150), rand(0, 150), rand(0, 150) );
         // рисуем картинку
-        imagettftext(
-            $img,   // холст
-            $this->fontSize, // ращмер шрифта
-            rand(-30, 0),  // угол наклона
-            10,  // сдвиг по горизонтали
-            ($this->imgHeight - rand(0, 12) + $this->fontSize)/2, // сдвиг по вертикали
-            $textColor, // цвет текста
-            self::FONTS_DIR.$this->font,    // имя шрифта
-            $this->text1
-        );   // текст
-        imagettftext(
-            $img,   // холст
-            $this->fontSize, // ращмер шрифта
-            rand(0, 10),  // угол наклона
-            25,  // сдвиг по горизонтали
-            ($this->imgHeight - rand(0, 5) + $this->fontSize)/2, // сдвиг по вертикали
-            $textColor, // цвет текста
-            self::FONTS_DIR.$this->font,    // имя шрифта
-            $this->text2
-        );
-        imagettftext(
-            $img,   // холст
-            $this->fontSize, // ращмер шрифта
-            rand(10, 30),  // угол наклона
-            40,  // сдвиг по горизонтали
-            ($this->imgHeight + rand(0, 8) + $this->fontSize)/2, // сдвиг по вертикали
-            $textColor, // цвет текста
-            self::FONTS_DIR.$this->font,    // имя шрифта
-            $this->text3
-        );
+
+        for($i = 0; $i < ($this->length); $i++)
+        {
+            imagettftext(
+                $img,   // холст
+                $this->fontSize, // ращмер шрифта
+                rand(0, 20),  // угол наклона
+                $i*10+5,  // сдвиг по горизонтали
+                ($this->imgHeight - rand(0, 20) + $this->fontSize)/2, // сдвиг по вертикали
+                $textColor, // цвет текста
+                self::FONTS_DIR.$this->font,    // имя шрифта
+                $this->text[$i]
+            );   // текст
+        }
+
+
         // заголовк для указания типа
         header('Content-Type: image/png');
         // выводим картинку в поток

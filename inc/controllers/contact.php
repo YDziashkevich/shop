@@ -5,6 +5,11 @@ class ContactController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        // Подлючение модели контактов
+        $contact = new ContactModel();
+        $this->contact = $contact;
+        $this->view->contact = $this->contact;
     }
 
     public function indexAction()

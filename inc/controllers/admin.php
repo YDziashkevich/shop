@@ -5,6 +5,11 @@ class AdminController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        // Подлючение модели aдминки(категории)
+        $admincatalog = new adminCatalogModel();
+        $this->admincatalog = $admincatalog;
+        $this->view->admincatalog = $this->admincatalog;
     }
 
     public function indexAction()

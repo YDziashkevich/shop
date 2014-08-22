@@ -32,8 +32,8 @@ Class ContactModel extends Model{
      * @return mixed array
      */
     public static function generateCapcha(){
-        $a = rand(1, 9);
-        $b = rand(1, 9);
+        $a = rand(10, 20);
+        $b = rand(10, 20);
         if($a < $b){
             $tmp_a = $b;
             $b = $a;
@@ -124,8 +124,7 @@ Class ContactModel extends Model{
      * @param $topic
      */
     public function save($name, $email,$topic, $message){
-        self::model();
-        $st = self::$dbc->prepare("INSERT INTO ".APP_DB_PREFIX."contacts(name, email,topic, message) VALUES(:name, :email,:topic, :message)");
+        $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."contacts(name, email,topic, message) VALUES(:name, :email,:topic, :message)");
         $st->bindValue(':name', $name);
         $st->bindValue(':email', $email);
         $st->bindValue(':topic', $topic);
