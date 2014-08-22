@@ -21,11 +21,8 @@ class AdminController extends Controller
     {
         $this->view->catalog = $this->admincatalog->getCategory();
 
-        if($this->admincatalog->isAdd()){
-            $this->redirect(APP_BASE_URL."admin/catalog_add");
-        }else{
-            $this->view->render("admin/catalog");
-        }
+        $this->view->render("admin/catalog");
+
 
     }
 
@@ -53,7 +50,7 @@ class AdminController extends Controller
         $this->view->name = $this->admincatalog->name;
         $this->view->description = $this->admincatalog->description;
 
-        if($this->admincatalog->isSubmit()){
+        if($this->admincatalog->isPost()){
             $validate = $this->admincatalog->isValid();
             if($validate !== true){
                 $errors = implode('<br />', $validate);

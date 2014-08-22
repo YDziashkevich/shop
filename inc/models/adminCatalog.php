@@ -33,16 +33,8 @@ Class adminCatalogModel extends Model{
      * Проверка была ли отправлена форма
      * @return bool
      */
-    public function isAdd(){
-        return isset($_POST['add']);
-    }
-
-    /**
-     * Проверка была ли отправлена форма
-     * @return bool
-     */
-    public function isSubmit(){
-        return isset($_POST['submit']);
+    public function isPost(){
+        return (isset($_POST) && !empty($_POST));
     }
 
     /**

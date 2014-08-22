@@ -31,13 +31,10 @@
         </ul>
     </div>
 </div>
-<form method="post">
-    <div class="col-md-8">
-        <button id="add" name="add" class="btn btn-success">Добавить</button>
-<!--        <a href="--><?php //echo APP_BASE_URL;?><!--admin/catalog_add"><button id="add" name="add" class="btn btn-success">Добавить</button>Ljflk</a>-->
-        <button id="delete" name="delete" class="btn btn-warning">Удалить</button>
-        <button id="edit" name="edit" class="btn btn-info">Редактирование</button>
-    </div>
-</form>
+<div>
+    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_add">Добавить</a>
+    <a href="#">Удалить</a>
+    <a href="">Редактирование</a>
+</div>
 </body>
 </html>
