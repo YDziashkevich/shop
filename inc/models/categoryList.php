@@ -9,14 +9,8 @@ class CategoryListModel extends Model
 
     public static function getCategoryList()
     {
-        $categoryList = array();
-        $category = self::getDbc()->query("SELECT `name` FROM `st_category`");
+        $category = self::getDbc()->query("SELECT `name`, `id` FROM `st_category`");
         $category = $category->fetchAll(PDO::FETCH_ASSOC);
-        foreach($category as $value){
-            foreach($value as $name){
-                $categoryList[] = $name;
-            }
-        }
-        return $categoryList;
+        return $category;
     }
 }

@@ -2,6 +2,8 @@
 
 class View
 {
+    public static $category = array();
+
     public function __construct()
     {
         $category = new CategoryListModel();
@@ -24,7 +26,9 @@ class View
     /**
      * @param $name имя шаблона, который надо отобразить, вида (user/index)
      */
-    public function render($name){
+    public function render($name, $data = array())
+    {
+        self::$category = CategoryListModel::getCategoryList();
         require('inc/views/'.$name.'.php');
     }
 }
