@@ -88,7 +88,7 @@
                     <!-- вывод списка категорий -->
                     <?php
                     foreach(self::$category as $value){
-                        echo "<li><a href='#'>$value[name]</a></li>";
+                        echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
                     }
                     ?>
 
@@ -151,7 +151,7 @@
                 <!-- вывод списка категорий -->
                 <?php
                 foreach(self::$category as $value){
-                    echo "<li><a href='#'>$value[name]</a></li>";
+                    echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
                 }
                 ?>
 
@@ -164,7 +164,7 @@
             $html = "";
 
 
-                $html .= "<h2>$category</h2>";
+                $html .= "<h2> $category[name] </h2>";
                 foreach($products as $itemProduct){
                     $html .= "<div class='col col_14 product_gallery no_margin_right'>";
                     $html .= "<a href='productdetail.html'><img src='". APP_BASE_URL . "images/product/" . $itemProduct["img"] . "'/></a>";
@@ -173,10 +173,7 @@
                     $html .= "<a href='shoppingcart.html' class='add_to_cart'>Добавить в корзину</a>";
                     $html .= "</div>";
                 }
-                $html .= "<a href= " . APP_BASE_URL;
-                $html .= "catalog/category/$item[id]  class='more float_r'>View all</a>";
                 $html .= "<div class='cleaner h50'></div>";
-
             echo $html;
             ?>
 

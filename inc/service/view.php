@@ -6,7 +6,7 @@ class View
 
     public function __construct()
     {
-        
+
     }
     /**
      * @param $name имя шаблона для вывода
@@ -32,6 +32,9 @@ class View
         if(!empty($data)){
             extract($data);
         }
+        /**
+         * массив с списком имени и id категорий
+         */
         self::$category = CategoryListModel::getCategoryList();
         require('inc/views/'.$name.'.php');
     }

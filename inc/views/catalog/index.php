@@ -87,8 +87,11 @@
 
                 <!-- вывод списка категорий -->
                 <?php
+                /**
+                 * вывод списка категорий в меню
+                 */
                 foreach(self::$category as $value){
-                    echo "<li><a href='#'>$value[name]</a></li>";
+                    echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
                 }
                 ?>
 
@@ -150,8 +153,11 @@
 
             <!-- вывод списка категорий -->
             <?php
+            /**
+             * вывод категорий в левой части контента
+             */
             foreach(self::$category as $value){
-                echo "<li><a href='#'>$value[name]</a></li>";
+                echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
             }
             ?>
 
@@ -161,6 +167,9 @@
     <div id="content">
 
         <?php
+        /**
+         * вывод каталога категорий с товарами
+         */
         $html = "";
         foreach(self::$category as $item){
             $productsCategory = CatalogController::getProducts($item["id"]);
@@ -173,8 +182,7 @@
                 $html .= "<a href='shoppingcart.html' class='add_to_cart'>Добавить в корзину</a>";
                 $html .= "</div>";
             }
-            $html .= "<a href= " . APP_BASE_URL;
-            $html .= "catalog/category/$item[id]  class='more float_r'>Посмотреть все товары</a>";
+            $html .= "<a href= " . APP_BASE_URL . "catalog/category/$item[id]  class='more float_r'>Посмотреть все товары</a>";
             $html .= "<div class='cleaner h50'></div>";
         }
         echo $html;
