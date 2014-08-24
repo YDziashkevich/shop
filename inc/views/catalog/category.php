@@ -87,9 +87,8 @@
 
                     <!-- вывод списка категорий -->
                     <?php
-                    $category = CategoryListModel::getCategoryList();
-                    foreach($category as $value){
-                        echo "<li><a href='#'>$value</a></li>";
+                    foreach(self::$category as $value){
+                        echo "<li><a href='#'>$value[name]</a></li>";
                     }
                     ?>
 
@@ -151,9 +150,8 @@
 
                 <!-- вывод списка категорий -->
                 <?php
-                $category = CategoryListModel::getCategoryList();
-                foreach($category as $value){
-                    echo "<li><a href='#'>$value</a></li>";
+                foreach(self::$category as $value){
+                    echo "<li><a href='#'>$value[name]</a></li>";
                 }
                 ?>
 
@@ -164,11 +162,10 @@
 
             <?php
             $html = "";
-            $category = self::$category;
-            foreach($category as $item){
-                $productsCategory = CatalogController::getProducts($item);
-                $html .= "<h2>$item</h2>";
-                foreach($productsCategory as $itemProduct){
+
+
+                $html .= "<h2>$category</h2>";
+                foreach($products as $itemProduct){
                     $html .= "<div class='col col_14 product_gallery no_margin_right'>";
                     $html .= "<a href='productdetail.html'><img src='". APP_BASE_URL . "images/product/" . $itemProduct["img"] . "'/></a>";
                     $html .= "<h3>" . $itemProduct["name"] . "</h3>";
@@ -176,9 +173,10 @@
                     $html .= "<a href='shoppingcart.html' class='add_to_cart'>Добавить в корзину</a>";
                     $html .= "</div>";
                 }
-                $html .= "<a href= APP_BASE_URL.'catalog/category/'.$item  class='more float_r'>View all</a>";
+                $html .= "<a href= " . APP_BASE_URL;
+                $html .= "catalog/category/$item[id]  class='more float_r'>View all</a>";
                 $html .= "<div class='cleaner h50'></div>";
-            }
+
             echo $html;
             ?>
 

@@ -16,4 +16,16 @@ WHERE st_category.id = '" .  $category . "' AND st_products.idCategory = st_cate
         return $products->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getCategoryName($categoryId)
+    {
+        var_dump($categoryId);
+        $category = self::getDbc()->prepare("SELECT `name` FROM `st_category` WHERE `id` = :categoryId");
+        $category->bindParam(":categoryId", $categoryId, PDO::PARAM_INT);
+        $category->execute();
+        var_dump($category->fetchAll(PDO::FETCH_ASSOC));
+
+        //return $category->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
 }

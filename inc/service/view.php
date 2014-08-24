@@ -6,7 +6,7 @@ class View
 
     public function __construct()
     {
-        $category = new CategoryListModel();
+        
     }
     /**
      * @param $name имя шаблона для вывода
@@ -18,9 +18,10 @@ class View
             extract($data);
         }
 
-        require("inc/views/header.php");
+        self::$category = CategoryListModel::getCategoryList();
+        //require("inc/views/header.php");
         require("inc/views/" . $name . ".php");
-        require("inc/views/footer.php");
+        //require("inc/views/footer.php");
     }
 
     /**
@@ -28,6 +29,9 @@ class View
      */
     public function render($name, $data = array())
     {
+        if(!empty($data)){
+            extract($data);
+        }
         self::$category = CategoryListModel::getCategoryList();
         require('inc/views/'.$name.'.php');
     }

@@ -22,7 +22,11 @@ class CatalogController extends Controller
 
     public function categoryAction($category)
     {
-
+        $data = array();
+        var_dump($category);
+        $data["category"] = self::$catalog->getCategoryName($category);
+        $data["products"] = self::$catalog->getProducts((int)$category);
+        $this->view->render("catalog/category", $data);
     }
 
 }

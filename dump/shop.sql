@@ -80,8 +80,8 @@ CREATE TABLE `st_orders` (
   PRIMARY KEY (`id`),
   KEY `oreder2item` (`idItems`),
   KEY `oreder2user` (`idUser`),
-  CONSTRAINT `oreder2user` FOREIGN KEY (`idUser`) REFERENCES `st_users` (`id`),
-  CONSTRAINT `oreder2item` FOREIGN KEY (`idItems`) REFERENCES `st_items` (`id`)
+  CONSTRAINT `oreder2item` FOREIGN KEY (`idItems`) REFERENCES `st_items` (`id`),
+  CONSTRAINT `oreder2user` FOREIGN KEY (`idUser`) REFERENCES `st_users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `st_orders` */

@@ -174,7 +174,7 @@
                 $html .= "</div>";
             }
             $html .= "<a href= " . APP_BASE_URL;
-            $html .= "catalog/category/$item[id]  class='more float_r'>View all</a>";
+            $html .= "catalog/category/$item[id]  class='more float_r'>Посмотреть все товары</a>";
             $html .= "<div class='cleaner h50'></div>";
         }
         echo $html;
