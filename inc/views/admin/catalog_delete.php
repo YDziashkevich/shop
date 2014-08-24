@@ -10,19 +10,18 @@
         </ul>
     </div>
 </nav>
-<div class="panel panel-default">
-    <div class="panel-heading">Список всех каталогов:</div>
-    <div class="panel-body">
-        <ul>
-            <?php foreach($this->catalog as $name){ ?>
-                <li><?php echo $name['name'] ?></li>
-            <?php }?>
-        </ul>
+<form>
+    <div class="panel panel-default">
+        <div class="panel-heading">Список всех каталогов:</div>
+            <div class="panel-body">
+                <ul>
+                    <?php foreach($this->catalog as $name){ ?>
+                        <li><?php echo $name['name'] ?>&nbsp;&nbsp;<input type="checkbox" name="<?php echo $name['id']; ?>" id="<?php echo $name['id']; ?>" ></li>
+                    <?php }?>
+                </ul>
+            </div>
     </div>
-</div>
-<div>
-    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_add">Добавить</a>
-    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_delete">Удалить</a>
-    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_edit">Редактирование</a>
-</div>
+    <input type="submit" name="delete" id="delete" value="Удалить" class="btn btn-default">
+</form>
+
 <?php include 'footer.php' ?>

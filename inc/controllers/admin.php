@@ -68,4 +68,16 @@ class AdminController extends Controller
         $this->view->render("admin/catalog_add");
     }
 
+    public function catalog_deleteAction(){
+
+        $this->view->catalog = $this->admincatalog->getCategory();
+
+        $this->view->render("admin/catalog_delete");
+    }
+
+    public function catalog_editAction(){
+
+        $this->view->render("admin/catalog_edit");
+    }
+
 }
