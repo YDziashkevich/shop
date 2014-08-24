@@ -37,7 +37,8 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="img">Выберите картинку</label>
             <div class="col-md-4">
-                <input id="img" name="img" class="input-file" type="file">
+                <input type='hidden' name='MAX_FILE_SIZE' value='2000000' />
+                <input id="img" name="img" class="input-file" type="file" accept="image/gif, image/jpeg, image/pjpeg, image/png">
             </div>
         </div>
 

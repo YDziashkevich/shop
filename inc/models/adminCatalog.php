@@ -63,11 +63,43 @@ Class adminCatalogModel extends Model{
             $errors[] = "Название короче 15 символов";
             $valid = false;
         }
-//        if(валидация изображения){
-//
-//        }
+        if(isset($this->img)){
+            // Задаем директрию для хранения изображений
+            $uploadDirectory = APP_BASE_URL.'images/';
+            $uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
+
+            // Проверяем тип файлов
+            $type = $_FILES['img']['type'];
+            $validation = false;
+
+            switch($type){
+                case 'image/gif':
+                case 'image/jpeg':
+                case 'image/pjpeg':
+                case 'image/png':
+                    $validation = true;
+                    break;
+                default:
+                    $errors[] = "Данный тип файла не поддерживается";
+                    break;
+            }
+        }
         $this->errors = $errors;
         if($valid){
+            // Если файл прошел проверки, то сохраняем его
+            if($validation){
+                if(is_uploaded_file($_FILES['img']['tmp_name'])){
+                    if(move_uploaded_file($_FILES['img']['tmp_name'],$uploadfile)){
+//                        echo "Файл успешно загружен<br />";
+                    }else{
+                        $errors[] = "Загрузить файл не удалось";
+                    }
+                }
+            }else{
+                if(isset($_FILES['img']['tmp_name'])){
+                    $errors[] = "Файл слишком большой или некорректного формата";
+                }
+            }
             return $valid;
         }else{
             return $this->errors;
