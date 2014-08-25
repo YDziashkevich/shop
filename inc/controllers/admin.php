@@ -85,7 +85,13 @@ class AdminController extends Controller
 
     public function catalog_editAction(){
 
+        $this->view->catalog = $this->admincatalog->getCategory();
         $this->view->render("admin/catalog_edit");
+    }
+
+    public function catalog_edit_nextAction(){
+
+        $this->view->render("admin/catalog_edit_next");
     }
 
 }
