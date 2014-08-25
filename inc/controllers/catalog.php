@@ -47,4 +47,27 @@ class CatalogController extends Controller
         $this->view->render("catalog/category", $data);
     }
 
+    public function productAction($product)
+    {
+        $data = array();
+        $property = array();
+        $productData = self::$catalog->getProductData($product[0]);
+        foreach($productData as $item){
+            $tmp1 = "";
+            $tmp2 = "";
+            foreach($item as $key=>$value){
+                if($key == "property"){
+                    $tmp1 = $value;
+                }elseif($key == "value"){
+                    $tmp2 = $value;
+                }else{
+                    $data["$key"] = $value;
+                }
+            }
+            $property[$tmp1] = $tmp2;
+        }
+        $data["property"] = $property;
+
+        $this->view->render("catalog/product", $data);
+    }
 }
