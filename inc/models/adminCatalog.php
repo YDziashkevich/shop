@@ -66,7 +66,7 @@ Class adminCatalogModel extends Model{
         }
         if(isset($this->img)){
             // Задаем директрию для хранения изображений
-            $uploadDirectory = APP_BASE_URL.'img/';
+            $uploadDirectory = 'img/';
             $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
 
             // Проверяем тип файлов
