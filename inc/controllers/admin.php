@@ -56,7 +56,7 @@ class AdminController extends Controller
                 $errors = implode('<br />', $validate);
                 $this->view->msg = $errors;
             }else{
-                $save = $this->admincatalog->addCategory($this->admincatalog->name, $this->admincatalog->description);
+                $save = $this->admincatalog->addCategory($this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile);
                 if(!$save){
                     $this->view->msg = 'Не удалось сохранить';
                 }else{
