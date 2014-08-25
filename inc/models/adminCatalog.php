@@ -15,6 +15,21 @@ Class adminCatalogModel extends Model{
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getOneCategory($id){
+        $st = self::getDbc()->prepare("SELECT * FROM ".APP_DB_PREFIX."category` WHERE id = :id");
+        $st->bindValue(':id', $id);
+        return $st->execute();
+    }
+
+    public function changeCategory($id, $name, $description, $img){
+        $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category` SET name = :name, description = :description, img = :img WHERE id = :id");
+        $st->bindValue(':id', $id);
+        $st->bindValue(':name', $name);
+        $st->bindValue(':description', $description);
+        $st->bindValue(':img', $img);
+        return $st->execute();
+    }
+
     /**
      * Добавление новой категории
      * @param $name название
@@ -36,6 +51,10 @@ Class adminCatalogModel extends Model{
      */
     public function isPost(){
         return (isset($_POST) && !empty($_POST));
+    }
+
+    public function isGet(){
+        return (isset($_GET) && !empty($_GET));
     }
 
     /**
@@ -124,8 +143,9 @@ Class adminCatalogModel extends Model{
     }
 
     public function getCatsId(){
-//        $this->catsId = array();
         $this->catsId = isset($_POST['id']) ? $_POST['id'] : '';
         return $this->catsId;
     }
+
+
 }
