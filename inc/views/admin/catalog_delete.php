@@ -10,13 +10,13 @@
         </ul>
     </div>
 </nav>
-<form>
+<form method="post">
     <div class="panel panel-default">
         <div class="panel-heading">Список всех каталогов:</div>
             <div class="panel-body">
                 <ul>
                     <?php foreach($this->catalog as $name){ ?>
-                        <li><?php echo $name['name'] ?>&nbsp;&nbsp;<input type="checkbox" name="<?php echo $name['id']; ?>" id="<?php echo $name['id']; ?>" ></li>
+                        <li><?php echo $name['name'] ?>&nbsp;&nbsp;<input type="checkbox" name="id[]" value="<?php echo $name['id']; ?>"></li>
                     <?php }?>
                 </ul>
             </div>

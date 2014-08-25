@@ -56,7 +56,7 @@ class AdminController extends Controller
                 $errors = implode('<br />', $validate);
                 $this->view->msg = $errors;
             }else{
-                $save = $this->admincatalog->addCategory($this->admincatalog->name, $this->admincatalog->description);
+                $save = $this->admincatalog->addCategory($this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile);
                 if(!$save){
                     $this->view->msg = 'Не удалось сохранить';
                 }else{
@@ -71,6 +71,14 @@ class AdminController extends Controller
     public function catalog_deleteAction(){
 
         $this->view->catalog = $this->admincatalog->getCategory();
+
+        if($this->admincatalog->isPost()){
+            $this->admincatalog->getCatsId();
+
+            $this->admincatalog->deleteCategory($this->admincatalog->catsId);
+            $this->redirect("catalog_delete");
+        }
+
 
         $this->view->render("admin/catalog_delete");
     }

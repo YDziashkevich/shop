@@ -20,7 +20,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="name">Название</label>
             <div class="col-md-4">
-                <input id="name" name="name" type="text" placeholder="" class="form-control input-md" value="<?php echo $this->name; ?>">
+                <input id="name" name="name" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->name; ?>">
 
             </div>
         </div>
@@ -29,7 +29,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="description">Описание</label>
             <div class="col-md-4">
-                <textarea class="form-control" id="description" name="description"><?php echo $this->description; ?></textarea>
+                <textarea class="form-control" id="description" name="description"><?php echo @$this->description; ?></textarea>
             </div>
         </div>
 

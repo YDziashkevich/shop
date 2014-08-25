@@ -4,6 +4,7 @@ Class adminCatalogModel extends Model{
     public $name;
     public $description;
     public $img;
+    public $uploadfile;
 
     /**
      * Получить массив всех категорий
@@ -21,11 +22,11 @@ Class adminCatalogModel extends Model{
      * @param $img путь к картинке
      * @return bool true - добавлена категория, иначе false
      */
-    public function addCategory($name, $description, $img = ''){
+    public function addCategory($name, $description, $uploadfile){
         $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."category(name, description, img) VALUES(:name, :description, :img)");
         $st->bindValue(':name', $name);
         $st->bindValue(':description', $description);
-        $st->bindValue(':img', $img);
+        $st->bindValue(':img', $uploadfile);
         return $st->execute();
     }
 
@@ -65,8 +66,8 @@ Class adminCatalogModel extends Model{
         }
         if(isset($this->img)){
             // Задаем директрию для хранения изображений
-            $uploadDirectory = APP_BASE_URL.'images/';
-            $uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
+            $uploadDirectory = 'img/';
+            $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
 
             // Проверяем тип файлов
             $type = $_FILES['img']['type'];
@@ -81,28 +82,50 @@ Class adminCatalogModel extends Model{
                     break;
                 default:
                     $errors[] = "Данный тип файла не поддерживается";
+                    $valid = false;
                     break;
             }
+
+
         }
         $this->errors = $errors;
         if($valid){
             // Если файл прошел проверки, то сохраняем его
             if($validation){
                 if(is_uploaded_file($_FILES['img']['tmp_name'])){
-                    if(move_uploaded_file($_FILES['img']['tmp_name'],$uploadfile)){
-//                        echo "Файл успешно загружен<br />";
+                    if(move_uploaded_file($_FILES['img']['tmp_name'],$this->uploadfile)){
+                        echo "Файл успешно загружен<br />";
                     }else{
-                        $errors[] = "Загрузить файл не удалось";
+                        echo $_FILES['img']['error'];
+                        $this->errors = "Загрузить файл не удалось";
+                        return $this->errors;
                     }
                 }
             }else{
                 if(isset($_FILES['img']['tmp_name'])){
-                    $errors[] = "Файл слишком большой или некорректного формата";
+                    $this->errors = "Файл слишком большой или некорректного формата";
+                    return $this->errors;
                 }
             }
+
             return $valid;
         }else{
             return $this->errors;
         }
+    }
+
+    public function deleteCategory(array $cats_id){
+        foreach($cats_id as $cat_id){
+            $st = self::getDbc()->prepare("DELETE FROM ".APP_DB_PREFIX."category WHERE id = :id");
+            $st->bindValue(':id', $cat_id);
+            $r = $st->execute();
+        }
+        return $r;
+    }
+
+    public function getCatsId(){
+//        $this->catsId = array();
+        $this->catsId = isset($_POST['id']) ? $_POST['id'] : '';
+        return $this->catsId;
     }
 }
