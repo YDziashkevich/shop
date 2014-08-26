@@ -39,13 +39,15 @@ class BasketController extends Controller
                 $i ++;
             }
             $j = 0;
-            foreach($_SESSION["order"] as $value){
-                $item = BasketModel::getProduct($value["id"]);
-                foreach($item as $val){
+            if(!empty($_SESSION["order"])){
+                foreach($_SESSION["order"] as $value){
+                    $item = BasketModel::getProduct($value["id"]);
+                    foreach($item as $val){
                     $data["element"][]= $val;
                     $data["element"][$j]["numProduct"] = $value["num"];
-                }
+                    }
                 $j ++;
+                }
             }
         }
         $this->view->render("basket/index", $data);
