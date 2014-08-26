@@ -38,7 +38,7 @@
                 <label class="col-md-4 control-label" for="img">Выберите картинку</label>
                 <div class="col-md-4">
                     <input type='hidden' name='MAX_FILE_SIZE' value='2000000' />
-                    <input id="img" name="img" class="input-file" type="file" accept="image/gif, image/jpeg, image/pjpeg, image/png">
+                    <input id="img" name="img" class="input-file" type="file" accept="image/gif, image/jpeg, image/pjpeg, image/png" value="<?php echo @$this->img; ?>">
                 </div>
             </div>
 
@@ -46,8 +46,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="reset"></label>
                 <div class="col-md-8">
-                    <button type="reset" id="reset" name="reset" class="btn btn-warning">Очистить</button>
-                    <button type="submit" id="submit" name="submit" class="btn btn-success">Добавить</button>
+                    <button type="submit" id="submit" name="submit" class="btn btn-success">Редактировать</button>
                 </div>
             </div>
 

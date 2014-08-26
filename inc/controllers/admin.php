@@ -86,11 +86,53 @@ class AdminController extends Controller
     public function catalog_editAction(){
 
         $this->view->catalog = $this->admincatalog->getCategory();
-        $this->view->render("admin/catalog_edit");
+
+        if($this->admincatalog->isGet()){
+
+
+            $this->catalog_edit_nextAction();
+        }else{
+            $this->view->render("admin/catalog_edit");
+        }
+
+
     }
 
     public function catalog_edit_nextAction(){
 
+        if($this->admincatalog->isGet()){
+            $this->id = isset($_GET['cats']) ? $_GET['cats'] : '';
+            $propertyCategory = $this->admincatalog->getOneCategory($this->id);
+
+            $this->view->id = isset($_POST['id']) ? $_POST['id'] : $propertyCategory['id'];
+            $this->view->name = isset($_POST['name']) ? $_POST['name'] : $propertyCategory['name'];
+            $this->view->description = isset($_POST['description']) ? $_POST['description'] : $propertyCategory['description'];
+
+            $this->admincatalog->getData();
+
+            if($this->admincatalog->isPost()){
+                $validate = $this->admincatalog->isValid2();
+                if($validate !== true){
+                    $errors = implode('<br />', $validate);
+                    $this->view->msg = $errors;
+                }else{
+
+                    if(!isset($this->admincatalog->uploadfile)){
+                        $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description);
+
+                    }else{
+                        $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile);
+                    }
+
+                    if(!$save){
+                        $this->view->msg = 'Не удалось сохранить';
+                    }else{
+                        $this->redirect(APP_BASE_URL."admin/catalog");
+
+                    }
+                }
+            }
+        }
         $this->view->render("admin/catalog_edit_next");
     }
 

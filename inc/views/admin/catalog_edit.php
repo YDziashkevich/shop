@@ -10,7 +10,7 @@
             </ul>
         </div>
     </nav>
-    <form method="post">
+    <form method="get">
         <div class="panel panel-default">
             <div class="panel-heading">Список всех каталогов:</div>
             <div class="panel-body">
@@ -22,7 +22,7 @@
                 <label for="cats">Выберите категорию для редактирования: </label>
                 <select class="form-control" name="cats" id="cats">
                     <?php foreach($this->catalog as $name){ ?>
-                        <option><?php echo $name['name'] ?></option>
+                        <option value="<?php echo $name['id'] ?>"><?php echo $name['name'] ?></option>
                     <?php }?>
                 </select>
             </div>
