@@ -9,6 +9,9 @@ class OrderController extends Controller
 
     public function indexAction()
     {
+        var_dump($_SESSION["order"]);
+        session_unset();
+        session_destroy();
         $this->view->render("order/index");
     }
 

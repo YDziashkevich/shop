@@ -167,10 +167,10 @@
                 $html .= "<h2> $category[name] </h2>";
                 foreach($products as $itemProduct){
                     $html .= "<div class='col col_14 product_gallery no_margin_right'>";
-                    $html .= "<a href='productdetail.html'><img src='". APP_BASE_URL . "images/product/" . $itemProduct["img"] . "'/></a>";
+                    $html .= "<a href=" . APP_BASE_URL . "catalog/product/$itemProduct[id]><img src='". APP_BASE_URL . "images/product/" . $itemProduct["img"] . "'/></a>";
                     $html .= "<h3>" . $itemProduct["name"] . "</h3>";
                     $html .= "<p class='product_price'>$" . $itemProduct["price"] . "</p>";
-                    $html .= "<a href='shoppingcart.html' class='add_to_cart'>Добавить в корзину</a>";
+                    $html .= "<a href=" . APP_BASE_URL . "basket/index/$itemProduct[id] class='add_to_cart'>Добавить в корзину</a>";
                     $html .= "</div>";
                 }
                 $html .= "<div class='cleaner h50'></div>";

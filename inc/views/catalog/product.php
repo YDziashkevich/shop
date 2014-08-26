@@ -179,7 +179,7 @@
             }
             $html .= "<tr><td height='30'>Количество</td><td><input type='text' value='1' style='width: 20px; text-align: right'/></td></tr></table>";
             $html .= "<div class='cleaner h20'></div>";
-            $html .= "<a href='shoppingcart.html' class='add_to_cart'>Добавить в корзину</a></div>";
+            $html .= "<a href=" . APP_BASE_URL . "basket/index/$id class='add_to_cart'>Добавить в корзину</a>";
             $html .= "<div class='cleaner h30'></div>";
             $html .= "<h5><strong>Описание товара</strong></h5>";
             $html .= "<p>" . $description . "</p>";

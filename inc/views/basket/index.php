@@ -84,21 +84,15 @@
             <li><a href="<?php echo APP_BASE_URL;?>main/index">Главная</a></li>
             <li><a href="<?php echo APP_BASE_URL;?>catalog/index">Каталог</a>
                 <ul>
-                    <li><a href="#">Процессоры</a></li>
-                    <li><a href="#">Видеокарты</a></li>
-                    <li><a href="#">Жесткие диски</a></li>
-                    <li><a href="#">Системы охлаждения</a></li>
-                    <li><a href="#">Материнские платы</a></li>
-                    <li><a href="#">Оперативная память</a></li>
-                    <li><a href="#">Корпуса</a></li>
-                    <li><a href="#">Блоки питания</a></li>
-                    <li><a href="#">Звуковые карты</a></li>
-                    <li><a href="#">Тв-тюнеры</a></li>
-                    <li><a href="#">Оптические накопители</a></li>
-                    <li><a href="#">Мониторы</a></li>
-                    <li><a href="#">Колонки</a></li>
-                    <li><a href="#">Мыши</a></li>
-                    <li><a href="#">Клавиатуры</a></li>
+                    <!-- вывод списка категорий -->
+                    <?php
+                    /**
+                     * вывод списка категорий в меню
+                     */
+                    foreach(self::$category as $value){
+                        echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+                    }
+                    ?>
                 </ul>
             </li>
             <li><a href="<?php echo APP_BASE_URL;?>about/index"  class="selected">О компании</a></li>
@@ -154,66 +148,69 @@
         <div id="sidebar">
             <h3>Каталог</h3>
             <ul class="sidebar_menu">
-                <li><a href="#">Процессоры</a></li>
-                <li><a href="#">Видеокарты</a></li>
-                <li><a href="#">Жесткие диски</a></li>
-                <li><a href="#">Системы охлаждения</a></li>
-                <li><a href="#">Материнские платы</a></li>
-                <li><a href="#">Оперативная память</a></li>
-                <li><a href="#">Корпуса</a></li>
-                <li><a href="#">Блоки питания</a></li>
-                <li><a href="#">Звуковые карты</a></li>
-                <li><a href="#">Тв-тюнеры</a></li>
-                <li><a href="#">Оптические накопители</a></li>
-                <li><a href="#">Мониторы</a></li>
-                <li><a href="#">Колонки</a></li>
-                <li><a href="#">Мыши</a></li>
-                <li><a href="#">Клавиатуры</a></li>
+                <!-- вывод списка категорий -->
+                <?php
+                /**
+                 * вывод списка категорий в меню
+                 */
+                foreach(self::$category as $value){
+                    echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+                }
+                ?>
             </ul>
         </div> <!-- END of sidebar -->
 
         <div id="content">
 
-            <table width="700px" cellspacing="0" cellpadding="5">
-                <tr bgcolor="#CCCCCC">
-                    <th width="220" align="left">Изображение </th>
-                    <th width="180" align="left">Описание </th>
-                    <th width="100" align="center">Количество </th>
-                    <th width="60" align="right">Цена </th>
-                    <th width="60" align="right">Стоимость </th>
-                    <th width="90"> </th>
+            <!-- корзина -->
+            <?php
+            /**
+             * вывод корзины с элементами
+             */
+            if(isset($element) && $element[0] != null){
+                $head = "<table width='700px' cellspacing='0' cellpadding='5'>";
+                    $head .= "<tr bgcolor='#CCCCCC'>
+                        <th width='220' align='left'>Изображение </th>
+                        <th width='180' align='left'>Наименование</th>
+                        <th width='100' align='center'>Количество </th>
+                        <th width='60' align='right'>Цена </th>
+                        <th width='60' align='right'>Стоимость </th>
+                        <th width='90'> </th>
+                    </tr>";
+                echo $head;
 
-                </tr>
-                <tr>
-                    <td><img src="<?php echo APP_BASE_URL; ?>images/product/01.jpg" alt="image 01" /></td>
-                    <td>Etiam in tellus</td>
-                    <td align="center"><input type="text" value="1" style="width: 20px; text-align: right" /> </td>
-                    <td align="right">$100 </td>
-                    <td align="right">$100 </td>
-                    <td align="center"> <a href="#"><img src="<?php echo APP_BASE_URL; ?>images/remove_x.gif" alt="remove" /><br />Remove</a> </td>
-                </tr>
-                <tr>
-                    <td><img src="<?php echo APP_BASE_URL; ?>images/product/02.jpg" alt="image 02" /> </td>
-                    <td>Hendrerit justo</td>
-                    <td align="center"><input type="text" value="1" style="width: 20px; text-align: right" />  </td>
-                    <td align="right">$40  </td>
-                    <td align="right">$40 </td>
-                    <td align="center"> <a href="#"><img src="<?php echo APP_BASE_URL; ?>images/remove_x.gif" alt="remove" /><br />Remove</a>  </td>
-                </tr>
-                <tr>
-                    <td colspan="3" align="right"  height="40px"></td>
-                    <td align="right" style="background:#ccc; font-weight:bold"> Всего </td>
-                    <td align="right" style="background:#ccc; font-weight:bold">$140 </td>
-                    <td style="background:#ccc; font-weight:bold"> </td>
-                </tr>
-            </table>
-            <div style="float:right; width: 215px; margin-top: 20px;">
+                $html = "";
+                $summ = 0;
+                foreach($element as $val){
+                    $html .= "<tr>";
+                    $html .= "<td><img src='". APP_BASE_URL . "images/product/$val[img]'/></td>";
+                    $html .= "<td>$val[productName]</td>";
+                    $html .= "<td align='center'>" . $val["numProduct"] . "</td>";
+                    $html .= "<td align='right'>$val[price]</td>";
+                    $num = (int)$val["price"] * (int)$val["numProduct"];
+                    $html .= "<td align='right'>" . $num . "</td>";
+                    $html .= "<td align='center'> <a href=" . APP_BASE_URL . "basket/index/!$val[id]><img src='" . APP_BASE_URL . "images/remove_x.gif' alt='remove' /><br />Remove</a> </td>";
+                    $html .= " </tr>";
+                    $summ = $summ + $num;
+                }
 
-                <div class="checkout"><a href="checkout.html" class="more">Оформить заказ</a></div>
-                <div class="cleaner h20"></div>
-                <div class="continueshopping"><a href="javascript:history.back()" class="more">Продолжить покупки</a></div>
+                $html .= "<tr>
+                    <td colspan='3' align='right'  height='40px'></td>
+                    <td align='right' style='background:#ccc; font-weight:bold'> Всего </td>
+                    <td align='right' style='background:#ccc; font-weight:bold'> $summ </td>
+                    <td style='background:#ccc; font-weight:bold'> </td>
+                    </tr>
+                    </table>
+                    <div style='float:right; width: 215px; margin-top: 20px;'>
+                    <div class='checkout'><a href=" . APP_BASE_URL . "order/index/ class='more'>Оформить заказ</a></div>
+                    <div class='cleaner h20'></div>
+                    <div class='continueshopping'><a href=" . APP_BASE_URL . "catalog/index/  class='more'>Продолжить покупки</a></div>";
 
-            </div>
+                echo $html;
+            }else{
+                echo "<h2>Ваша корзина пуста</h2>";
+            }
+            ?>
 
         </div>
         <div class="cleaner"></div>
