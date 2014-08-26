@@ -19,7 +19,6 @@ class BasketController extends Controller
         }else{
             $i = 0;
             $id = str_replace("!","",$product[0]);
-            var_dump($id);
             foreach($_SESSION["order"] as $itemOrder){
                 if($itemOrder["id"] == $id){
                     if((int)$itemOrder["num"] > 1){
