@@ -9,7 +9,11 @@ class MainController extends Controller
 
     public function indexAction()
     {
-        $this->view->render("main/index");
+        $products = array();
+        $data = array();
+        $products = MainModel::getProducts();
+        shuffle($products);
+        $data["products"] = array_slice($products, 0, 9);
+        $this->view->render("main/index", $data);
     }
-
 }

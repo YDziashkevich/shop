@@ -84,21 +84,15 @@ ddsmoothmenu.init({
             <li><a href="<?php echo APP_BASE_URL;?>main/index">Главная</a></li>
             <li><a href="<?php echo APP_BASE_URL;?>catalog/index">Каталог</a>
                 <ul>
-                    <li><a href="#">Процессоры</a></li>
-                    <li><a href="#">Видеокарты</a></li>
-                    <li><a href="#">Жесткие диски</a></li>
-                    <li><a href="#">Системы охлаждения</a></li>
-                    <li><a href="#">Материнские платы</a></li>
-                    <li><a href="#">Оперативная память</a></li>
-                    <li><a href="#">Корпуса</a></li>
-                    <li><a href="#">Блоки питания</a></li>
-                    <li><a href="#">Звуковые карты</a></li>
-                    <li><a href="#">Тв-тюнеры</a></li>
-                    <li><a href="#">Оптические накопители</a></li>
-                    <li><a href="#">Мониторы</a></li>
-                    <li><a href="#">Колонки</a></li>
-                    <li><a href="#">Мыши</a></li>
-                    <li><a href="#">Клавиатуры</a></li>
+                    <!-- вывод списка категорий -->
+                    <?php
+                    /**
+                     * вывод категорий в левой части контента
+                     */
+                    foreach(self::$category as $value){
+                        echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+                    }
+                    ?>
                 </ul>
             </li>
             <li><a href="<?php echo APP_BASE_URL;?>about/index"  class="selected">О компании</a></li>
@@ -153,79 +147,37 @@ ddsmoothmenu.init({
         <div id="sidebar">
         	<h3>Каталог</h3>
             <ul class="sidebar_menu">
-                <li><a href="#">Процессоры</a></li>
-                <li><a href="#">Видеокарты</a></li>
-                <li><a href="#">Жесткие диски</a></li>
-                <li><a href="#">Системы охлаждения</a></li>
-                <li><a href="#">Материнские платы</a></li>
-                <li><a href="#">Оперативная память</a></li>
-                <li><a href="#">Корпуса</a></li>
-                <li><a href="#">Блоки питания</a></li>
-                <li><a href="#">Звуковые карты</a></li>
-                <li><a href="#">Тв-тюнеры</a></li>
-                <li><a href="#">Оптические накопители</a></li>
-                <li><a href="#">Мониторы</a></li>
-                <li><a href="#">Колонки</a></li>
-                <li><a href="#">Мыши</a></li>
-                <li><a href="#">Клавиатуры</a></li>
+                <!-- вывод списка категорий -->
+                <?php
+                /**
+                 * вывод категорий в левой части контента
+                 */
+                foreach(self::$category as $value){
+                    echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+                }
+                ?>
 			</ul>
         </div> <!-- END of sidebar -->
         
         <div id="content">
-        	<div class="col col_14 product_gallery">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/01.jpg" alt="Product 01" /></a>
-                <h3>Ut eu feugiat</h3>
-                <p class="product_price">$ 100</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
-            <div class="col col_14 product_gallery">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/02.jpg" alt="Product 02" /></a>
-                <h3>Curabitur et turpis</h3>
-                <p class="product_price">$ 200</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
-            <div class="col col_14 product_gallery no_margin_right">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/03.jpg" alt="Product 03" /></a>
-                <h3>Mauris consectetur</h3>
-                <p class="product_price">$ 120</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
-            <div class="col col_14 product_gallery">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/04.jpg" alt="Product 04" /></a>
-                <h3>Proin volutpat</h3>
-                <p class="product_price">$ 260</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
-            <div class="col col_14 product_gallery">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/05.jpg" alt="Product 05" /></a>
-                <h3>Aenean tempus</h3>
-                <p class="product_price">$ 80</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
-            <div class="col col_14 product_gallery no_margin_right">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/06.jpg" alt="Product 06" /></a>
-                <h3>Nulla luctus urna</h3>
-                <p class="product_price">$ 193</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
-            <div class="col col_14 product_gallery">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/07.jpg" alt="Product 07" /></a>
-                <h3>Pellentesque egestas</h3>
-                <p class="product_price">$ 30</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
-            <div class="col col_14 product_gallery">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/08.jpg" alt="Product 08" /></a>
-                <h3>Suspendisse porttitor</h3>
-                <p class="product_price">$ 220</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
-            <div class="col col_14 product_gallery no_margin_right">
-            	<a href="productdetail.html"><img src="<?php echo APP_BASE_URL; ?>images/product/09.jpg" alt="Product 09" /></a>
-                <h3>Nam vehicula</h3>
-                <p class="product_price">$ 65</p>
-                <a href="shoppingcart.html" class="add_to_cart">Добавить в корзину</a>
-            </div>        	
+            <?php
+            $html = "";
+            $i = 1;
+            foreach($products as $itemProduct){
+                if( $i%3 == 0 ){
+                    $html .= "<div class='col col_14 product_gallery no_margin_right'>";
+                }else{
+                    $html .= "<div class='col col_14 product_gallery'>";
+                }
+                $html .= "<a href=" . APP_BASE_URL . "catalog/product/$itemProduct[id]><img src='". APP_BASE_URL . "images/product/" . $itemProduct["img"] . "'/></a>";
+                $html .= "<h3>" . $itemProduct["name"] . "</h3>";
+                $html .= "<p class='product_price'>$" . $itemProduct["price"] . "</p>";
+                $html .= "<a href=" . APP_BASE_URL . "basket/index/$itemProduct[id] class='add_to_cart'>Добавить в корзину</a>";
+                $html .= "</div>";
+                $i ++;
+            }
+            echo $html;
+            ?>
         </div> <!-- END of content -->
         <div class="cleaner"></div>
     </div> <!-- END of main -->
