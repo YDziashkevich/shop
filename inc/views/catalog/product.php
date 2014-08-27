@@ -177,7 +177,7 @@
             foreach($property as $key=>$item){
                 $html .= "<tr><td height='30'>" . $key . ":</td><td>" . $item . "</td></tr>";
             }
-            $html .= "<tr><td height='30'>Количество</td><td><input type='text' value='1' style='width: 20px; text-align: right'/></td></tr></table>";
+            $html .= "</table>";
             $html .= "<div class='cleaner h20'></div>";
             $html .= "<a href=" . APP_BASE_URL . "basket/index/$id class='add_to_cart'>Добавить в корзину</a>";
             $html .= "<div class='cleaner h30'></div>";
