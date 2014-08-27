@@ -167,7 +167,7 @@
             /**
              * вывод корзины с элементами
              */
-            if(isset($element) && $element[0] != null){
+            if(isset($element) && $element[0] != null && $element[0] != "empty"){
                 $head = "<table width='700px' cellspacing='0' cellpadding='5'>";
                     $head .= "<tr bgcolor='#CCCCCC'>
                         <th width='220' align='left'>Изображение </th>
@@ -202,6 +202,8 @@
                     </tr>
                     </table>
                     <div style='float:right; width: 215px; margin-top: 20px;'>
+                    <div class='checkout'><a href=" . APP_BASE_URL . "basket/index/empty class='more'>Очистить корзину</a></div>
+                    <div class='cleaner h20'></div>
                     <div class='checkout'><a href=" . APP_BASE_URL . "order/index/ class='more'>Оформить заказ</a></div>
                     <div class='cleaner h20'></div>
                     <div class='continueshopping'><a href=" . APP_BASE_URL . "catalog/index/  class='more'>Продолжить покупки</a></div>";

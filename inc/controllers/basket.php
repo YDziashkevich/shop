@@ -14,8 +14,11 @@ class BasketController extends Controller
     public function indexAction($product = "")
     {
         $controllerFlag = strpos($product[0], "!");
-        if($controllerFlag === false){
+        if($controllerFlag === false && $product[0] != "empty"){
             $data = $this->add2basket($product);
+        }elseif($product[0] == "empty"){
+            session_unset();
+            session_destroy();
         }else{
             $i = 0;
             $id = str_replace("!","",$product[0]);
