@@ -30,7 +30,7 @@ CREATE TABLE `st_category` (
 
 /*Data for the table `st_category` */
 
-insert  into `st_category`(`id`,`name`,`description`,`img`) values (1,'Процессоры','Центра́льный проце́ссор (ЦП; также центральное процессорное устройство — ЦПУ; англ. central processing unit, CPU, дословно — центральное обрабатывающее устройство)','img/cpu/cpu.jpg'),(3,'Видеокарты','Видеока́рта (также видео ка́рта, видеоада́птер, графический ада́птер, графи́ческая пла́та, графи́ческая ка́рта, графи́ческий ускори́тель, 3D-ка́рта)  — электронное устройство, преобразующее графический образ, хранящийся как содержимое памяти компьютера (или самого адаптера), в форму, пригодную для дальнейшего вывода на экран монитора. Первые мониторы, построенные на электронно-лучевых трубках, работали по телевизионному принципу сканирования экрана электронным лучом, и для отображения требовался видеосигнал, генерируемый видеокартой.','img/videokart/videokart.jpg'),(4,'Жесткие диски','Накопи́тель на жёстких магни́тных ди́сках или НЖМД (англ. hard (magnetic) disk drive, HDD, HMDD), жёсткий диск, в компьютерном сленге «винче́стер» — запоминающее устройство (устройство хранения информации) произвольного доступа, основанное на принципе магнитной записи. Является основным накопителем данных в большинстве компьютеров.','img/hdd/hdd.jpg'),(5,'Системы охлаждения','','img/cooller/cooller.jpg'),(6,'Материнские платы','Материнская плата (англ. motherboard, MB; также mainboard, сленг. мама, мать, материнка) — сложная многослойная печатная плата, являющаяся основой построения вычислительной системы (компьютера).','img/mb/mb.jpg'),(7,'Оперативная память','Операти́вная па́мять (англ. Random Access Memory, RAM, память с произвольным доступом; ОЗУ; комп. жарг. память, оперативка) — энергозависимая часть системы компьютерной памяти, в которой временно хранятся входные, выходные и промежуточные данные программы процессора. Наиболее распространенные типы DIMM и SIMM.','img/ram/ram.jpg'),(8,'Корпуса','','img/body/body.jpg'),(9,'Блоки питания','','img/powerSupply/powerSupply.jpg');
+insert  into `st_category`(`id`,`name`,`description`,`img`) values (1,'Процессоры','Центра́льный проце́ссор (ЦП; также центральное процессорное устройство — ЦПУ; англ. central processing unit, CPU, дословно — центральное обрабатывающее устройство)','cpu/cpu.jpg'),(3,'Видеокарты','Видеока́рта (также видео ка́рта, видеоада́птер, графический ада́птер, графи́ческая пла́та, графи́ческая ка́рта, графи́ческий ускори́тель, 3D-ка́рта)  — электронное устройство, преобразующее графический образ, хранящийся как содержимое памяти компьютера (или самого адаптера), в форму, пригодную для дальнейшего вывода на экран монитора. Первые мониторы, построенные на электронно-лучевых трубках, работали по телевизионному принципу сканирования экрана электронным лучом, и для отображения требовался видеосигнал, генерируемый видеокартой.','videokart/videokart.jpg'),(4,'Жесткие диски','Накопи́тель на жёстких магни́тных ди́сках или НЖМД (англ. hard (magnetic) disk drive, HDD, HMDD), жёсткий диск, в компьютерном сленге «винче́стер» — запоминающее устройство (устройство хранения информации) произвольного доступа, основанное на принципе магнитной записи. Является основным накопителем данных в большинстве компьютеров.','hdd/hdd.jpg'),(5,'Системы охлаждения','','cooller/cooller.jpg'),(6,'Материнские платы','Материнская плата (англ. motherboard, MB; также mainboard, сленг. мама, мать, материнка) — сложная многослойная печатная плата, являющаяся основой построения вычислительной системы (компьютера).','mb/mb.jpg'),(7,'Оперативная память','Операти́вная па́мять (англ. Random Access Memory, RAM, память с произвольным доступом; ОЗУ; комп. жарг. память, оперативка) — энергозависимая часть системы компьютерной памяти, в которой временно хранятся входные, выходные и промежуточные данные программы процессора. Наиболее распространенные типы DIMM и SIMM.','ram/ram.jpg'),(8,'Корпуса','','body/body.jpg'),(9,'Блоки питания','','powerSupply/powerSupply.jpg');
 
 /*Table structure for table `st_contacts` */
 
@@ -75,12 +75,12 @@ DROP TABLE IF EXISTS `st_orders`;
 CREATE TABLE `st_orders` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `idUser` int(10) unsigned NOT NULL,
-  `idItems` int(10) unsigned NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `name` varchar(255) NOT NULL,
+  `address` text,
+  `phone` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `oreder2item` (`idItems`),
   KEY `oreder2user` (`idUser`),
-  CONSTRAINT `oreder2item` FOREIGN KEY (`idItems`) REFERENCES `st_items` (`id`),
   CONSTRAINT `oreder2user` FOREIGN KEY (`idUser`) REFERENCES `st_users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -150,12 +150,15 @@ CREATE TABLE `st_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `lastName` varchar(255) DEFAULT NULL,
-  `address` text NOT NULL,
+  `address` text,
   `phone` varchar(100) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `st_users` */
+
+insert  into `st_users`(`id`,`name`,`lastName`,`address`,`phone`,`password`) values (1,'guest',NULL,NULL,NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
