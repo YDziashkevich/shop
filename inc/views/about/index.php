@@ -84,21 +84,15 @@
         <li><a href="<?php echo APP_BASE_URL;?>main/index">Главная</a></li>
         <li><a href="<?php echo APP_BASE_URL;?>catalog/index">Каталог</a>
             <ul>
-                <li><a href="#">Процессоры</a></li>
-                <li><a href="#">Видеокарты</a></li>
-                <li><a href="#">Жесткие диски</a></li>
-                <li><a href="#">Системы охлаждения</a></li>
-                <li><a href="#">Материнские платы</a></li>
-                <li><a href="#">Оперативная память</a></li>
-                <li><a href="#">Корпуса</a></li>
-                <li><a href="#">Блоки питания</a></li>
-                <li><a href="#">Звуковые карты</a></li>
-                <li><a href="#">Тв-тюнеры</a></li>
-                <li><a href="#">Оптические накопители</a></li>
-                <li><a href="#">Мониторы</a></li>
-                <li><a href="#">Колонки</a></li>
-                <li><a href="#">Мыши</a></li>
-                <li><a href="#">Клавиатуры</a></li>
+                <!-- вывод списка категорий -->
+                <?php
+                /**
+                 * вывод категорий в левой части контента
+                 */
+                foreach(self::$category as $value){
+                    echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+                }
+                ?>
             </ul>
         </li>
         <li><a href="<?php echo APP_BASE_URL;?>about/index"  class="selected">О компании</a></li>
@@ -154,21 +148,15 @@
     <div id="sidebar">
         <h3>Каталог</h3>
         <ul class="sidebar_menu">
-            <li><a href="#">Процессоры</a></li>
-            <li><a href="#">Видеокарты</a></li>
-            <li><a href="#">Жесткие диски</a></li>
-            <li><a href="#">Системы охлаждения</a></li>
-            <li><a href="#">Материнские платы</a></li>
-            <li><a href="#">Оперативная память</a></li>
-            <li><a href="#">Корпуса</a></li>
-            <li><a href="#">Блоки питания</a></li>
-            <li><a href="#">Звуковые карты</a></li>
-            <li><a href="#">Тв-тюнеры</a></li>
-            <li><a href="#">Оптические накопители</a></li>
-            <li><a href="#">Мониторы</a></li>
-            <li><a href="#">Колонки</a></li>
-            <li><a href="#">Мыши</a></li>
-            <li><a href="#">Клавиатуры</a></li>
+            <!-- вывод списка категорий -->
+            <?php
+            /**
+             * вывод категорий в левой части контента
+             */
+            foreach(self::$category as $value){
+                echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+            }
+            ?>
         </ul>
     </div> <!-- END of sidebar -->
 
