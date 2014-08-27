@@ -46,11 +46,6 @@ class ContactController extends Controller
         // Генерация капчи
         $this->view->captcha_form = contactModel::generateCapcha();
 
-
-
-
-
-
         $this->view->render("contact/index");
     }
 

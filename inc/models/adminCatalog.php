@@ -15,6 +15,11 @@ Class adminCatalogModel extends Model{
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Получение данных для одной категории
+     * @param $id ид категории
+     * @return mixed возвращает массив данных
+     */
     public function getOneCategory($id){
         $st = self::getDbc()->prepare("SELECT * FROM ".APP_DB_PREFIX."category WHERE id = :id");
         $st->bindValue(':id', $id);
@@ -22,14 +27,26 @@ Class adminCatalogModel extends Model{
         return $st->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Редактирование полей категории
+     * @param $id ид категории
+     * @param $name название категории
+     * @param $description описание категории
+     * @param string $img адрес картинки
+     * @return bool true - выполнилось изменение, иначе false
+     */
     public function editCategory($id, $name, $description, $img = ''){
         if($img == ''){
+
+            // Новое изображение не добавляется
             $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description WHERE id = :id");
             $st->bindValue(':id', $id);
             $st->bindValue(':name', $name);
             $st->bindValue(':description', $description);
             return $st->execute();
         }else{
+
+            // Добавляется новое изображение
             $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description, img = :img WHERE id = :id");
             $st->bindValue(':id', $id);
             $st->bindValue(':name', $name);
@@ -56,13 +73,17 @@ Class adminCatalogModel extends Model{
     }
 
     /**
-     * Проверка была ли отправлена форма
+     * Проверка была ли отправлена форма POST
      * @return bool
      */
     public function isPost(){
         return (isset($_POST) && !empty($_POST));
     }
 
+    /**
+     * Проверяет была ли отправлена форма методом GET
+     * @return bool
+     */
     public function isGet(){
         return isset($_GET['cats']);
     }
@@ -85,14 +106,20 @@ Class adminCatalogModel extends Model{
     public function isValid(){
         $valid = true;
         $this->errors = array();
+
+        // Валидация названия
         if(strlen($this->name) < 5){
             $errors[] = "Название короче 5 символов";
             $valid = false;
         }
+
+        // Валидация описания
         if(strlen($this->description) < 15){
             $errors[] = "Название короче 15 символов";
             $valid = false;
         }
+
+        // Валидация картинки
         if(isset($this->img)){
             // Задаем директрию для хранения изображений
             $uploadDirectory = 'img/';
@@ -150,18 +177,22 @@ Class adminCatalogModel extends Model{
     public function isValid2(){
         $valid = true;
         $this->errors = array();
+
+        // Валидация названия
         if(strlen($this->name) < 5){
             $errors[] = "Название короче 5 символов";
             $valid = false;
         }
+
+        // Валидация описания
         if(strlen($this->description) < 15){
             $errors[] = "Название короче 15 символов";
             $valid = false;
         }
-//
-            // Задаем директрию для хранения изображений
-            $uploadDirectory = 'img/';
-            $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
+
+        // Задаем директрию для хранения изображений
+        $uploadDirectory = 'img/';
+        $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
 
         if($this->uploadfile !== $uploadDirectory){
             // Проверяем тип файлов
@@ -204,14 +235,17 @@ Class adminCatalogModel extends Model{
                     }
                 }
             }
-
-
             return $valid;
         }else{
             return $this->errors;
         }
     }
 
+    /**
+     * Удаление категории из бд
+     * @param array $cats_id ид категорий
+     * @return bool true - удаление выполнено, иначе false
+     */
     public function deleteCategory(array $cats_id){
         foreach($cats_id as $cat_id){
             $st = self::getDbc()->prepare("DELETE FROM ".APP_DB_PREFIX."category WHERE id = :id");
@@ -221,6 +255,10 @@ Class adminCatalogModel extends Model{
         return $r;
     }
 
+    /**
+     * Получение ид категории
+     * @return string
+     */
     public function getCatsId(){
         $this->catsId = isset($_POST['id']) ? $_POST['id'] : '';
         return $this->catsId;
