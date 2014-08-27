@@ -10,6 +10,9 @@ class OrderController extends Controller
         $this->order = new OrderModel();
     }
 
+    /**
+     * вывод страницы оформления заказа
+     */
     public function indexAction()
     {
         $user = "guest";
@@ -49,12 +52,16 @@ class OrderController extends Controller
         $this->view->render("order/index");
     }
 
+    /**
+     * вывод страницы чека заказа
+     */
     public function orderAction(){
         $data = array();
-        foreach($_SESSION["data"] as $key=>$value){
-            $data[$key] = $value;
+        if(!empty($_SESSION) && isset($_SESSION["data"])){
+            foreach($_SESSION["data"] as $key=>$value){
+                $data[$key] = $value;
+            }
         }
-        var_dump($data);
         session_unset();
         session_destroy();
         session_start();

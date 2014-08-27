@@ -9,6 +9,9 @@ class OrderModel extends Model
         parent::__construct();
     }
 
+    /**
+     * @return array данные из формы
+     */
     private function getFormData()
     {
         $formData = array();
@@ -19,6 +22,9 @@ class OrderModel extends Model
         return $formData;
     }
 
+    /**
+     * @return bool результат валидации данных формы
+     */
     public function isValid(){
         $valid = true;
         $this->data = $this->getFormData();
@@ -38,6 +44,10 @@ class OrderModel extends Model
         }
     }
 
+    /**
+     * @param $name имя пользователя
+     * @return array id ползователя
+     */
     public function getIdUser($name)
     {
         $id = self::getDbc()->prepare("SELECT id FROM st_users WHERE `name` = :name");
@@ -46,6 +56,11 @@ class OrderModel extends Model
         return $id->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @param array $product товары в заказе
+     * @param $name имя заказчика
+     * @return bool|string результат действия сохраниения заказа
+     */
     public function saveOrder($product = array(), $name)
     {
         $add = true;
@@ -78,6 +93,10 @@ class OrderModel extends Model
         }
     }
 
+    /**
+     * @param $id id товара
+     * @return array данные о товаре
+     */
     public function getProduct($id)
     {
         $product = self::getDbc()->prepare("SELECT name AS productName, price FROM st_products WHERE `id` = :id");

@@ -145,7 +145,10 @@
             <div class="cleaner"></div>
         </div>
 
+
+
         <div id="sidebar">
+            <div class='cleaner h20'></div>
             <h3>Каталог</h3>
             <ul class="sidebar_menu">
                 <!-- вывод списка категорий -->
@@ -161,15 +164,19 @@
         </div> <!-- END of sidebar -->
 
         <div id="content">
+            <div class='cleaner h20'></div>
 
             <!-- корзина -->
             <?php
             /**
              * вывод корзины с элементами
              */
-
-                $head = "<table width='700px' cellspacing='0' cellpadding='5'>";
+            $html = "";
+            if(!empty($products)){
+                $head = "<h3>Номер заказа: " . $idOrder . " </h3>";
+                $head .= "<table width='700px' cellspacing='0' cellpadding='5'>";
                     $head .= "<tr bgcolor='#CCCCCC'>
+                        <th width='220' align='left'></th>
                         <th width='180' align='left'>Наименование</th>
                         <th width='100' align='center'>Количество </th>
                         <th width='60' align='right'>Цена </th>
@@ -178,18 +185,20 @@
                     </tr>";
                 echo $head;
 
-                $html = "";
+
+
                 foreach($products as $val){
                     $html .= "<tr>";
+                    $html .= "<td width='220' align='left'></td>";
                     $html .= "<td>$val[productName]</td>";
-                    $html .= "<td align='center'>" . $val["numProduct"] . "</td>";
+                    $html .= "<td align='center'>" . $val["num"] . "</td>";
                     $html .= "<td align='right'>$val[price]</td>";
-                    $num = (int)$val["price"] * (int)$val["numProduct"];
+                    $num = (int)$val["price"] * (int)$val["num"];
                     $html .= "<td align='right'>" . $num . "</td>";
-                    $html .= "<td align='center'> <a href=" . APP_BASE_URL . "basket/index/!$val[id]><img src='" . APP_BASE_URL . "images/remove_x.gif' alt='remove' /><br />Remove</a> </td>";
                     $html .= " </tr>";
 
                 }
+
 
                 $html .= "<tr>
                     <td colspan='3' align='right'  height='40px'></td>
@@ -199,7 +208,7 @@
                     </tr>
                     </table>
                     <div style='float:right; width: 215px; margin-top: 20px;'>";
-
+            }
 
                 echo $html;
 
