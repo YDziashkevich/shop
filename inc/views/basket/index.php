@@ -185,13 +185,11 @@
                     $html .= "<tr>";
                     $html .= "<td><img src='". APP_BASE_URL . "images/product/$val[img]'/></td>";
                     $html .= "<td>$val[productName]</td>";
-                    $html .= "<td align='center'>" . $val["numProduct"] . "</td>";
+                    $html .= "<td align='center'>" . $val["num"] . "</td>";
                     $html .= "<td align='right'>$val[price]</td>";
-                    $num = (int)$val["price"] * (int)$val["numProduct"];
+                    $num = (int)$val["price"] * (int)$val["num"];
                     $html .= "<td align='right'>" . $num . "</td>";
-                    $html .= "<td align='center'> <a href=" . APP_BASE_URL . "basket/index/!$val[id]><img src='" . APP_BASE_URL . "images/remove_x.gif' alt='remove' /><br />Remove</a> </td>";
                     $html .= " </tr>";
-                    $summ = $summ + $num;
                 }
 
                 $html .= "<tr>

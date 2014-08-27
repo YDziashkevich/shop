@@ -161,26 +161,49 @@
         </div> <!-- END of sidebar -->
 
         <div id="content">
-            <form action="<?php echo APP_BASE_URL ?>order/index" method="post">
-            <h2>Оформить заказ</h2>
-            <h5><strong>Для заказа заполните контактную информацию</strong></h5>
-            <div class="col col_13 checkout">
-                Имя*:
-                <input type="text" name="name"  style="width:300px;"  />
-                Адрес:
-                <input type="text" name="address" style="width:300px;"  />
-                Телефон (+ 12345 123-45-67)*:
-                <input type="text" name="phone"  style="width:300px;"  />
-                * поля обязательного ввода:
-            </div>
 
-            <div class="cleaner h20"></div>
-            <h4>Сумма заказа: <strong>$<?php echo $_SESSION["summ"] ?></strong></h4>
-                <div class="cleaner h20"></div>
-                <input type="submit" name="ok" value="OK"/>
+            <!-- корзина -->
+            <?php
+            /**
+             * вывод корзины с элементами
+             */
+
+                $head = "<table width='700px' cellspacing='0' cellpadding='5'>";
+                    $head .= "<tr bgcolor='#CCCCCC'>
+                        <th width='180' align='left'>Наименование</th>
+                        <th width='100' align='center'>Количество </th>
+                        <th width='60' align='right'>Цена </th>
+                        <th width='60' align='right'>Стоимость </th>
+                        <th width='90'> </th>
+                    </tr>";
+                echo $head;
+
+                $html = "";
+                foreach($products as $val){
+                    $html .= "<tr>";
+                    $html .= "<td>$val[productName]</td>";
+                    $html .= "<td align='center'>" . $val["numProduct"] . "</td>";
+                    $html .= "<td align='right'>$val[price]</td>";
+                    $num = (int)$val["price"] * (int)$val["numProduct"];
+                    $html .= "<td align='right'>" . $num . "</td>";
+                    $html .= "<td align='center'> <a href=" . APP_BASE_URL . "basket/index/!$val[id]><img src='" . APP_BASE_URL . "images/remove_x.gif' alt='remove' /><br />Remove</a> </td>";
+                    $html .= " </tr>";
+
+                }
+
+                $html .= "<tr>
+                    <td colspan='3' align='right'  height='40px'></td>
+                    <td align='right' style='background:#ccc; font-weight:bold'> Всего </td>
+                    <td align='right' style='background:#ccc; font-weight:bold'> $summ </td>
+                    <td style='background:#ccc; font-weight:bold'> </td>
+                    </tr>
+                    </table>
+                    <div style='float:right; width: 215px; margin-top: 20px;'>";
 
 
-            </form>
+                echo $html;
+
+            ?>
 
         </div>
         <div class="cleaner"></div>
