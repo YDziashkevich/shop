@@ -27,7 +27,7 @@ class OrderController extends Controller
             $valid = $this->order->isValid();
 
         }
-        var_dump($valid);
+
         if($valid === true){
             $idOrder = $this->order->saveOrder($order, $user);
             $i = 0;
