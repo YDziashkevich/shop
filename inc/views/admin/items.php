@@ -11,6 +11,24 @@
     </div>
 </nav>
 <div >
-    <p>Тут работа с товарами</p>
+    <form method="get">
+        <div class="panel panel-default">
+            <div class="panel-heading">Список всех каталогов:</div>
+            <div class="panel-body">
+                <ul>
+                    <?php foreach($this->catalog as $name){ ?>
+                        <li><?php echo $name['name'] ?></li>
+                    <?php }?>
+                </ul><br>
+                <label for="cats">Выберите категорию для редактирования: </label>
+                <select class="form-control" name="cats" id="cats">
+                    <?php foreach($this->catalog as $name){ ?>
+                        <option value="<?php echo $name['id'] ?>"><?php echo $name['name'] ?></option>
+                    <?php }?>
+                </select>
+            </div>
+        </div>
+        <input type="submit" name="edit" id="edit" value="Редактировать" class="btn btn-default">
+    </form>
 </div>
 <?php include 'footer.php' ?>

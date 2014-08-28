@@ -39,7 +39,37 @@ class AdminController extends Controller
      */
     public function itemsAction()
     {
-        $this->view->render("admin/items");
+        // Получение всех категорий
+        $this->view->catalog = $this->admincatalog->getCategory();
+
+        // Проверяет была ли отправлена форма
+        if($this->admincatalog->isGet()){
+
+            // Вызов экшна добавления товаров
+            $this->items_nextAction();
+
+        }else{
+
+            $this->view->render("admin/items");
+
+        }
+    }
+
+    /**
+     * Экшн для добавление товаров
+     */
+    public function items_nextAction(){
+
+        if($this->admincatalog->isGet()){
+
+            $this->cat_id = isset($_GET['cats']) ? $_GET['cats'] : null;
+            $this->view->property = $this->admincatalog->getPropertyProduct($this->cat_id);
+            echo "<pre>";
+            var_dump($this->view->property);
+            echo "</pre>";
+        }
+
+        $this->view->render("admin/items_next");
     }
 
     /**

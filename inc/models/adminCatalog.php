@@ -264,5 +264,16 @@ Class adminCatalogModel extends Model{
         return $this->catsId;
     }
 
+    /**
+     * Получение полей товаров для категории
+     * @param $cat_id ид категории
+     * @return mixed массив полей товаров
+     */
+    public function getPropertyProduct($cat_id){
+        $st = self::getDbc()->prepare("SELECT * FROM ".APP_DB_PREFIX."properties WHERE idCategory = :cat_id");
+        $st->bindValue(":cat_id", $cat_id);
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

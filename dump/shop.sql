@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.37-log : Database - shop_st
+SQLyog Ultimate v9.02 
+MySQL - 5.5.25 : Database - shop_st
 *********************************************************************
 */
 
@@ -133,6 +133,7 @@ CREATE TABLE `st_properties` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `property` varchar(255) NOT NULL,
   `idCategory` int(10) unsigned NOT NULL,
+  `for_input` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `property2category` (`idCategory`),
   CONSTRAINT `property2category` FOREIGN KEY (`idCategory`) REFERENCES `st_category` (`id`)
@@ -140,7 +141,7 @@ CREATE TABLE `st_properties` (
 
 /*Data for the table `st_properties` */
 
-insert  into `st_properties`(`id`,`property`,`idCategory`) values (1,'frequency',1),(2,'number of cores',1),(3,'cache',1),(4,'gpu frequency',3),(5,'video Memory',3),(6,'type of drive',4),(7,'volume',4),(8,'buffer',4),(9,'socket',5),(10,'noise',5),(11,'cpu',6),(12,'form factor motherboard',8),(13,'location of the power supply',8),(14,'power',9);
+insert  into `st_properties`(`id`,`property`,`idCategory`,`for_input`) values (1,'frequency',1,'frequency'),(2,'number of cores',1,'cores'),(3,'cache',1,'cache'),(4,'gpu frequency',3,'gpu_frequency'),(5,'video Memory',3,'video_memory'),(6,'type of drive',4,'type_drive'),(7,'volume',4,'volume'),(8,'buffer',4,'buffer'),(9,'socket',5,'socket'),(10,'noise',5,'noise'),(11,'cpu',6,'cpu'),(12,'form factor motherboard',8,'form_factor'),(13,'location of the power supply',8,'location_power'),(14,'power',9,'power');
 
 /*Table structure for table `st_users` */
 
