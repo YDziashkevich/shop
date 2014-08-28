@@ -27,7 +27,6 @@ class OrderController extends Controller
             $valid = $this->order->isValid();
 
         }
-        var_dump($valid);
         if($valid === true){
             $idOrder = $this->order->saveOrder($order, $user);
             $i = 0;
@@ -48,9 +47,9 @@ class OrderController extends Controller
 
             header('Location: '. APP_BASE_URL . "order/order");
             exit();
-        }else{
-            $this->view->render("order/index",$valid);
         }
+
+        $this->view->render("order/index");
     }
 
     /**
