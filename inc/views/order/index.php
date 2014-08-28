@@ -171,7 +171,18 @@
                 <input type="text" name="address" style="width:300px;"  />
                 Телефон (+ 12345 123-45-67)*:
                 <input type="text" name="phone"  style="width:300px;"  />
-                * поля обязательного ввода:
+                * поля обязательного ввода:<br />
+                <hr />
+                <?php
+                if(isset($nameError)){
+                    echo "* " . $nameError . "<br />";
+                }
+                if(isset($phoneError)){
+                    echo "* " . $phoneError . "<br />";
+                }
+
+                ?>
+
             </div>
 
             <div class="cleaner h20"></div>
