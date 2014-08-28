@@ -16,6 +16,33 @@
             <!-- Form Name -->
             <legend>Добавление товара</legend>
 
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="name">Название</label>
+                <div class="col-md-4">
+                    <input id="name" name="name" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->name; ?>">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="description">Описание</label>
+                <div class="col-md-4">
+                    <input id="description" name="description" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->description; ?>">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="price">Цена</label>
+                <div class="col-md-4">
+                    <input id="price" name="price" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->price; ?>">
+
+                </div>
+            </div>
+
             <?php foreach($this->property as $one){ ?>
 
                 <!-- Text input-->

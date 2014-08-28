@@ -265,15 +265,83 @@ Class adminCatalogModel extends Model{
     }
 
     /**
-     * Получение полей товаров для категории
+     * Получение детальных полей товаров для категории
      * @param $cat_id ид категории
      * @return mixed массив полей товаров
      */
-    public function getPropertyProduct($cat_id){
+    public function getPropertiesProduct($cat_id){
         $st = self::getDbc()->prepare("SELECT * FROM ".APP_DB_PREFIX."properties WHERE idCategory = :cat_id");
         $st->bindValue(":cat_id", $cat_id);
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Валидация полей добавления товаров
+     * @return array|bool|string
+     */
+    public function isValidProducts(){
+        $valid = true;
+        $this->errors = array();
+
+        // Валидация остальных полей
+
+        // Валидация картинки
+        if(isset($this->img)){
+            // Задаем директрию для хранения изображений
+            $uploadDirectory = 'img/';
+            $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
+
+            // Проверяем тип файлов
+            $type = $_FILES['img']['type'];
+            $validation = false;
+
+            switch($type){
+                case 'image/gif':
+                case 'image/jpeg':
+                case 'image/pjpeg':
+                case 'image/png':
+                    $validation = true;
+                    break;
+                default:
+                    $errors[] = "Данный тип файла не поддерживается";
+                    $valid = false;
+                    break;
+            }
+
+
+        }
+        $this->errors = $errors;
+        if($valid){
+            // Если файл прошел проверки, то сохраняем его
+            if($validation){
+                if(is_uploaded_file($_FILES['img']['tmp_name'])){
+                    if(move_uploaded_file($_FILES['img']['tmp_name'],$this->uploadfile)){
+                        echo "Файл успешно загружен<br />";
+                    }else{
+                        echo $_FILES['img']['error'];
+                        $this->errors = "Загрузить файл не удалось";
+                        return $this->errors;
+                    }
+                }
+            }else{
+                if(isset($_FILES['img']['tmp_name'])){
+                    $this->errors = "Файл слишком большой или некорректного формата";
+                    return $this->errors;
+                }
+            }
+
+            return $valid;
+        }else{
+            return $this->errors;
+        }
+    }
+
+    /**
+     * Сохранение в бд нового товара
+     * @return bool true - сохранен, иначе false
+     */
+    public function saveProduct(){
+        return true;
+    }
 }

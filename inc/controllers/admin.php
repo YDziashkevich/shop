@@ -63,10 +63,25 @@ class AdminController extends Controller
         if($this->admincatalog->isGet()){
 
             $this->cat_id = isset($_GET['cats']) ? $_GET['cats'] : null;
-            $this->view->property = $this->admincatalog->getPropertyProduct($this->cat_id);
+            $this->view->property = $this->admincatalog->getPropertiesProduct($this->cat_id);
             echo "<pre>";
             var_dump($this->view->property);
             echo "</pre>";
+
+            if($this->admincatalog->isPost()){
+                $validate = $this->admincatalog->isValidProducts();
+
+                if(!$validate){
+                    $this->view->msg = $validate;
+                }else{
+                    $save = $this->admincatalog->saveProduct();
+                    if(!$save){
+                        $this->view->errors = "Не удалось сохранить в бд";
+                    }else{
+                        $this->redirect(APP_BASE_URL."admin/items");
+                    }
+                }
+            }
         }
 
         $this->view->render("admin/items_next");
