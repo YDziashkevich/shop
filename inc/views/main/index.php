@@ -164,7 +164,7 @@ ddsmoothmenu.init({
             $html = "";
             $i = 1;
             foreach($products as $itemProduct){
-                if( $i%3 == 0 ){
+                if( $i%3 === 0 ){
                     $html .= "<div class='col col_14 product_gallery no_margin_right'>";
                 }else{
                     $html .= "<div class='col col_14 product_gallery'>";
