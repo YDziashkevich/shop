@@ -29,11 +29,11 @@ class OrderModel extends Model
         $valid = true;
         $this->data = $this->getFormData();
         if(strlen($this->data["name"]) < 3){
-            $errors["name"] = "Имя короче 3 символов";
+            $errors["nameError"] = "Имя короче 3 символов";
             $valid = false;
         }
         if(!preg_match("/[+] [0-9]{5} [0-9]{3}[-][0-9]{2}[-][0-9]{2}/i",$this->data["phone"])){
-            $errors["phone"] = "Введенный мобильный телефон не соответствует шаблону: + 12345 123-45-67 ";
+            $errors["phoneError"] = "Введенный мобильный телефон не соответствует шаблону: + 12345 123-45-67 ";
             $valid = false;
         }
 
