@@ -85,21 +85,14 @@
             <li><a href="<?php echo APP_BASE_URL;?>main/index">Главная</a></li>
             <li><a href="<?php echo APP_BASE_URL;?>catalog/index">Каталог</a>
                 <ul>
-                    <li><a href="#">Процессоры</a></li>
-                    <li><a href="#">Видеокарты</a></li>
-                    <li><a href="#">Жесткие диски</a></li>
-                    <li><a href="#">Системы охлаждения</a></li>
-                    <li><a href="#">Материнские платы</a></li>
-                    <li><a href="#">Оперативная память</a></li>
-                    <li><a href="#">Корпуса</a></li>
-                    <li><a href="#">Блоки питания</a></li>
-                    <li><a href="#">Звуковые карты</a></li>
-                    <li><a href="#">Тв-тюнеры</a></li>
-                    <li><a href="#">Оптические накопители</a></li>
-                    <li><a href="#">Мониторы</a></li>
-                    <li><a href="#">Колонки</a></li>
-                    <li><a href="#">Мыши</a></li>
-                    <li><a href="#">Клавиатуры</a></li>
+                    <?php
+                    /**
+                     * вывод категорий в левой части контента
+                     */
+                    foreach(self::$category as $value){
+                        echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+                    }
+                    ?>
                 </ul>
             </li>
             <li><a href="<?php echo APP_BASE_URL;?>about/index"  class="selected">О компании</a></li>
@@ -118,34 +111,22 @@
             <div id="SlideItMoo_outer">
                 <div id="SlideItMoo_inner">
                     <div id="SlideItMoo_items">
-                        <div class="SlideItMoo_element">
-                            <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/01.jpg" alt="product 1" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                            <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/03.jpg" alt="product 2" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                            <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/03.jpg" alt="product 3" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                            <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/04.jpg" alt="product 4" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                            <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/05.jpg" alt="product 5" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                            <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/06.jpg" alt="product 6" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                            <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/07.jpg" alt="product 7" /></a>
-                        </div>
+                        <?php
+                        $slide = "";
+
+                        /**
+                         * вывод категорий в левой части контента
+                         */
+                        foreach(self::$category as $value){
+                            $slide .= "
+                            <div class='SlideItMoo_element'>
+                            <a href=" . APP_BASE_URL . "catalog/category/$value[id]>
+                            <img src='". APP_BASE_URL . "images/product/" . $value["img"] . "'/></a>
+                            </div>
+                        ";
+                        }
+                        echo $slide;
+                        ?>
                     </div>
                 </div>
             </div>
@@ -155,21 +136,14 @@
         <div id="sidebar">
             <h3>Каталог</h3>
             <ul class="sidebar_menu">
-                <li><a href="#">Процессоры</a></li>
-                <li><a href="#">Видеокарты</a></li>
-                <li><a href="#">Жесткие диски</a></li>
-                <li><a href="#">Системы охлаждения</a></li>
-                <li><a href="#">Материнские платы</a></li>
-                <li><a href="#">Оперативная память</a></li>
-                <li><a href="#">Корпуса</a></li>
-                <li><a href="#">Блоки питания</a></li>
-                <li><a href="#">Звуковые карты</a></li>
-                <li><a href="#">Тв-тюнеры</a></li>
-                <li><a href="#">Оптические накопители</a></li>
-                <li><a href="#">Мониторы</a></li>
-                <li><a href="#">Колонки</a></li>
-                <li><a href="#">Мыши</a></li>
-                <li><a href="#">Клавиатуры</a></li>
+                <?php
+                /**
+                 * вывод категорий в левой части контента
+                 */
+                foreach(self::$category as $value){
+                    echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+                }
+                ?>
             </ul>
         </div> <!-- END of sidebar -->
 

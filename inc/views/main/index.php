@@ -110,34 +110,25 @@ ddsmoothmenu.init({
     		<div id="SlideItMoo_outer">
                 <div id="SlideItMoo_inner">
                     <div id="SlideItMoo_items">
-                        <div class="SlideItMoo_element">
-                                <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/01.jpg" alt="product 1" /></a>
-                        </div>	
-                        <div class="SlideItMoo_element">
-                                <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/03.jpg" alt="product 2" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#" target="_parent">
-                                 <img src="<?php echo APP_BASE_URL; ?>images/gallery/03.jpg" alt="product 3" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/04.jpg" alt="product 4" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#" target="_parent">
-                               <img src="<?php echo APP_BASE_URL; ?>images/gallery/05.jpg" alt="product 5" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/06.jpg" alt="product 6" /></a>
-                        </div>
-                        <div class="SlideItMoo_element">
-                                <a href="#" target="_parent">
-                                <img src="<?php echo APP_BASE_URL; ?>images/gallery/07.jpg" alt="product 7" /></a>
-                        </div>
+
+                        <?php
+                        $slide = "";
+
+                        /**
+                         * вывод категорий в левой части контента
+                         */
+                        foreach(self::$category as $value){
+                            $slide .= "
+                            <div class='SlideItMoo_element'>
+                            <a href=" . APP_BASE_URL . "catalog/category/$value[id]>
+                            <img src='". APP_BASE_URL . "images/product/" . $value["img"] . "'/></a>
+                            </div>
+                        ";
+                        }
+                        echo $slide;
+                        ?>
+
+
                     </div>			
                 </div>
             </div>
