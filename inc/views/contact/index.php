@@ -232,7 +232,7 @@
 
             <div class="cleaner h30"></div>
 
-            <iframe width="660" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=new+york+central+park&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=60.158465,135.263672&amp;vpsrc=6&amp;ie=UTF8&amp;hq=&amp;hnear=Central+Park,+New+York&amp;t=m&amp;ll=40.769606,-73.973372&amp;spn=0.014284,0.033023&amp;z=14&amp;output=embed"></iframe>
+            <iframe width="660" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=просп.+Машерова+19,+Минск,+Беларусь&amp;aq=&amp;sll=53.9162977,27.5625608&amp;sspn=53.9162977,27.5625608&amp;vpsrc=6&amp;ie=UTF8&amp;hq=&amp;hnear=просп.+Машерова+19,+Минск,+Беларусь&amp;t=m&amp;ll=53.9162977,27.5625608&amp;spn=53.9162977,27.5625608&amp;z=14&amp;output=embed"></iframe>
 
         </div> <!-- END of content -->
         <div class="cleaner"></div>
