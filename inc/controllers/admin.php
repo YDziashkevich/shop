@@ -64,9 +64,12 @@ class AdminController extends Controller
 
             $this->cat_id = isset($_GET['cats']) ? $_GET['cats'] : null;
             $this->view->property = $this->admincatalog->getPropertiesProduct($this->cat_id);
-            echo "<pre>";
-            var_dump($this->view->property);
-            echo "</pre>";
+            if(APP_DEBUG_MODE){
+                echo "<pre>";
+                var_dump($this->view->property);
+                echo "</pre>";
+            }
+
 
             if($this->admincatalog->isPost()){
                 $validate = $this->admincatalog->isValidProducts();
