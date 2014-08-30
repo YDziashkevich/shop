@@ -21,7 +21,7 @@ class CatalogController extends Controller
         $count = count($products);
         if($count>3){
             $products = array_chunk($products, 3);
-            $products  =$products[0];
+            $products = $products[0];
         }
         return $products;
     }
@@ -43,10 +43,14 @@ class CatalogController extends Controller
         $data = array();
         $categoryName = self::$catalog->getCategoryName($category[0]);
         $data["products"] = array_reverse(self::$catalog->getProducts((int)$category[0]));
-        $data["category"] = $categoryName[0];
+        $data["category"] = $categoryName;
         $this->view->render("catalog/category", $data);
     }
 
+    /**
+     * страница товара
+     * @param $product информация о товаре
+     */
     public function productAction($product)
     {
         $data = array();

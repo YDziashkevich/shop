@@ -4,11 +4,6 @@ class OrderModel extends Model
 {
     private $data = array();
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @return array данные из формы
      */
@@ -53,7 +48,7 @@ class OrderModel extends Model
         $id = self::getDbc()->prepare("SELECT id FROM st_users WHERE `name` = :name");
         $id->bindParam(":name", $name);
         $id->execute();
-        return $id->fetchAll(PDO::FETCH_ASSOC);
+        return $id->fetchColumn();
     }
 
     /**
@@ -63,11 +58,10 @@ class OrderModel extends Model
      */
     public function saveOrder($product = array(), $name)
     {
-        $add = true;
         $id = $this->getIdUser($name);
-        foreach($id as $idValue){
-            $idUser = $idValue["id"];
-        }
+
+        $idUser = $id["id"];
+
         $order = self::getDbc()->prepare("INSERT INTO st_orders (idUser, name, address, phone) VALUES (:idUser, :name, :address, :phone)");
         $order->bindParam("idUser", $idUser, PDO::PARAM_INT);
         $order->bindParam(":name", $this->data["name"]);
