@@ -4,111 +4,33 @@ class BasketController extends Controller
 {
 
     /**
-     * вывод корзины
-     * @param string $product id продукта
+     * @param string $clearBasket ссылка на очистку корзины
      */
-    public function indexAction($product = "")
+    public function indexAction($clearBasket = "")
     {
-        //сигнализирует - товар добовляется или удаляется(!) из корзины
-        $controllerFlag = strpos($product[0], "!");
-
-        if($controllerFlag === false && $product[0] != "empty"){
-            $data = $this->add2basket($product);
-            //очищает корзину
-        }elseif($product[0] == "empty"){
-            session_unset();
-            //session_destroy();
-            //удаление товара из корзины
-        }else{
-            $i = 0;
-            $id = str_replace("!","",$product[0]);
-            foreach($_SESSION["order"] as $itemOrder){
-                if($itemOrder["id"] == $id){
-                    if((int)$itemOrder["num"] > 1){
-                        $_SESSION["order"] [$i] ["num"] = $_SESSION["order"] [$i] ["num"] - 1;
-                    }else{
-                        unset($_SESSION["order"] [$i]);
-                        $tmp = array();
-                        foreach($_SESSION["order"] as $sessionItem){
-                            $tmp[] = $sessionItem;
-                        }
-                        unset($_SESSION["order"]);
-                        foreach($tmp as $tmpItem){
-                            $_SESSION["order"][] = $tmpItem;
-                        }
-                    }
-                }
-                $i ++;
-            }
-            $j = 0;
-            //вывод оставшихся элементов корзине
-            if(!empty($_SESSION["order"])){
-                foreach($_SESSION["order"] as $value){
-                    $item = BasketModel::getProduct($value["id"]);
-                    $data["element"][]= $item;
-                    $data["element"][$j]["numProduct"] = $value["num"];
-
-                $j ++;
-                }
-            }
+        //очистить корзину
+        if($clearBasket[0] == "empty"){
+            unset($_SESSION["basket"]);
+            unset($_SESSION["summ"]);
         }
-        $this->view->render("basket/index", $data);
-    }
-
-    /**
-     * @param string $product id продукта
-     * @return array продукты с свойствами
-     */
-    private function add2basket($product = "")
-    {
-
-        //добавление продукта в корзину
-        if(!empty($product)){
-
-            //проверяет есть ли добовляемый товар в корзине, по умолчанию - нет
-            $flag = true;
-
-            //добовляестся в существующую в сессии переменную продукт, или создает новую
-            if(!empty($_SESSION) && isset($_SESSION["order"])){
-                $i = 0;
-                foreach($_SESSION["order"] as $itemOrder){
-
-                    //проверка - существует запись в сессии с полученным id
-                    if($itemOrder["id"] == $product[0]){
-                        $_SESSION["order"] [$i] ["num"] = $_SESSION["order"] [$i] ["num"] + 1;
-                        $flag = false;
-                    }
-                    $i ++;
-                }
-                if($flag == true){
-                    $_SESSION["order"][] = array("id"=>$product[0], "num"=>1);
-                }
-            }else{
-                $_SESSION["order"][] = array("id"=>$product[0], "num"=>1);
-            }
-
-            //создаем массив с товарами в корзине и их свойствами
+        //удалить элемент с корзины
+        if(isset($_POST["removeBasket"]) && !empty($_POST["removeBasket"])){
+            $numProducts = BasketModel::removeBasket($_POST["idProduct"]);
+        }
+        if($numProducts){
+            header('Location: '. APP_BASE_URL . "main/index");
+            exit();
+        }
+        //вывод товаров в корзине
+        if(isset($_SESSION["basket"]) && !empty($_SESSION["basket"])){
             $j = 0;
-            foreach($_SESSION["order"] as $value){
+            foreach($_SESSION["basket"] as $value){
                 $item = BasketModel::getProduct($value["id"]);
                 $data["element"][]= $item;
                 $data["element"][$j]["numProduct"] = $value["num"];
                 $j ++;
             }
-            //просмотр корзины
-        }elseif(empty($product) && !empty($_SESSION) && isset($_SESSION["order"])){
-            $j = 0;
-            foreach($_SESSION["order"] as $value){
-                $item = BasketModel::getProduct($value["id"]);
-                    $data["element"][]= $item;
-                    $data["element"][$j]["numProduct"] = $value["num"];
-
-                $j ++;
-            }//корзина пуста
-        }else{
-            $data["element"][]= null;
         }
-        return $data;
+        $this->view->render("basket/index", $data);
     }
-
 }
