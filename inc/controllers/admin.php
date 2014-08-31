@@ -8,9 +8,13 @@ class AdminController extends Controller
 
         // Подлючение модели aдминки(категории)
         $admincatalog = new adminCatalogModel();
-
         $this->admincatalog = $admincatalog;
         $this->view->admincatalog = $this->admincatalog;
+
+        // Подлючение модели aдминки(товары)
+        $adminproducts = new adminProductsModel();
+        $this->adminproducts = $adminproducts;
+        $this->view->adminproducts = $this->adminproducts;
     }
 
     /**
@@ -41,13 +45,22 @@ class AdminController extends Controller
         $this->view->catalog = $this->admincatalog->getCategory();
 
         // Проверяет была ли отправлена форма
-        if($this->admincatalog->isGet()){
+        if(isset($_GET['add'])){
 
             // Вызов экшна добавления товаров
             $this->items_nextAction();
 
-        }else{
+        }else if(isset($_GET['delete'])){
 
+            // Вызов экшна удаления товаров
+            $this->items_deleteAction();
+
+        }else if(isset($_GET['edit'])){
+
+            // Вызов экшна редактирования товаров
+            $this->items_editAction();
+
+        }else{
             $this->view->render("admin/items");
         }
     }
@@ -57,10 +70,10 @@ class AdminController extends Controller
      */
     public function items_nextAction(){
 
-        if($this->admincatalog->isGet()){
+        if($this->adminproducts->isGet()){
 
             $this->cat_id = isset($_GET['cats']) ? $_GET['cats'] : null;
-            $this->view->property = $this->admincatalog->getPropertiesProduct($this->cat_id);
+            $this->view->property = $this->adminproducts->getPropertiesProduct($this->cat_id);
             $this->name = isset($_POST['name']) ? $_POST['name'] : '';
             $this->desc = isset($_POST['description']) ? $_POST['description'] : '';
             $this->price = isset($_POST['price']) ? $_POST['price'] : '';
@@ -69,12 +82,11 @@ class AdminController extends Controller
             $this->img = isset($_POST['img']) ? $_POST['img'] : '';
 
             if($this->admincatalog->isPost()){
-                $validate = $this->admincatalog->isValidProducts();
-                var_dump($this->admincatalog->uploadfile);
+                $validate = $this->adminproducts->isValidProducts();
                 if(!$validate){
                     $this->view->msg = $validate;
                 }else{
-                    $save = $this->admincatalog->saveProduct($this->name, $this->desc, $this->price, $this->idCat, $this->admincatalog->uploadfile);
+                    $save = $this->adminproducts->saveProduct($this->name, $this->desc, $this->price, $this->idCat, $this->adminproducts->uploadfile);
                     if(!$save){
                         $this->view->errors = "Не удалось сохранить в бд";
                     }else{
@@ -85,6 +97,25 @@ class AdminController extends Controller
         }
 
         $this->view->render("admin/items_next");
+    }
+
+    /**
+     * Экшн для удаление товаров
+     */
+    public function items_deleteAction(){
+
+        $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
+
+        $this->view->products = $this->adminproducts->getProducts($this->catId);
+
+        $this->view->render("admin/items_delete");
+    }
+
+    /**
+     * Экшн для редактирование товаров
+     */
+    public function items_editAction(){
+        $this->view->render("admin/items_edit");
     }
 
     /**
@@ -137,7 +168,6 @@ class AdminController extends Controller
                     $this->view->msg = 'Не удалось сохранить';
                 }else{
                     $this->redirect(APP_BASE_URL."admin/catalog");
-                    die;
                 }
             }
         }
