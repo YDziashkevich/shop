@@ -96,7 +96,7 @@ CREATE TABLE `st_product2property` (
   `value` text NOT NULL,
   KEY `product2property_product` (`idProduct`),
   KEY `product2property_property` (`idProperty`),
-  CONSTRAINT `product2property_product` FOREIGN KEY (`idProduct`) REFERENCES `st_products` (`id`),
+  CONSTRAINT `product2property_product` FOREIGN KEY (`idProduct`) REFERENCES `st_products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `product2property_property` FOREIGN KEY (`idProperty`) REFERENCES `st_properties` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -113,13 +113,13 @@ CREATE TABLE `st_products` (
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `price` float DEFAULT NULL,
-  `idCategory` int(11) unsigned NOT NULL,
+  `idCategory` int(10) unsigned NOT NULL,
   `img` varchar(255) NOT NULL,
   `delite` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `product2category` (`idCategory`),
   CONSTRAINT `product2category` FOREIGN KEY (`idCategory`) REFERENCES `st_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 
 /*Data for the table `st_products` */
 
