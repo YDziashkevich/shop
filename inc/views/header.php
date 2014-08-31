@@ -93,7 +93,14 @@
                 </ul>
             </li>
             <li><a href="<?php echo APP_BASE_URL;?>about/index"  class="selected">О компании</a></li>
-            <li><a href="<?php echo APP_BASE_URL;?>basket/index">Сделать заказ</a></li>
+            <?php
+            if(isset($_SESSION["basket"]) && !empty($_SESSION["basket"])){
+                echo "<li><a href='".APP_BASE_URL."basket/index'>Корзина !</a></li>";
+            }else{
+                echo "<li><a href='".APP_BASE_URL."basket/index'>Корзина</a></li>";
+            }
+            ?>
+
             <li><a href="<?php echo APP_BASE_URL;?>contact/index">Контакты</a></li>
         </ul>
         <br style="clear: left" />
