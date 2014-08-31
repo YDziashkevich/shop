@@ -3,22 +3,6 @@
 Class adminProductsModel extends Model{
 
     /**
-     * Проверка была ли отправлена форма POST
-     * @return bool
-     */
-    public function isPost(){
-        return (isset($_POST) && !empty($_POST));
-    }
-
-    /**
-     * Проверяет была ли отправлена форма методом GET
-     * @return bool
-     */
-    public function isGet(){
-        return isset($_GET['cats']);
-    }
-
-    /**
      * Получение детальных полей товаров для категории
      * @param $cat_id ид категории
      * @return mixed массив полей товаров
@@ -138,5 +122,35 @@ Class adminProductsModel extends Model{
         $st->bindValue(":catId", $catId);
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Удаление товара из бд
+     * @param array $idProducts ид товаров
+     * @return bool true - удаление выполнено, иначе false
+     */
+    public function deleteProducts(array $idProducts){
+        foreach($idProducts as $id){
+            $st = self::getDbc()->prepare("DELETE FROM ".APP_DB_PREFIX."products WHERE id = :id");
+            $st->bindValue(':id', $id);
+            $r = $st->execute();
+        }
+        return $r;
+    }
+
+    /**
+     * Проверка была ли отправлена форма POST
+     * @return bool
+     */
+    public function isPost(){
+        return (isset($_POST) && !empty($_POST));
+    }
+
+    /**
+     * Проверяет была ли отправлена форма методом GET
+     * @return bool
+     */
+    public function isGet(){
+        return isset($_GET['cats']);
     }
 }

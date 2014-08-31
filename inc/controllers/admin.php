@@ -108,7 +108,17 @@ class AdminController extends Controller
 
         $this->view->products = $this->adminproducts->getProducts($this->catId);
 
-        $this->view->render("admin/items_delete");
+        if($this->isPost()){
+            $idProducts = isset($_POST['id']) ? $_POST['id'] : null;
+            $delete = $this->adminproducts->deleteProducts($idProducts);
+            if(!$delete){
+                $this->msg = "Не удалось удалить товар";
+            }else{
+                $this->redirect(APP_BASE_URL."admin/items");
+            }
+        }else{
+            $this->view->render("admin/items_delete");
+        }
     }
 
     /**
@@ -276,6 +286,14 @@ class AdminController extends Controller
             }
         }
         $this->view->render("admin/catalog_edit_next");
+    }
+
+    /**
+     * Проверка была ли отправлена форма POST
+     * @return bool
+     */
+    public function isPost(){
+        return (isset($_POST) && !empty($_POST));
     }
 
 }
