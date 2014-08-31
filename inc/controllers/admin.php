@@ -125,9 +125,58 @@ class AdminController extends Controller
      * Экшн для редактирование товаров
      */
     public function items_editAction(){
-        $this->view->render("admin/items_edit");
+        $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
+
+        $this->view->products = $this->adminproducts->getProducts($this->catId);
+
+        if($this->isPost()){
+            $this->items_edit_nextAction();
+
+        }else{
+            $this->view->render("admin/items_edit");
+        }
     }
 
+    public function items_edit_nextAction(){
+
+
+        $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
+        $idProduct = isset($_POST['id']) ? (int) $_POST['id'] : null;
+        $this->view->valueProperties = $this->adminproducts->getProductProperties($idProduct);
+        foreach($this->view->valueProperties as $valueProperty){
+
+            $this->view->id = $valueProperty['id'];
+            $this->view->name = $valueProperty['name'];
+            $this->view->description = $valueProperty['description'];
+            $this->view->price = $valueProperty['price'];
+            $this->view->img = $valueProperty['img'];
+
+        }
+        $this->name = isset($_POST['name']) ? $_POST['name'] : null;
+        $this->description = isset($_POST['description']) ? $_POST['description'] : null;
+        $this->price = isset($_POST['price']) ? $_POST['price'] : null;
+        $this->img = isset($_POST['img']) ? $_POST['img'] : null;
+
+        if($this->isPost()){
+            $validate = $this->adminproducts->isValidEditProducts();
+            if($validate){
+                $alter = $this->adminproducts->alterProduct($idProduct, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
+                if(!$alter){
+                    $this->msg = "Не удалось отредактировать товар";
+                }else{
+                    $this->redirect(APP_BASE_URL."admin/items");
+
+                }
+            }else{
+                $this->view->msg = $validate;
+            }
+        }else{
+            $this->view->render("admin/items_edit_next");
+        }
+
+
+
+    }
     /**
      * Экшн для свойств товаров
      */

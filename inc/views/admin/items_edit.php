@@ -10,69 +10,18 @@
             </ul>
         </div>
     </nav>
-    <form class="form-horizontal" method="post" enctype="multipart/form-data">
-        <fieldset>
-
-            <!-- Form Name -->
-            <legend>Редактирование товара</legend>
-
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="name">Название</label>
-                <div class="col-md-4">
-                    <input id="name" name="name" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->name; ?>">
-
-                </div>
+    <form method="post">
+        <div class="panel panel-default">
+            <div class="panel-heading">Список все товаров:</div>
+            <div class="panel-body">
+                <ul>
+                    <?php foreach($this->products as $product){ ?>
+                        <li><input type="radio" name="id" value="<?php echo $product['id']; ?>">&nbsp;&nbsp;<?php echo $product['name'] ?>&nbsp;&nbsp;||&nbsp;&nbsp;<?php echo $product['description'] ?>&nbsp;&nbsp;||&nbsp;&nbsp;<?php echo $product['price'] ?>$</li>
+                    <?php }?>
+                </ul>
             </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="description">Описание</label>
-                <div class="col-md-4">
-                    <input id="description" name="description" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->description; ?>">
-
-                </div>
-            </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="price">Цена</label>
-                <div class="col-md-4">
-                    <input id="price" name="price" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->price; ?>">
-
-                </div>
-            </div>
-
-            <?php foreach($this->property as $one){ ?>
-
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="<?php echo $one['for_input']; ?>"><?php echo $one['property']; ?></label>
-                    <div class="col-md-4">
-                        <input id="<?php echo $one['for_input']; ?>" name="<?php echo $one['for_input']; ?>" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->name; ?>">
-
-                    </div>
-                </div>
-            <?php } ?>
-
-            <!-- File Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="img">Выберите картинку</label>
-                <div class="col-md-4">
-                    <input type='hidden' name='MAX_FILE_SIZE' value='2000000' />
-                    <input id="img" name="img" class="input-file" type="file" accept="image/gif, image/jpeg, image/pjpeg, image/png" value="<?php echo @$this->img; ?>">
-                </div>
-            </div>
-
-            <!-- Button (Double) -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="reset"></label>
-                <div class="col-md-8">
-                    <button type="submit" id="submit" name="submit" class="btn btn-success">Добавить</button>
-                </div>
-            </div>
-
-        </fieldset>
+        </div>
+        <input type="submit" name="edit" id="edit" value="Выбрать товар" class="btn btn-default">
     </form>
 
 

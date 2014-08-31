@@ -76,6 +76,105 @@ Class adminProductsModel extends Model{
     }
 
     /**
+     * Валидация полей при редактировании товаров
+     * @return array|bool|string
+     */
+    public function isValidEditProducts(){
+        $valid = true;
+        $this->errors = array();
+
+        // Валидация остальных полей
+
+        // Валидация картинки
+
+        // Задаем директрию для хранения изображений
+        $uploadDirectory = 'img/';
+        $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
+
+        if(isset($_FILES['img']['name'])){
+            // Проверяем тип файлов
+            $type = $_FILES['img']['type'];
+            $validation = false;
+
+            switch($type){
+                case 'image/gif':
+                case 'image/jpeg':
+                case 'image/pjpeg':
+                case 'image/png':
+                    $validation = true;
+                    break;
+                default:
+                    $errors[] = "Данный тип файла не поддерживается";
+                    $valid = false;
+                    break;
+            }
+        }
+
+
+        $this->errors = $errors;
+        if($valid){
+            // Если файл прошел проверки, то сохраняем его
+            if($validation){
+                if(is_uploaded_file($_FILES['img']['tmp_name'])){
+                    if(move_uploaded_file($_FILES['img']['tmp_name'],$this->uploadfile)){
+                        echo "Файл успешно загружен<br />";
+                    }else{
+                        echo $_FILES['img']['error'];
+                        $this->errors = "Загрузить файл не удалось";
+                        return $this->errors;
+                    }
+                }
+            }else{
+                if(isset($_FILES['img']['tmp_name'])){
+                    $this->errors = "Файл слишком большой или некорректного формата";
+                    return $this->errors;
+                }
+            }
+
+            return $valid;
+        }else{
+            return $this->errors;
+        }
+    }
+
+    /**
+     * Редактирование товара в бд
+     * @return bool true - товар отредактирован, иначе false
+     */
+    public function alterProduct($id, $name, $description, $price, $idCategory, $img){
+        echo 1;
+        // Редактирование товара в таблице products название, описание, цену и картинку
+        $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."products
+                                      SET name = :name, description = :description, price = :price, img = :img
+                                      WHERE id = :id");
+        $st->bindValue(":name", $name);
+        $st->bindValue(":description", $description);
+        $st->bindValue(":price", $price, PDO::PARAM_INT);
+        $st->bindValue(":img", $img);
+        $st->bindValue(":id", $id, PDO::PARAM_INT);
+        $st->execute();
+
+        // Получение информации о требуемых полях
+        $st = self::getDbc()->prepare("SELECT id, for_input FROM ".APP_DB_PREFIX."properties WHERE idCategory = :idCategory");
+        $st->bindValue(":idCategory", $idCategory, PDO::PARAM_INT);
+        $st->execute();
+        $properties = $st->fetchAll(PDO::FETCH_ASSOC);
+
+        // Запись в таблицу product2property значений
+        foreach($properties as $property){
+            $value = isset($_POST[$property['for_input']]) ? $_POST[$property['for_input']] : null;
+            $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."product2property
+                                          SET VALUE = :value
+                                          WHERE idProduct = :idProduct AND idProperty = :idProperty");
+            $st->bindValue(":idProduct", $id, PDO::PARAM_INT);
+            $st->bindValue(":idProperty", $property['id'], PDO::PARAM_INT);
+            $st->bindValue(":value", $value);
+            $r = $st->execute();
+        }
+        return $r;
+    }
+
+    /**
      * Сохранение в бд нового товара
      * @return bool true - сохранен, иначе false
      */
@@ -152,5 +251,22 @@ Class adminProductsModel extends Model{
      */
     public function isGet(){
         return isset($_GET['cats']);
+    }
+
+    /**
+     * Получение свойств для выбранного товара
+     * @param $id ид продукта
+     * @return array массив данных
+     */
+    public function getProductProperties($id){
+        $st = self::getDbc()->prepare("SELECT ".APP_DB_PREFIX."products.id, name, description, price, img, value, property, for_input, ".APP_DB_PREFIX."properties.id AS id_property FROM ".APP_DB_PREFIX."products
+                                       JOIN ".APP_DB_PREFIX."product2property
+                                       ON ".APP_DB_PREFIX."product2property.idProduct = ".APP_DB_PREFIX."products.id
+                                       JOIN ".APP_DB_PREFIX."properties
+                                       ON ".APP_DB_PREFIX."properties.id = ".APP_DB_PREFIX."product2property.idProperty
+                                       WHERE ".APP_DB_PREFIX."products.id = :id");
+        $st->bindValue(":id", $id);
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 }
