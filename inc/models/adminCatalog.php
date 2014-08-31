@@ -341,7 +341,31 @@ Class adminCatalogModel extends Model{
      * Сохранение в бд нового товара
      * @return bool true - сохранен, иначе false
      */
-    public function saveProduct(){
-        return true;
+    public function saveProduct($name, $description, $price, $idCategory, $value, $img = ''){
+        $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."products(name, description, price, idCategory, img) VALUES(:name, :description, :price, :idCategory, :img)");
+        $st->bindValue(":name", $name);
+        $st->bindValue(":description", $description);
+        $st->bindValue(":price", $price, PDO::PARAM_INT);
+        $st->bindValue(":idCategory", $idCategory, PDO::PARAM_INT);
+        $st->bindValue(":img", $img);
+        $st->execute();
+        $lastId = self::getDbc()->lastInsertId();
+        $st = self::getDbc()->prepare("SELECT id FROM ".APP_DB_PREFIX."st_properties WHERE idCategory = :idCategory");
+        $st->bindValue(":idCategory", $idCategory);
+        $st->execute();
+        $properties = $st->fetchAll(PDO::FETCH_ASSOC);
+        foreach($properties as $property){
+            $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."product2property(idProduct,idProperty,value) VALUES(:lastId, :idProperty, :value)");
+            $st->bindValue(":lastId", $lastId);
+            $st->bindValue(":idProperty", $property);
+            $st->bindValue(":value", $value);
+            $st->execute();
+        }
+//        $r = $st->execute();
+//        if(!$r){
+//         var_dump($st->errorInfo());
+//        }return $r;
     }
+
+
 }

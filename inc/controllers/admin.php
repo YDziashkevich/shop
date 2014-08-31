@@ -71,13 +71,20 @@ class AdminController extends Controller
             }
 
 
+            $this->name = isset($_POST['name']) ? $_POST['name'] : '';
+            $this->desc = isset($_POST['description']) ? $_POST['description'] : '';
+            $this->price = isset($_POST['price']) ? $_POST['price'] : '';
+            $this->idCat = isset($_GET['cats']) ? $_GET['cats'] : '';
+//            $this->img = isset($_POST['img']) ? $_POST['img'] : '';
+
+
             if($this->admincatalog->isPost()){
                 $validate = $this->admincatalog->isValidProducts();
-
+                var_dump($this->desc);
                 if(!$validate){
                     $this->view->msg = $validate;
                 }else{
-                    $save = $this->admincatalog->saveProduct();
+                    $save = $this->admincatalog->saveProduct($this->name, $this->desc, $this->price, $this->idCat);
                     if(!$save){
                         $this->view->errors = "Не удалось сохранить в бд";
                     }else{

@@ -28,7 +28,7 @@
                 </select>
             </div>
         </div>
-        <input type="submit" name="edit" id="edit" value="Редактировать" class="btn btn-default">
+        <input type="submit" name="edit" id="edit" value="Продолжить" class="btn btn-default">
     </form>
 </div>
 <?php include 'footer.php' ?>
