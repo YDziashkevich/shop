@@ -63,7 +63,6 @@ class CatalogController extends Controller
             $property[$tmp1] = $tmp2;
         }
         $data["property"] = $property;
-        var_dump($_SESSION["basket"]);
         $this->view->render("catalog/product", $data);
     }
 
