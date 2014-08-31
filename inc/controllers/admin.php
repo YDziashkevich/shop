@@ -30,8 +30,6 @@ class AdminController extends Controller
         $this->view->catalog = $this->admincatalog->getCategory();
 
         $this->view->render("admin/catalog");
-
-
     }
 
     /**
@@ -51,7 +49,6 @@ class AdminController extends Controller
         }else{
 
             $this->view->render("admin/items");
-
         }
     }
 
@@ -64,27 +61,20 @@ class AdminController extends Controller
 
             $this->cat_id = isset($_GET['cats']) ? $_GET['cats'] : null;
             $this->view->property = $this->admincatalog->getPropertiesProduct($this->cat_id);
-            if(APP_DEBUG_MODE){
-                echo "<pre>";
-                var_dump($this->view->property);
-                echo "</pre>";
-            }
-
-
             $this->name = isset($_POST['name']) ? $_POST['name'] : '';
             $this->desc = isset($_POST['description']) ? $_POST['description'] : '';
             $this->price = isset($_POST['price']) ? $_POST['price'] : '';
             $this->idCat = isset($_GET['cats']) ? $_GET['cats'] : '';
-//            $this->img = isset($_POST['img']) ? $_POST['img'] : '';
-
+            $this->value = isset($_POST['value']) ? $_POST['value'] : '';
+            $this->img = isset($_POST['img']) ? $_POST['img'] : '';
 
             if($this->admincatalog->isPost()){
                 $validate = $this->admincatalog->isValidProducts();
-                var_dump($this->desc);
+                var_dump($this->admincatalog->uploadfile);
                 if(!$validate){
                     $this->view->msg = $validate;
                 }else{
-                    $save = $this->admincatalog->saveProduct($this->name, $this->desc, $this->price, $this->idCat);
+                    $save = $this->admincatalog->saveProduct($this->name, $this->desc, $this->price, $this->idCat, $this->admincatalog->uploadfile);
                     if(!$save){
                         $this->view->errors = "Не удалось сохранить в бд";
                     }else{
@@ -251,7 +241,6 @@ class AdminController extends Controller
                     }else{
 
                         $this->redirect(APP_BASE_URL."admin/catalog");
-
                     }
                 }
             }

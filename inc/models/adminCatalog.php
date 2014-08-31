@@ -287,11 +287,11 @@ Class adminCatalogModel extends Model{
         // Валидация остальных полей
 
         // Валидация картинки
-        if(isset($this->img)){
-            // Задаем директрию для хранения изображений
-            $uploadDirectory = 'img/';
-            $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
+        // Задаем директрию для хранения изображений
+        $uploadDirectory = 'img/';
+        $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
 
+        if($this->uploadfile !== $uploadDirectory){
             // Проверяем тип файлов
             $type = $_FILES['img']['type'];
             $validation = false;
@@ -341,7 +341,9 @@ Class adminCatalogModel extends Model{
      * Сохранение в бд нового товара
      * @return bool true - сохранен, иначе false
      */
-    public function saveProduct($name, $description, $price, $idCategory, $value, $img = ''){
+    public function saveProduct($name, $description, $price, $idCategory, $img){
+
+        // Запись в таблицу products название, описание, цену и картинку
         $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."products(name, description, price, idCategory, img) VALUES(:name, :description, :price, :idCategory, :img)");
         $st->bindValue(":name", $name);
         $st->bindValue(":description", $description);
@@ -349,22 +351,27 @@ Class adminCatalogModel extends Model{
         $st->bindValue(":idCategory", $idCategory, PDO::PARAM_INT);
         $st->bindValue(":img", $img);
         $st->execute();
-        $lastId = self::getDbc()->lastInsertId();
-        $st = self::getDbc()->prepare("SELECT id FROM ".APP_DB_PREFIX."st_properties WHERE idCategory = :idCategory");
-        $st->bindValue(":idCategory", $idCategory);
+
+        // Получение последнего вставленного ид
+        $lastId = (int) self::getDbc()->lastInsertId();
+
+        // Получение информации о требуемых полях
+        $st = self::getDbc()->prepare("SELECT id, for_input FROM ".APP_DB_PREFIX."properties WHERE idCategory = :idCategory");
+        $st->bindValue(":idCategory", $idCategory, PDO::PARAM_INT);
         $st->execute();
         $properties = $st->fetchAll(PDO::FETCH_ASSOC);
+
+        // Запись в таблицу product2property значений
         foreach($properties as $property){
+            $value = isset($_POST[$property['for_input']]) ? $_POST[$property['for_input']] : null;
             $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."product2property(idProduct,idProperty,value) VALUES(:lastId, :idProperty, :value)");
-            $st->bindValue(":lastId", $lastId);
-            $st->bindValue(":idProperty", $property);
+            $st->bindValue(":lastId", $lastId, PDO::PARAM_INT);
+            $st->bindValue(":idProperty", $property['id'], PDO::PARAM_INT);
             $st->bindValue(":value", $value);
-            $st->execute();
+            $r = $st->execute();
+
         }
-//        $r = $st->execute();
-//        if(!$r){
-//         var_dump($st->errorInfo());
-//        }return $r;
+        return $r;
     }
 
 
