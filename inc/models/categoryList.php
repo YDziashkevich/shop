@@ -2,15 +2,12 @@
 
 class CategoryListModel extends Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
+    /**
+     * @return array|PDOStatement список категорий с характеристиками
+     */
     public static function getCategoryList()
     {
-        $category = self::getDbc()->query("SELECT `name`, `id`, `img` FROM `st_category`");
-        $category = $category->fetchAll(PDO::FETCH_ASSOC);
-        return $category;
+        $category = self::getDbc()->query("SELECT `name`, `id`, `img` FROM `".APP_DB_PREFIX."category`");
+        return $category->fetchAll(PDO::FETCH_ASSOC);
     }
 }
