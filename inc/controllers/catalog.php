@@ -17,44 +17,36 @@ class CatalogController extends Controller
      */
     public static function getProducts($category)
     {
-        $products = array_reverse(self::$catalog->getProducts($category));
-        $count = count($products);
-        if($count>3){
-            $products = array_chunk($products, 3);
-            $products = $products[0];
-        }
+        $products = self::$catalog->getProductsLimit($category);
         return $products;
     }
-
     /**
      * главная страница каталога
      */
     public function indexAction()
     {
+        $this->add2basket("catalog/index");
         $this->view->render("catalog/index");
     }
-
     /**
      * страница с товарами для определенной категории
      * @param $category
      */
     public function categoryAction($category)
     {
-        $data = array();
+        $this->add2basket("catalog/category");
         $categoryName = self::$catalog->getCategoryName($category[0]);
-        $data["products"] = array_reverse(self::$catalog->getProducts((int)$category[0]));
+        $data["products"] = self::$catalog->getProducts($category[0]);
         $data["category"] = $categoryName;
         $this->view->render("catalog/category", $data);
     }
-
     /**
      * страница товара
      * @param $product информация о товаре
      */
     public function productAction($product)
     {
-        $data = array();
-        $property = array();
+        $this->add2basket("catalog/product");
         $productData = self::$catalog->getProductData($product[0]);
         foreach($productData as $item){
             $tmp1 = "";
@@ -71,7 +63,20 @@ class CatalogController extends Controller
             $property[$tmp1] = $tmp2;
         }
         $data["property"] = $property;
-
         $this->view->render("catalog/product", $data);
+    }
+
+    /**
+     * @param $page страница на которую пенапрвляется пользователь
+     */
+    private function add2basket($page)
+    {
+        if(isset($_POST["addBasket"]) && !empty($_POST["addBasket"])){
+            $numProducts = MainModel::addBasket($_POST["idProduct"]);
+        }
+        if($numProducts){
+            header('Location: '. $_SERVER["REQUEST_URI"]);
+            exit();
+        }
     }
 }
