@@ -16,6 +16,8 @@ class BasketController extends Controller
             unset($_SESSION["basket"]);
             unset($_SESSION["summ"]);
             unset($_SESSION["data"]);
+            header('Location:'. APP_BASE_URL . "basket/index");
+            exit();
         }
         //удалить элемент с корзины
         if(isset($_POST["removeBasket"]) && !empty($_POST["removeBasket"])){
