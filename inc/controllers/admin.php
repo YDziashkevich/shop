@@ -139,28 +139,27 @@ class AdminController extends Controller
 
     public function items_edit_nextAction(){
 
-
         $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
-        $idProduct = isset($_POST['id']) ? (int) $_POST['id'] : null;
-        $this->view->valueProperties = $this->adminproducts->getProductProperties($idProduct);
+        $this->view->id = isset($_POST['id']) ? (int) $_POST['id'] : null;
+        $this->view->valueProperties = $this->adminproducts->getProductProperties($this->view->id);
         foreach($this->view->valueProperties as $valueProperty){
 
-            $this->view->id = $valueProperty['id'];
             $this->view->name = $valueProperty['name'];
             $this->view->description = $valueProperty['description'];
             $this->view->price = $valueProperty['price'];
             $this->view->img = $valueProperty['img'];
 
         }
+        $this->view->id = isset($_POST['id']) ? $_POST['id'] : null;
         $this->name = isset($_POST['name']) ? $_POST['name'] : null;
         $this->description = isset($_POST['description']) ? $_POST['description'] : null;
         $this->price = isset($_POST['price']) ? $_POST['price'] : null;
         $this->img = isset($_POST['img']) ? $_POST['img'] : null;
 
-        if($this->isPost()){
+        if(isset($_POST['submit'])){
             $validate = $this->adminproducts->isValidEditProducts();
             if($validate){
-                $alter = $this->adminproducts->alterProduct($idProduct, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
+                $alter = $this->adminproducts->alterProduct($this->view->id, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
                 if(!$alter){
                     $this->msg = "Не удалось отредактировать товар";
                 }else{
@@ -173,9 +172,6 @@ class AdminController extends Controller
         }else{
             $this->view->render("admin/items_edit_next");
         }
-
-
-
     }
     /**
      * Экшн для свойств товаров
