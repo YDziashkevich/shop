@@ -16,8 +16,14 @@ class View
          * массив с списком имени и id категорий
          */
         self::$category = CategoryListModel::getCategoryList();
-        require("inc/views/header.php");
-        require('inc/views/'.$name.'.php');
-        require("inc/views/footer.php");
+        if(stristr($name, 'admin')){
+            require("inc/views/admin/header.php");
+            require('inc/views/'.$name.'.php');
+            require("inc/views/admin/footer.php");
+        }else{
+            require("inc/views/header.php");
+            require('inc/views/'.$name.'.php');
+            require("inc/views/footer.php");
+        }
     }
 }
