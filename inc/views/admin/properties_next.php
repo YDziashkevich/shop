@@ -12,21 +12,17 @@
     </nav>
     <form method="get">
         <div class="panel panel-default">
-            <div class="panel-heading">Список всех каталогов:</div>
+            <div class="panel-heading">Список всех свойств для выбранной категории:</div>
             <div class="panel-body">
                 <ul>
-                    <?php foreach($this->catalog as $name){ ?>
-                        <li><?php echo $name['name'] ?></li>
+                    <?php foreach($this->properties as $property){ ?>
+                        <li><?php echo $property['property'] ?></li>
                     <?php }?>
-                </ul><br>
-                <label for="cats">Выберите категорию: </label>
-                <select class="form-control" name="cats" id="cats">
-                    <?php foreach($this->catalog as $name){ ?>
-                        <option value="<?php echo $name['id'] ?>"><?php echo $name['name'] ?></option>
-                    <?php }?>
-                </select>
+                </ul>
             </div>
         </div>
-        <input type="submit" name="edit" id="edit" value="Редактировать" class="btn btn-default">
+        <input type="submit" name="add" id="add" value="Добавить свойство" class="btn btn-default">
+        <input type="submit" name="delete" id="delete" value="Удалить свойство" class="btn btn-default">
+        <input type="submit" name="edit" id="edit" value="Редактировать свойтво" class="btn btn-default">
     </form>
 <?php include 'footer.php' ?>

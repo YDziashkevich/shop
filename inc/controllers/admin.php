@@ -178,7 +178,27 @@ class AdminController extends Controller
      */
     public function propertiesAction()
     {
-        $this->view->render("admin/properties");
+        // Получение всех категорий
+        $this->view->catalog = $this->admincatalog->getCategory();
+
+        // Проверяет была ли отправлена форма
+        if($this->admincatalog->isGet()){
+
+            // Вызывает экшн редактирования категорий
+            $this->properties_nextAction();
+        }else{
+            $this->view->render("admin/properties");
+        }
+
+    }
+
+    public function properties_nextAction(){
+
+        $idCat = isset($_GET['cats']) ? $_GET['cats'] : null;
+
+        $this->view->properties = $this->adminproducts->getProperiesCategory($idCat);
+
+        $this->view->render("admin/properties_next");
     }
 
     /**

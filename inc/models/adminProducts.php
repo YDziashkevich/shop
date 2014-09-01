@@ -270,4 +270,11 @@ Class adminProductsModel extends Model{
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getProperiesCategory($idCat){
+        $st = self::getDbc()->prepare("SELECT id, property FROM ".APP_DB_PREFIX."properties WHERE idCategory = :idCat");
+        $st->bindValue(":idCat", $idCat);
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
