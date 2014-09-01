@@ -152,18 +152,12 @@ Class adminProductsModel extends Model{
         $st->bindValue(":price", $price, PDO::PARAM_INT);
         $st->bindValue(":img", $img);
         $st->bindValue(":id", $id, PDO::PARAM_INT);
-        $r = $st->execute();
-        if(!$r){
-            var_dump($st->errorInfo());
-        }
+        $st->execute();
 
         // Получение информации о требуемых полях
         $st = self::getDbc()->prepare("SELECT id, for_input FROM ".APP_DB_PREFIX."properties WHERE idCategory = :idCategory");
         $st->bindValue(":idCategory", $idCategory, PDO::PARAM_INT);
-        $r = $st->execute();
-        if(!$r){
-            var_dump($st->errorInfo());
-        }
+        $st->execute();
         $properties = $st->fetchAll(PDO::FETCH_ASSOC);
 
         // Запись в таблицу product2property значений
@@ -176,9 +170,7 @@ Class adminProductsModel extends Model{
             $st->bindValue(":idProperty", $property['id'], PDO::PARAM_INT);
             $st->bindValue(":value", $value);
             $r = $st->execute();
-            if(!$r){
-                var_dump($st->errorInfo());
-            }
+            $st->execute();
         }
         return $r;
     }
