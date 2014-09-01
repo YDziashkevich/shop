@@ -100,7 +100,7 @@
                     <div class='checkout'><a href=" . APP_BASE_URL . "basket/index/empty class='more'>Очистить корзину</a></div>
                     <div class='cleaner h20'></div>";
                 /*-----------------------------------------------------------------------------------------------------------*/
-                if($_SESSION["user"]["name"] == "Гость"){
+                if($_SESSION["user"]["name"] == "guest"){
                     $html .= "<div class='checkout'><a href=" . APP_BASE_URL . "order/index/ class='more'>Оформить заказ</a></div>";
                 }else{
 

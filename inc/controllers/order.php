@@ -9,62 +9,50 @@ class OrderController extends Controller
         parent::__construct();
         $this->order = new OrderModel();
     }
-
     /**
      * вывод страницы оформления заказа
      */
     public function indexAction()
     {
-        //по умолчанию категория пользователей - гость
-        $user = "guest";
-
         //получаем заказ из сессии
-        if(!empty($_SESSION) && isset($_SESSION["order"])){
-            foreach($_SESSION["order"] as $value){
+        if(!empty($_SESSION) && isset($_SESSION["basket"])){
+            foreach($_SESSION["basket"] as $value){
                 $order[] = $value;
             }
         }
-
-        if($user == "guest"){
         //валидация введенных данных
-            if(!empty($_POST) && isset($_POST["ok"])){
-                $valid = $this->order->isValid();
-            }
-            //добавление заказа
-            if($valid === true){
-                $this->saveOrder($order, $user);
-                header('Location: '. APP_BASE_URL . "order/order");
-                exit();
-            }else{
-                $this->view->render("order/index",$valid);
-            }
+        if(!empty($_POST) && isset($_POST["ok"])){
+            $valid = $this->order->isValid();
+        }
+        //добавление заказа
+        if($valid === true){
+            $this->saveOrder($order, $_SESSION["user"]["name"]);
+            header('Location: '. APP_BASE_URL . "order/order");
+            exit();
         }else{
-
-
+            $this->view->render("order/index",$valid);
         }
     }
-
     /**
      * вывод страницы чека заказа
      */
     public function orderAction(){
-        $data = array();
         if(!empty($_SESSION) && isset($_SESSION["data"])){
             foreach($_SESSION["data"] as $key=>$value){
                 $data[$key] = $value;
             }
         }
-        session_unset();
+        unset($_SESSION["basket"]);
+        unset($_SESSION["summ"]);
+        unset($_SESSION["data"]);
         $this->view->render("order/order",$data);
     }
-
     /**
      * @param array $order массив товаров
      * @param string $user иимя пользователя
      */
     private function saveOrder($order = array(), $user = ""){
         $idOrder = $this->order->saveOrder($order, $user);
-
         $i = 0;
         foreach($order as $valueOrder){
             foreach($this->order->getProduct($valueOrder["id"]) as $productsValue){
@@ -73,15 +61,10 @@ class OrderController extends Controller
             }
             $i ++;
         }
-
         foreach($products as $product){
             $_SESSION ["data"] ["products"] [] =$product;
         }
-
         $_SESSION ["data"] ["idOrder"] = $idOrder;
         $_SESSION ["data"] ["summ"] = $_SESSION["summ"];
-
     }
-
-
 }

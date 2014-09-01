@@ -2,6 +2,10 @@
 
 class MainController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * главная страница
      */
@@ -9,8 +13,8 @@ class MainController extends Controller
     {
         if(!isset($_SESSION["user"]) || empty($_SESSION["user"])){
             //не зарегистрированный пользовател = Гость
-            $user = "Гость";
-            $_SESSION["user"]["name"] = "Гость";
+            $user = "guest";
+            $_SESSION["user"]["name"] = $user;
             $_SESSION["user"]["id"] = MainModel::getIdUser($user);
         }
         if(isset($_POST["addBasket"]) && !empty($_POST["addBasket"])){

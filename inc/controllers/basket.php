@@ -2,7 +2,10 @@
 
 class BasketController extends Controller
 {
-
+    public function __construct()
+    {
+        parent::__construct();
+    }
     /**
      * @param string $clearBasket ссылка на очистку корзины
      */
@@ -12,6 +15,7 @@ class BasketController extends Controller
         if($clearBasket[0] == "empty"){
             unset($_SESSION["basket"]);
             unset($_SESSION["summ"]);
+            unset($_SESSION["data"]);
         }
         //удалить элемент с корзины
         if(isset($_POST["removeBasket"]) && !empty($_POST["removeBasket"])){

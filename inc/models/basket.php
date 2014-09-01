@@ -23,18 +23,21 @@ class BasketModel extends Model
                     unset($_SESSION["basket"] [$i]);
                     if(empty($_SESSION["basket"])){
                         unset($_SESSION["summ"]);
+                        unset($_SESSION["data"]);
                     }
                 }
             }
             $i ++;
         }
-        $tmp = array();
-        foreach($_SESSION["basket"] as $sessionItem){
-            $tmp[] = $sessionItem;
-        }
-        unset($_SESSION["basket"]);
-        foreach($tmp as $tmpItem){
-            $_SESSION["basket"][] = $tmpItem;
+        if(isset($_SESSION["basket"])){
+            $tmp = array();
+            foreach($_SESSION["basket"] as $sessionItem){
+                $tmp[] = $sessionItem;
+            }
+            unset($_SESSION["basket"]);
+            foreach($tmp as $tmpItem){
+                $_SESSION["basket"][] = $tmpItem;
+            }
         }
     }
 }

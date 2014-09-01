@@ -13,10 +13,8 @@ class OrderModel extends Model
         $formData["name"] = isset($_POST["name"]) ? trim($_POST["name"]) : "";
         $formData["address"] = isset($_POST["address"]) ? trim($_POST["address"]) : "";
         $formData["phone"] = isset($_POST["phone"]) ? trim($_POST["phone"]) : "";
-
         return $formData;
     }
-
     /**
      * @return bool результат валидации данных формы
      */
@@ -38,19 +36,17 @@ class OrderModel extends Model
             return $errors;
         }
     }
-
     /**
      * @param $name имя пользователя
      * @return array id ползователя
      */
     public function getIdUser($name)
     {
-        $id = self::getDbc()->prepare("SELECT id FROM st_users WHERE `name` = :name");
+        $id = self::getDbc()->prepare("SELECT id FROM ".APP_DB_PREFIX."users WHERE `name` = :name");
         $id->bindParam(":name", $name);
         $id->execute();
         return $id->fetchColumn();
     }
-
     /**
      * @param array $product товары в заказе
      * @param $name имя заказчика
@@ -59,10 +55,8 @@ class OrderModel extends Model
     public function saveOrder($product = array(), $name)
     {
         $id = $this->getIdUser($name);
-
         $idUser = $id["id"];
-
-        $order = self::getDbc()->prepare("INSERT INTO st_orders (idUser, name, address, phone) VALUES (:idUser, :name, :address, :phone)");
+        $order = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."orders (idUser, name, address, phone) VALUES (:idUser, :name, :address, :phone)");
         $order->bindParam("idUser", $idUser, PDO::PARAM_INT);
         $order->bindParam(":name", $this->data["name"]);
         $order->bindParam(":address", $this->data["address"]);
@@ -71,7 +65,7 @@ class OrderModel extends Model
         $lastId = self::getDbc()->lastInsertId();
         $flagItems = 0;
         foreach($product as $productValue){
-            $items = self::getDbc()->prepare("INSERT INTO st_items (idOrder, idProduct, numProduct) VALUES (:idOrder, :idProduct, :numProduct)");
+            $items = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."items (idOrder, idProduct, numProduct) VALUES (:idOrder, :idProduct, :numProduct)");
             $items->bindParam(":idOrder", $lastId, PDO::PARAM_INT);
             $items->bindParam(":idProduct", $productValue["id"], PDO::PARAM_INT);
             $items->bindParam(":numProduct", $productValue["num"], PDO::PARAM_INT);
@@ -86,14 +80,13 @@ class OrderModel extends Model
             return false;
         }
     }
-
     /**
      * @param $id id товара
      * @return array данные о товаре
      */
     public function getProduct($id)
     {
-        $product = self::getDbc()->prepare("SELECT name AS productName, price FROM st_products WHERE `id` = :id");
+        $product = self::getDbc()->prepare("SELECT name AS productName, price FROM ".APP_DB_PREFIX."products WHERE `id` = :id");
         $product->bindParam(":id", $id, PDO::PARAM_INT);
         $product->execute();
         return $product->fetchAll(PDO::FETCH_ASSOC);

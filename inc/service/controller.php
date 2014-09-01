@@ -12,10 +12,10 @@ class Controller
         $this->view = new View();
         $this->session = new SessionModel();
         ob_start();
-
-
-
-
+        if(!isset($_SESSION["user"]) || empty($_SESSION["user"])){
+            //не зарегистрированный пользовател = Гость
+            $_SESSION["user"]["name"] = "guest";
+        }
     }
 
     public function redirect($url){
