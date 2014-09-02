@@ -19,8 +19,9 @@
                         <li>&nbsp;<input type="radio" name="id" id="id" value="<?php echo $property['id'] ?>">&nbsp;&nbsp;<?php echo $property['property'] ?></li>
                     <?php }?>
                 </ul>
+                <input type="hidden" name="cats" id="cats" value="<?php echo $this->catId; ?>">
             </div>
         </div>
-        <input type="submit" name="submit" id="submit" value="Редактировать свойтво" class="btn btn-default">
+        <input type="submit" name="edit" id="edit" value="Редактировать свойтво" class="btn btn-default">
     </form>
 <?php include 'footer.php' ?>

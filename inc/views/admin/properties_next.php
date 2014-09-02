@@ -23,8 +23,8 @@
         </div>
     </form>
     <div>
-        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_add">Добавить свойство</a>
-        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_delete">Удалить свойство</a>
-        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_edit">Редактировать свойтво</a>
+        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_add?cats=<? echo $this->idCat; ?>">Добавить свойство</a>
+        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_delete?cats=<? echo $this->idCat; ?>">Удалить свойство</a>
+        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_edit?cats=<? echo $this->idCat; ?>">Редактировать свойтво</a>
     </div>
 <?php include 'footer.php' ?>

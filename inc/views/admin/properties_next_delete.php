@@ -10,13 +10,13 @@
             </ul>
         </div>
     </nav>
-    <form method="get">
+    <form method="post">
         <div class="panel panel-default">
             <div class="panel-heading">Список всех свойств для выбранной категории:</div>
             <div class="panel-body">
                 <ul>
                     <?php foreach($this->properties as $property){ ?>
-                        <li><?php echo $property['property'] ?>&nbsp;&nbsp;<input type="checkbox" name="id[]" value="$property['id']"></li>
+                        <li><?php echo $property['property']; ?>&nbsp;&nbsp;<input type="checkbox" name="id[]" value="<?php echo $property['id']; ?>"></li>
                     <?php }?>
                 </ul>
             </div>
