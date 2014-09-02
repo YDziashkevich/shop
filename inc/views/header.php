@@ -6,6 +6,7 @@
     <meta name="keywords" content="web store, free templates, website templates, CSS, HTML" />
     <meta name="description" content="Web Store Theme - free CSS template provided by templatemo.com" />
     <link href="<?php echo APP_BASE_URL; ?>css/templatemo_style.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo APP_BASE_URL; ?>css/bootstrap.css" rel="stylesheet" type="text/css" />
 
     <link rel="stylesheet" type="text/css" href="<?php echo APP_BASE_URL; ?>css/ddsmoothmenu.css" />
 
