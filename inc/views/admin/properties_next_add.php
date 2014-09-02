@@ -10,7 +10,42 @@
             </ul>
         </div>
     </nav>
+    <form class="form-horizontal" method="post">
+        <fieldset>
 
-    Добавление нового свойства
+            <!-- Form Name -->
+            <legend>Добавление нового свойства</legend>
 
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="property">Название свойства</label>
+                <div class="col-md-4">
+                    <input id="property" name="property" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->property; ?>">
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="for_input">Название свойства для input (на англ. без пробелов)</label>
+                <div class="col-md-4">
+                    <input id="for_input" name="for_input" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->for_input; ?>">
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <div class="col-md-8">
+                    <button type="submit" id="submit" name="submit" class="btn btn-success">Добавить свойство</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+    <!-- Вывод сообщений об ошибках -->
+<?php if(!empty($this->msg)){ ?>
+    <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
+        <?php echo @$this->msg; ?>
+    </div><br />
+<?php } ?>
 <?php include 'footer.php' ?>

@@ -198,15 +198,35 @@ class AdminController extends Controller
 
         $this->view->properties = $this->adminproducts->getProperiesCategory($idCat);
         if(isset($_POST['add'])){
-            $this->view->render("admin/properties_next_add");
+            $this->properties_next_addAction();
         }else if(isset($_POST['delete'])){
-            $this->view->render("admin/properties_next_delete");
+            $this->properties_next_deleteAction();
         }else if(isset($_POST['edit'])){
-            $this->view->render("admin/properties_next_edit");
+            $this->properties_next_editAction();
         }else{
             $this->view->render("admin/properties_next");
         }
 
+    }
+
+    public function properties_next_addAction(){
+        $idCat = isset($_GET['cats']) ? $_GET['cats'] : null;
+
+        if(isset($_POST['submit'])){
+
+        }else{
+            $this->view->render("admin/properties_next_add");
+        }
+
+
+    }
+
+    public function properties_next_deleteAction(){
+        $this->view->render("admin/properties_next_delete");
+    }
+
+    public function properties_next_editAction(){
+        $this->view->render("admin/properties_next_edit");
     }
 
     /**

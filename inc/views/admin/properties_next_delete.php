@@ -16,7 +16,7 @@
             <div class="panel-body">
                 <ul>
                     <?php foreach($this->properties as $property){ ?>
-                        <li><?php echo $property['property'] ?><input type="checkbox" name="id[]" value="$property['id']"></li>
+                        <li><?php echo $property['property'] ?>&nbsp;&nbsp;<input type="checkbox" name="id[]" value="$property['id']"></li>
                     <?php }?>
                 </ul>
             </div>
