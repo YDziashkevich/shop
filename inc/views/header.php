@@ -99,7 +99,7 @@
                 echo "<li><a href='".APP_BASE_URL."basket/index'>Корзина</a></li>";
             }
             ?>
-
+            <li><a href="<?php echo APP_BASE_URL;?>guestbook/index">Гостевая книга</a></li>
             <li><a href="<?php echo APP_BASE_URL;?>contact/index">Контакты</a></li>
         </ul>
         <br style="clear: left" />

@@ -1,0 +1,12 @@
+.alert{
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.alert p{
+    color: #b94a48;
+}
+.panel{
+    width: 70%;
+    margin: 0 auto;
+    text-align: left;
+}
