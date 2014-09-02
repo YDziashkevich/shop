@@ -35,7 +35,7 @@
             <!-- Button -->
             <div class="form-group">
                 <div class="col-md-8">
-                    <button type="submit" id="submit" name="submit" class="btn btn-success">Добавить свойство</button>
+                    <input type="submit" id="submit" name="submit" class="btn btn-success" value="Добавить свойство">
                 </div>
             </div>
 

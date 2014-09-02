@@ -210,9 +210,24 @@ class AdminController extends Controller
     }
 
     public function properties_next_addAction(){
-        $idCat = isset($_GET['cats']) ? $_GET['cats'] : null;
+
+        $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
+
+        $this->view->name = isset($_POST['property']) ? $_POST['property'] : null;
+        $this->view->for_input = isset($_POST['for_input']) ? $_POST['for_input'] : null;
 
         if(isset($_POST['submit'])){
+            $val = $this->adminproducts->validateNewProperty();
+            if(!$val){
+                $this->view->msg = $val;
+            }else{
+                $add = $this->adminproducts->addProperty($this->view->name, $idCat, $this->view->for_input);
+                if(!$add){
+                    $this->view->msg = "Не удалось добавить свойство";
+                }else{
+                    $this->redirect(APP_BASE_URL."admin/properties");
+                }
+            }
 
         }else{
             $this->view->render("admin/properties_next_add");

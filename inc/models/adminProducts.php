@@ -277,4 +277,20 @@ Class adminProductsModel extends Model{
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function addProperty($name, $catId, $for_input){
+        $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."properties(property,idCategory,for_input) VALUES(:name,:catId,:for_input)");
+        $st->bindValue(":name", $name);
+        $st->bindValue(":catId", $catId, PDO::PARAM_INT);
+        $st->bindValue(":for_input", $for_input);
+        $r = $st->execute();
+        if(!$r){
+            var_dump($st->errorInfo());
+        }
+        return $r;
+    }
+
+    public function validateNewProperty(){
+        return true;
+    }
 }
