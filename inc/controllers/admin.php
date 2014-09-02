@@ -194,26 +194,17 @@ class AdminController extends Controller
 
     public function properties_nextAction(){
 
-        $idCat = isset($_GET['cats']) ? $_GET['cats'] : null;
+        $this->view->idCat = isset($_GET['cats']) ? $_GET['cats'] : null;
 
-        $this->view->properties = $this->adminproducts->getProperiesCategory($idCat);
-        if(isset($_POST['add'])){
-//            $this->view->render("admin/properties_next_add");
-//            $this->properties_next_addAction();
-            $this->redirect("properties_next_add");
-        }else if(isset($_POST['delete'])){
-            $this->properties_next_deleteAction();
-        }else if(isset($_POST['edit'])){
-            $this->properties_next_editAction();
-        }else{
-            $this->view->render("admin/properties_next");
-        }
+        $this->view->properties = $this->adminproducts->getProperiesCategory($this->view->idCat);
+
+        $this->view->render("admin/properties_next");
 
     }
 
     public function properties_next_addAction(){
 
-        $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : 1;
+        $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
 
         $this->view->name = isset($_POST['property']) ? $_POST['property'] : null;
         $this->view->for_input = isset($_POST['for_input']) ? $_POST['for_input'] : null;
@@ -239,6 +230,10 @@ class AdminController extends Controller
     }
 
     public function properties_next_deleteAction(){
+
+        $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
+        $this->view->properties = $this->adminproducts->getProperiesCategory($idCat);
+
         $ids = isset($_POST['id']) ? $_POST['id'] : null;
 
         if(isset($_POST['submit'])){
@@ -248,7 +243,7 @@ class AdminController extends Controller
             if(!$delete){
                 $this->view->msg = "Не удалось удалить свойство";
             }else{
-                $this->redirect("admin/properties");
+                $this->redirect(APP_BASE_URL."admin/properties");
             }
         }else{
             $this->view->render("admin/properties_next_delete");
@@ -258,7 +253,42 @@ class AdminController extends Controller
 
     public function properties_next_editAction(){
 
-        $this->view->render("admin/properties_next_edit");
+        $this->view->catId = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
+        $this->view->properties = $this->adminproducts->getProperiesCategory($this->view->catId);
+
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+
+        if(isset($_GET['edit'])){
+            $this->redirect(APP_BASE_URL."admin/properties_next_edit_next?id=".$id."&idCat=".$this->view->catId);
+        }else{
+            $this->view->render("admin/properties_next_edit");
+        }
+
+    }
+
+    public function properties_next_edit_nextAction(){
+
+        $id = isset($_GET['id']) ? $_GET['id'] : null;
+        $idCat = isset($_GET['idCat']) ? $_GET['idCat'] : null;
+        $property = isset($_POST['property']) ? $_POST['property'] : null;
+        $for_input = isset($_POST['for_input']) ? $_POST['for_input'] : null;
+
+        if(isset($_POST['submit'])){
+            $val = $this->adminproducts->validateNewProperty();
+            if(!$val){
+                $this->view->msg = $val;
+            }else{
+                $edit = $this->adminproducts->editProperty($id, $property, $idCat, $for_input);
+                if(!$edit){
+                    $this->view->msg = "Не удалось отредактировать свойство";
+                }else{
+                    $this->redirect(APP_BASE_URL."admin/properties");
+                }
+            }
+        }else{
+            $this->view->render("admin/properties_next_edit_next");
+        }
+
     }
 
     /**
