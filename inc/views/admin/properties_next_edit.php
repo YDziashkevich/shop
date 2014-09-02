@@ -16,11 +16,11 @@
             <div class="panel-body">
                 <ul>
                     <?php foreach($this->properties as $property){ ?>
-                        <li><?php echo $property['property'] ?></li>
+                        <li>&nbsp;<input type="radio" name="id" id="id" value="<?php echo $property['id'] ?>">&nbsp;&nbsp;<?php echo $property['property'] ?></li>
                     <?php }?>
                 </ul>
             </div>
         </div>
-        <input type="submit" name="edit" id="edit" value="Редактировать свойтво" class="btn btn-default">
+        <input type="submit" name="submit" id="submit" value="Редактировать свойтво" class="btn btn-default">
     </form>
 <?php include 'footer.php' ?>

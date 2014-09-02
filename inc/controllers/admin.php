@@ -239,10 +239,25 @@ class AdminController extends Controller
     }
 
     public function properties_next_deleteAction(){
-        $this->view->render("admin/properties_next_delete");
+        $ids = isset($_POST['id']) ? $_POST['id'] : null;
+
+        if(isset($_POST['submit'])){
+            foreach($ids as $id){
+                $delete = $this->adminproducts->deleteProperty($id);
+            }
+            if(!$delete){
+                $this->view->msg = "Не удалось удалить свойство";
+            }else{
+                $this->redirect("admin/properties");
+            }
+        }else{
+            $this->view->render("admin/properties_next_delete");
+        }
+
     }
 
     public function properties_next_editAction(){
+
         $this->view->render("admin/properties_next_edit");
     }
 

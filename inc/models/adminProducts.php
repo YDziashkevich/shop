@@ -293,4 +293,23 @@ Class adminProductsModel extends Model{
     public function validateNewProperty(){
         return true;
     }
+
+    public function deleteProperty($id){
+        $st = self::getDbc()->prepare("DELETE FROM ".APP_DB_PREFIX."properties WHERE id = :id");
+        $st->bindValue(":id", $id, PDO::PARAM_INT);
+        return $st->execute();
+    }
+
+    public function editProperty($id, $property, $catId, $for_input){
+        $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."properties SET property = :property, idCategory = :catId, for_input = :for_input WHERE id = :id");
+        $st->bindValue(":id", $id);
+        $st->bindValue(":property", $property);
+        $st->bindValue(":catId", $catId, PDO::PARAM_INT);
+        $st->bindValue(":for_input", $for_input);
+        $r = $st->execute();
+        if(!$r){
+            var_dump($st->errorInfo());
+        }
+        return $r;
+    }
 }
