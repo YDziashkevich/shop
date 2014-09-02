@@ -198,7 +198,9 @@ class AdminController extends Controller
 
         $this->view->properties = $this->adminproducts->getProperiesCategory($idCat);
         if(isset($_POST['add'])){
-            $this->properties_next_addAction();
+//            $this->view->render("admin/properties_next_add");
+//            $this->properties_next_addAction();
+            $this->redirect("properties_next_add");
         }else if(isset($_POST['delete'])){
             $this->properties_next_deleteAction();
         }else if(isset($_POST['edit'])){
@@ -211,7 +213,7 @@ class AdminController extends Controller
 
     public function properties_next_addAction(){
 
-        $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
+        $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : 1;
 
         $this->view->name = isset($_POST['property']) ? $_POST['property'] : null;
         $this->view->for_input = isset($_POST['for_input']) ? $_POST['for_input'] : null;
