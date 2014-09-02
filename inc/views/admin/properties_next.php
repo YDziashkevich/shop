@@ -21,8 +21,10 @@
                 </ul>
             </div>
         </div>
-        <input type="submit" name="add" id="add" value="Добавить свойство" class="btn btn-default">
-        <input type="submit" name="delete" id="delete" value="Удалить свойство" class="btn btn-default">
-        <input type="submit" name="edit" id="edit" value="Редактировать свойтво" class="btn btn-default">
     </form>
+    <div>
+        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_add">Добавить свойство</a>
+        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_delete">Удалить свойство</a>
+        <a href="<?php echo APP_BASE_URL; ?>admin/properties_next_edit">Редактировать свойтво</a>
+    </div>
 <?php include 'footer.php' ?>
