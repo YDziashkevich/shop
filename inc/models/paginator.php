@@ -8,7 +8,7 @@ Class PaginatorModel extends Model{
  * @param $size сколько строк выводится за раз на странице
  * @return int сколько будет всего страниц
  */
-    function getCountPage($count, $size = 15){
+    function getCountPage($count, $size = 3){
         $tmp = $count/$size;
         return ((int)$tmp == $tmp) ? $tmp : $tmp + 1;
     }
@@ -20,10 +20,9 @@ Class PaginatorModel extends Model{
      * @return array выводит срез сообщений
      */
     function getNumPage($pageNum, $pageSize){
-        self::model();
         $startIndex = ($pageNum - 1)*$pageSize;
         $lastPage = $startIndex + $pageSize;
-        $st = self::$dbc->prepare("SELECT * FROM ".APP_DB_PREFIX."messages ORDER BY id DESC LIMIT :startIndex, :lastPage");
+        $st = self::getDbc()->prepare("SELECT * FROM ".APP_DB_PREFIX."messages ORDER BY id DESC LIMIT :startIndex, :lastPage");
         $st->bindValue(':startIndex', $startIndex, PDO::PARAM_INT);
         $st->bindValue(':lastPage', $lastPage, PDO::PARAM_INT);
         $st->execute();
@@ -37,7 +36,7 @@ Class PaginatorModel extends Model{
      */
     function getPaginatorHtml($pages){
         $html = "";
-        $html .= "<div class='pagination pagination-centered'><ul>";
+        $html .= "<div><ul class='pagination'>";
         isset($_GET['page']) ? $page = $_GET['page'] : $page = 1;
         $pageActive = '';
         for($i = 1; $i <= $pages; $i++){

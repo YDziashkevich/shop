@@ -1,63 +1,102 @@
-<?php require 'inc/views/header.php'; ?>
-<?php
-    if((isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')){
-        var_dump($_REQUEST);
-    }
+<div class="cleaner h20"></div>
 
-?>
-<form class="form-horizontal well" method="post">
-    <fieldset>
+<div id="templatemo_main_top"></div>
+<div id="templatemo_main">
+    <div id="product_slider">
+        <div id="SlideItMoo_outer">
+            <div id="SlideItMoo_inner">
+                <div id="SlideItMoo_items">
+                    <<?php
+                    $slide = "";
 
-        <!-- Form Name -->
-        <legend>Заполните информацию о себе</legend>
-
-        <!-- Text input-->
-        <div class="control-group">
-            <label class="control-label" for="userName">Введите имя:</label>
-            <div class="controls">
-                <input id="userName" name="userName" type="text" placeholder="Представьтесь" class="input-xlarge" value="<? echo @$this->name; ?>" >
-            </div>
-        </div>
-
-        <!-- Text input-->
-        <div class="control-group">
-            <label class="control-label" for="userEmail">Введите email:</label>
-            <div class="controls">
-                <input id="userEmail" name="userEmail" type="text" placeholder="Введите адрес почты" class="input-xlarge" value="<? echo @$this->email; ?>">
-            </div>
-        </div>
-
-        <!-- Textarea -->
-        <div class="control-group">
-            <label class="control-label" for="userMsg">Введите текст сообщения:</label>
-            <div class="controls">
-                <textarea id="userMsg" name="userMsg" placeholder="Оставьте сообщение" value="" ><? echo @$this->message; ?></textarea>
-                <p class="help-block" data-name="userMsg"></p>
-            </div>
-        </div>
-
-        <!-- Prepended text-->
-        <div class="control-group">
-            <label class="control-label" for="captcha">Введите капчу:</label>
-            <div class="controls">
-                <div class="input-prepend">
-                    <span class="add-on" style="padding: 0;"><img src="<?php echo APP_BASE_URL.'captcha/index'; ?>" ></span>
-                    <input id="captcha" name="captcha" class="input-large" placeholder="Введите капчу" type="text">
+                    /**
+                     * вывод категорий в левой части контента
+                     */
+                    foreach(self::$category as $value){
+                        $slide .= "
+                            <div class='SlideItMoo_element'>
+                            <a href=" . APP_BASE_URL . "catalog/category/$value[id]>
+                            <img src='". APP_BASE_URL . "images/product/" . $value["img"] . "'/></a>
+                            </div>
+                        ";
+                    }
+                    echo $slide;
+                    ?>
                 </div>
             </div>
         </div>
+        <div class="cleaner"></div>
+    </div>
 
-        <!-- Button -->
-        <div class="control-group">
-            <label class="control-label" for="submit"></label>
-            <div class="controls">
-                <button type="reset" id="reset" name="reset" class="btn btn-default">Сброс</button>
-                <button type="submit" id="submit" name="submit" class="btn btn-default">Отправить</button>
-            </div>
-        </div>
+    <div id="sidebar">
+        <h3>Каталог</h3>
+        <ul class="sidebar_menu">
+            <!-- вывод списка категорий -->
+            <?php
+            /**
+             * вывод списка категорий в меню
+             */
+            foreach(self::$category as $value){
+                echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+            }
+            ?>
+        </ul>
+    </div> <!-- END of sidebar -->
+    <div id="content">
 
-    </fieldset>
-</form>
+        <form class="form-horizontal" method="post">
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend>Оставить сообщение в гостевой книге</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="userName">Введите имя:</label>
+                    <div class="col-md-5">
+                        <input id="userName" name="userName" type="text" placeholder="Представьтесь" class="form-control input-md" value="<? echo @$this->name; ?>">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="userEmail">Введите email:</label>
+                    <div class="col-md-5">
+                        <input id="userEmail" name="userEmail" type="text" placeholder="Введите адрес почты" class="form-control input-md" value="<? echo @$this->email; ?>">
+                    </div>
+                </div>
+
+                <!-- Textarea -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="userMsg">Введите текст сообщения:</label>
+                    <div class="col-md-4">
+                        <textarea class="form-control" id="userMsg" name="userMsg"><? echo @$this->message; ?></textarea>
+                    </div>
+                </div>
+
+                <!-- Prepended text-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="captcha">Введите капчу:</label>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-addon" style="padding: 0;"><img src="<?php echo APP_BASE_URL.'captcha/index'; ?>" ></span>
+                            <input id="captcha" name="captcha" class="form-control" placeholder="Введите капчу" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Button (Double) -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="reset"></label>
+                    <div class="col-md-8">
+                        <button type="reset" id="reset" name="reset" class="btn btn-default">Сброс</button>
+                        <button type="submit" id="submit" name="submit" class="btn btn-default">Отправить</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
 <div class="text-center">
     <?php if(!empty($this->msg)){ ?>
        <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
@@ -77,31 +116,8 @@
 </div>
     <?php echo $this->pagination; ?>
 
-<script>
-    $(function(){
-        $(document).on('submit', 'form', function(ev){
-            var $form = $(this);
-
-            $.ajax({
-                url: window.location.href,
-                data: $form.serializeArray(),
-                type: 'POST',
-                success: function(data){
-                    if(data.indexOf('alert-warning')>=0){
-                        $(data).prependTo($form.parent());
-                        $form.remove();
-                    } else {
-                        window.location.reload();
-                    }
-                }
-
-            });
-
-            ev.preventDefault();
-        });
-    });
-</script>
-
-<?php require 'inc/views/footer.php'; ?>
+    </div> <!-- END of content -->
+    <div class="cleaner"></div>
+</div> <!-- END of main -->
 
 

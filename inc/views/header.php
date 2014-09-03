@@ -66,7 +66,7 @@
 
 <div id="templatemo_wrapper">
     <div id="templatemo_header">
-        <div id="site_title"><h1><a href="index.html">Free CSS Templates</a></h1></div>
+        <div id="site_title"><h1><a href="<?php echo APP_BASE_URL;?>main/index">E-Shop</a></h1></div>
 
         <div id="header_right">
             <div id="templatemo_search">

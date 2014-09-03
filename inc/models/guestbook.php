@@ -80,10 +80,10 @@ Class GuestbookModel extends Model{
             $errors[] = 'Неправильно введен email';
             $valid = false;
         }
-//        if(!$this->checkCaptchaAnswer($this->captcha)){
-//            $errors[] = 'Неправильно введена капча';
-//            $valid = false;
-//        }
+        if(!$this->checkCaptchaAnswer($this->captcha)){
+            $errors[] = 'Неправильно введена капча';
+            $valid = false;
+        }
         $this->errors = $errors;
         if($valid){
             return true;
@@ -116,8 +116,7 @@ Class GuestbookModel extends Model{
      * @param $message
      */
     public function save($name, $email, $message){
-        self::model();
-        $st = self::$dbc->prepare("INSERT INTO ".APP_DB_PREFIX."messages(name, email, message) VALUES(:name, :email, :message)");
+        $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."messages(name, email, message) VALUES(:name, :email, :message)");
         $st->bindValue(':name', $name);
         $st->bindValue(':email', $email);
         $st->bindValue(':message', $message);

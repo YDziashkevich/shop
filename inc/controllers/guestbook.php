@@ -4,6 +4,21 @@ Class GuestbookController extends Controller{
 
     public function __construct(){
         parent::__construct();
+
+        // Подлючение модели aдминки(категории)
+        $guestbook = new GuestbookModel();
+        $this->guestbook = $guestbook;
+        $this->view->guestbook = $this->guestbook;
+
+        // Подлючение модели aдминки(категории)
+        $storage = new StorageModel();
+        $this->storage = $storage;
+        $this->view->storage = $this->storage;
+
+        // Подлючение модели aдминки(категории)
+        $paginator = new PaginatorModel();
+        $this->paginator = $paginator;
+        $this->view->paginator = $this->paginator;
     }
 
     public function indexAction(){
@@ -51,7 +66,7 @@ Class GuestbookController extends Controller{
         $pageCount = $this->paginator->getCountPage($storageSize);
 
         // Получение среза сообщений
-        $this->view->messages = $this->paginator->getNumPage($pageNum, 15);
+        $this->view->messages = $this->paginator->getNumPage($pageNum, 3);
 
         $this->view->pagination = $this->paginator->getPaginatorHtml($pageCount);
 
