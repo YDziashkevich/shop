@@ -1,4 +1,3 @@
-<?php error_reporting(E_ALL); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,3 +8,4 @@
     <script type="text/javascript" src="<?php echo APP_BASE_URL;?>js/jquery.min.js"></script>
 </head>
 <body style="padding-top: 70px;">
+

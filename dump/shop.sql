@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.5 (64 bit)
-MySQL - 5.5.37-log : Database - shop_st
+SQLyog Ultimate v9.02 
+MySQL - 5.5.25 : Database - shop_st
 *********************************************************************
 */
 
@@ -171,12 +171,13 @@ CREATE TABLE `st_users` (
   `address` text,
   `phone` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `isAdmin` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `st_users` */
 
-insert  into `st_users`(`id`,`name`,`lastName`,`address`,`phone`,`password`) values (1,'guest',NULL,NULL,NULL,NULL);
+insert  into `st_users`(`id`,`name`,`lastName`,`address`,`phone`,`password`,`isAdmin`) values (1,'guest',NULL,NULL,NULL,NULL,0),(2,'admin',NULL,NULL,NULL,'admin',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -15,6 +15,31 @@ class AdminController extends Controller
         $adminproducts = new adminProductsModel();
         $this->adminproducts = $adminproducts;
         $this->view->adminproducts = $this->adminproducts;
+
+        // Подлючение модели aдминки(товары)
+        $admins = new adminsModel();
+        $this->admins = $admins;
+        $this->view->admins = $this->admins;
+    }
+
+    /**
+     * Базовый экшн, открывает шаблон главной страницы
+     */
+    public function autorizationAction()
+    {
+        $this->login = isset($_POST['login']) ? $_POST['login'] : null;
+        $this->password = isset($_POST['password']) ? $_POST['password'] : null;
+
+        if(isset($_POST) && !empty($_POST)){
+            $validate = $this->admins->validate();
+            if(!$validate){
+                $this->view->msg = $validate;
+            }else{
+
+            }
+        }
+
+        $this->view->render("admin/autorization");
     }
 
     /**
