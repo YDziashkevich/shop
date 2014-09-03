@@ -68,6 +68,23 @@ CREATE TABLE `st_items` (
 
 /*Data for the table `st_items` */
 
+/*Table structure for table `st_messages` */
+
+DROP TABLE IF EXISTS `st_messages`;
+
+CREATE TABLE `st_messages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+/*Data for the table `st_messages` */
+
+insert  into `st_messages`(`id`,`name`,`email`,`message`,`time`) values (1,'Андрей','andry@mail.ru','Привет, как дела?','2014-09-03 09:04:53'),(2,'Пример текста','sdfsdf@fsdf.ff','Пример текстаПример текстаПример текстаПример текста','2014-09-03 09:42:07'),(3,'Пример текста','sf@fs.rl','Пример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текстаПример текста','2014-09-03 09:43:17'),(4,'sajf dlkjasd','sdfsdf@fsdf.ff','l;kjds ;lakfjs ;laskd f;alsdkf','2014-09-03 09:44:54'),(5,'asdf asdf adsf','sdfsdf@fsdf.ff','kla jd;flkaj ;sldkj a;sldfjas;dl kjas;dfl kjasdf;akl sd;alsdja;sdlk','2014-09-03 09:45:42'),(6,'qqqqq','qwerty@mail.ru','qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq qqqqqqqqqqqqqqqqq q q','2014-09-03 09:47:13'),(7,'qwer','qwerty@mail.ru','qwer qwer qwer qwr qw r qwer qwe qwer qwe qew qwr wre','2014-09-03 09:47:31');
+
 /*Table structure for table `st_orders` */
 
 DROP TABLE IF EXISTS `st_orders`;
