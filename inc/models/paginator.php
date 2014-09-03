@@ -8,7 +8,7 @@ Class PaginatorModel extends Model{
  * @param $size сколько строк выводится за раз на странице
  * @return int сколько будет всего страниц
  */
-    function getCountPage($count, $size = 3){
+    function getCountPage($count, $size = APP_COUNT_PAGES){
         $tmp = $count/$size;
         return ((int)$tmp == $tmp) ? $tmp : $tmp + 1;
     }

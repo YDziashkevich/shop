@@ -27,41 +27,51 @@ class AdminController extends Controller
         $this->view->session = $this->session;
     }
 
+    /**
+     * Экшн для выхода залогированного администратора
+     */
     public function logoutAction(){
         $this->session->logout();
         $this->redirect(APP_BASE_URL."admin/index");
     }
+
     /**
      * Базовый экшн, открывает шаблон главной страницы
      */
     public function authAction()
     {
-
-
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->redirect(APP_BASE_URL."admin/index");
         }else{
             session_start();
+
+            // Получение данных из формы
             $this->login = isset($_POST['login']) ? $_POST['login'] : null;
             $this->password = isset($_POST['password']) ? $_POST['password'] : null;
 
             if(isset($_POST) && !empty($_POST)){
+
+                // Проверка заполнены ли поля логина и пароля
                 $validate = $this->admins->authValidate($this->login, $this->password);
+
                 if($validate !== true){
+                    // Вывод сообщений об ошибках
                     $this->view->msg = implode('<br>', $validate);
                 }else{
+
+                    // Поиск пользователя в базе
                     $signIn = $this->admins->checkUser($this->login, $this->password);
+
                     if($signIn){
                         $_SESSION['login'] = $this->login;
                         $this->redirect(APP_BASE_URL."admin/index");
                     }else{
                         $this->view->msg = "Неверно введен логин или пароль";
                     }
-
                 }
             }
-                $this->view->render("admin/auth");
-
+            $this->view->render("admin/auth");
         }
     }
 
@@ -83,6 +93,7 @@ class AdminController extends Controller
     public function catalogAction()
     {
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             // Получение всех категорий
             $this->view->catalog = $this->admincatalog->getCategory();
@@ -99,7 +110,7 @@ class AdminController extends Controller
     public function itemsAction()
     {
 
-
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             // Получение всех категорий
             $this->view->catalog = $this->admincatalog->getCategory();
@@ -126,8 +137,6 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
     }
 
     /**
@@ -135,13 +144,15 @@ class AdminController extends Controller
      */
     public function items_nextAction(){
 
-
-
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             if($this->adminproducts->isGet()){
 
+                // Получение списка всех свойтв для данной категории
                 $this->cat_id = isset($_GET['cats']) ? $_GET['cats'] : null;
                 $this->view->property = $this->adminproducts->getPropertiesProduct($this->cat_id);
+
+                // Получение данных из формы
                 $this->name = isset($_POST['name']) ? $_POST['name'] : '';
                 $this->desc = isset($_POST['description']) ? $_POST['description'] : '';
                 $this->price = isset($_POST['price']) ? $_POST['price'] : '';
@@ -154,6 +165,8 @@ class AdminController extends Controller
                     if(!$validate){
                         $this->view->msg = $validate;
                     }else{
+
+                        // Сохранение в бд
                         $save = $this->adminproducts->saveProduct($this->name, $this->desc, $this->price, $this->idCat, $this->adminproducts->uploadfile);
                         if(!$save){
                             $this->view->errors = "Не удалось сохранить в бд";
@@ -163,17 +176,10 @@ class AdminController extends Controller
                     }
                 }
             }
-
             $this->view->render("admin/items_next");
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
-
     }
 
     /**
@@ -181,13 +187,17 @@ class AdminController extends Controller
      */
     public function items_deleteAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
 
+            // Получени списка всех товаров для данной категории
             $this->view->products = $this->adminproducts->getProducts($this->catId);
 
             if($this->isPost()){
                 $idProducts = isset($_POST['id']) ? $_POST['id'] : null;
+
+                // Удаление товара из бд
                 $delete = $this->adminproducts->deleteProducts($idProducts);
                 if(!$delete){
                     $this->msg = "Не удалось удалить товар";
@@ -200,11 +210,6 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
     }
 
     /**
@@ -212,42 +217,42 @@ class AdminController extends Controller
      */
     public function items_editAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
 
+            // Получени списка всех товаров для данной категории
             $this->view->products = $this->adminproducts->getProducts($this->catId);
 
             if($this->isPost()){
                 $this->items_edit_nextAction();
-
             }else{
                 $this->view->render("admin/items_edit");
             }
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
     }
 
     public function items_edit_nextAction(){
 
-
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
             $this->view->id = isset($_POST['id']) ? (int) $_POST['id'] : null;
-            $this->view->valueProperties = $this->adminproducts->getProductProperties($this->view->id);
-            foreach($this->view->valueProperties as $valueProperty){
 
+            // Получение значений свойств
+            $this->view->valueProperties = $this->adminproducts->getProductProperties($this->view->id);
+
+            // Значения свойств для представления
+            foreach($this->view->valueProperties as $valueProperty){
                 $this->view->name = $valueProperty['name'];
                 $this->view->description = $valueProperty['description'];
                 $this->view->price = $valueProperty['price'];
                 $this->view->img = $valueProperty['img'];
-
             }
+
+            // Получение данных из формы
             $this->view->id = isset($_POST['id']) ? $_POST['id'] : null;
             $this->name = isset($_POST['name']) ? $_POST['name'] : null;
             $this->description = isset($_POST['description']) ? $_POST['description'] : null;
@@ -257,12 +262,13 @@ class AdminController extends Controller
             if(isset($_POST['submit'])){
                 $validate = $this->adminproducts->isValidEditProducts();
                 if($validate){
-                    $alter = $this->adminproducts->alterProduct($this->view->id, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
-                    if(!$alter){
+
+                    // Обновление данных в бд
+                    $update = $this->adminproducts->alterProduct($this->view->id, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
+                    if(!$update){
                         $this->msg = "Не удалось отредактировать товар";
                     }else{
                         $this->redirect(APP_BASE_URL."admin/items");
-
                     }
                 }else{
                     $this->view->msg = $validate;
@@ -273,17 +279,13 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
     }
     /**
      * Экшн для свойств товаров
      */
-    public function propertiesAction()
-    {
+    public function propertiesAction(){
+
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             // Получение всех категорий
             $this->view->catalog = $this->admincatalog->getCategory();
@@ -299,16 +301,11 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
-
     }
 
     public function properties_nextAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->view->idCat = isset($_GET['cats']) ? $_GET['cats'] : null;
 
@@ -318,16 +315,11 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
-
     }
 
     public function properties_next_addAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
 
@@ -346,24 +338,17 @@ class AdminController extends Controller
                         $this->redirect(APP_BASE_URL."admin/properties");
                     }
                 }
-
             }else{
                 $this->view->render("admin/properties_next_add");
             }
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
-
-
     }
 
     public function properties_next_deleteAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
             $this->view->properties = $this->adminproducts->getProperiesCategory($idCat);
@@ -385,16 +370,11 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
-
     }
 
     public function properties_next_editAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->view->catId = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
             $this->view->properties = $this->adminproducts->getProperiesCategory($this->view->catId);
@@ -409,17 +389,11 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
-
     }
 
     public function properties_next_edit_nextAction(){
 
-
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $id = isset($_GET['id']) ? $_GET['id'] : null;
             $idCat = isset($_GET['idCat']) ? $_GET['idCat'] : null;
@@ -444,21 +418,15 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
-
     }
 
 
     /**
      * Экшн для добавления новой категории
      */
-    public function catalog_addAction()
-    {
+    public function catalog_addAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->view->msg = '';
 
@@ -477,9 +445,7 @@ class AdminController extends Controller
                 if($validate !== true){
 
                     // Получение всех ошибок
-                    $errors = implode('<br />', $validate);
-                    $this->view->msg = $errors;
-
+                    $this->view->msg = implode('<br />', $validate);
                 }else{
 
                     // Добавление новой категории
@@ -492,16 +458,10 @@ class AdminController extends Controller
                     }
                 }
             }
-
             $this->view->render("admin/catalog_add");
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
     }
 
     /**
@@ -509,6 +469,7 @@ class AdminController extends Controller
      */
     public function catalog_deleteAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             // Получение списка всех категорий
             $this->view->catalog = $this->admincatalog->getCategory();
@@ -522,18 +483,11 @@ class AdminController extends Controller
                 // Удаление категорий
                 $this->admincatalog->deleteCategory($this->admincatalog->catsId);
                 $this->redirect("catalog_delete");
-                die;
             }
-
             $this->view->render("admin/catalog_delete");
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
-
     }
 
     /**
@@ -541,6 +495,7 @@ class AdminController extends Controller
      */
     public function catalog_editAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
 
             // Получение всех категорий
@@ -557,10 +512,6 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-
-
-
-
     }
 
     /**
@@ -568,6 +519,7 @@ class AdminController extends Controller
      */
     public function catalog_edit_nextAction(){
 
+        // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             // Проверяет есть ли данные в методе GET
             if($this->admincatalog->isGet()){
@@ -594,30 +546,20 @@ class AdminController extends Controller
 
                     // Вывод ошибок, если не прошла валидация, и сохранение данных, если все хорошо
                     if($validate !== true){
-
-                        $errors = implode('<br />', $validate);
-                        $this->view->msg = $errors;
-
+                        $this->view->msg = implode('<br />', $validate);
                     }else{
 
                         // Если файл для загрузки не менялся, то выполняется первый скрипт, иначе второй
                         if(!isset($this->admincatalog->uploadfile)){
-
                             $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description);
-
                         }else{
-
                             $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile);
-
                         }
 
                         // Проверка выполнилось сохранение или нет
                         if(!$save){
-
                             $this->view->msg = 'Не удалось сохранить';
-
                         }else{
-
                             $this->redirect(APP_BASE_URL."admin/catalog");
                         }
                     }
@@ -627,16 +569,6 @@ class AdminController extends Controller
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
-//
-//        if($this->session->isLoggedIn()){
-//
-//        }else{
-//            $this->redirect(APP_BASE_URL."admin/auth");
-//        }
-//
-
-
-
     }
 
     /**

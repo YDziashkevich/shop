@@ -46,8 +46,6 @@ Class adminProductsModel extends Model{
                     $valid = false;
                     break;
             }
-
-
         }
         $this->errors = $errors;
         if($valid){

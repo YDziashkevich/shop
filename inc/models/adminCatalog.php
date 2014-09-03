@@ -37,24 +37,17 @@ Class adminCatalogModel extends Model{
      */
     public function editCategory($id, $name, $description, $img = ''){
         if($img == ''){
-
             // Новое изображение не добавляется
             $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description WHERE id = :id");
-            $st->bindValue(':id', $id);
-            $st->bindValue(':name', $name);
-            $st->bindValue(':description', $description);
-            return $st->execute();
         }else{
-
             // Добавляется новое изображение
             $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description, img = :img WHERE id = :id");
-            $st->bindValue(':id', $id);
-            $st->bindValue(':name', $name);
-            $st->bindValue(':description', $description);
             $st->bindValue(':img', $img);
-            return $st->execute();
         }
-
+        $st->bindValue(':id', $id);
+        $st->bindValue(':name', $name);
+        $st->bindValue(':description', $description);
+        return $st->execute();
     }
 
     /**
@@ -211,8 +204,6 @@ Class adminCatalogModel extends Model{
                     $valid = false;
                     break;
             }
-
-
         }
         $this->errors = $errors;
         if($valid){
@@ -308,8 +299,6 @@ Class adminCatalogModel extends Model{
                     $valid = false;
                     break;
             }
-
-
         }
         $this->errors = $errors;
         if($valid){
@@ -373,6 +362,4 @@ Class adminCatalogModel extends Model{
         }
         return $r;
     }
-
-
 }

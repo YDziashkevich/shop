@@ -47,6 +47,7 @@ Class GuestbookController extends Controller{
 
                 // Перенаправление на текущую страницу
                 header('Location: '.$_SERVER['REQUEST_URI']);
+                die;
             }
         }
 
@@ -66,7 +67,7 @@ Class GuestbookController extends Controller{
         $pageCount = $this->paginator->getCountPage($storageSize);
 
         // Получение среза сообщений
-        $this->view->messages = $this->paginator->getNumPage($pageNum, 3);
+        $this->view->messages = $this->paginator->getNumPage($pageNum, APP_COUNT_PAGES);
 
         $this->view->pagination = $this->paginator->getPaginatorHtml($pageCount);
 
