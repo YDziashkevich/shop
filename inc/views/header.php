@@ -69,12 +69,22 @@
         <div id="site_title"><h1><a href="<?php echo APP_BASE_URL;?>main/index">E-Shop</a></h1></div>
 
         <div id="header_right">
-            <div id="templatemo_search">
-                <form action="#" method="get">
-                    <input type="text" value="Поиск" name="keyword" id="keyword" title="keyword" onfocus="clearText(this)" onblur="clearText(this)" class="txt_field" />
-                    <input type="submit" name="Search" value="" alt="Search" id="searchbutton" title="Search" class="sub_btn"  />
-                </form>
-            </div>
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputEmail2">Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Введите email">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputPassword2">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Пароль">
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Запомнить
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-default">Войти</button>
+            </form>
         </div> <!-- END -->
     </div> <!-- END of header -->
 
