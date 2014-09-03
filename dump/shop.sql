@@ -167,7 +167,7 @@ DROP TABLE IF EXISTS `st_users`;
 CREATE TABLE `st_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `lastName` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
   `address` text,
   `phone` varchar(100) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
@@ -176,7 +176,7 @@ CREATE TABLE `st_users` (
 
 /*Data for the table `st_users` */
 
-insert  into `st_users`(`id`,`name`,`lastName`,`address`,`phone`,`password`) values (1,'guest',NULL,NULL,NULL,NULL);
+insert  into `st_users`(`id`,`name`,`email`,`address`,`phone`,`password`) values (1,'guest','',NULL,NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
