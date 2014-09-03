@@ -5,9 +5,9 @@
                 <li class="active"><a href="<?php echo APP_BASE_URL;?>admin/index">Главная</a></li>
                 <li><a href="<?php echo APP_BASE_URL;?>admin/catalog">Работа с каталогом</a></li>
                 <li><a href="<?php echo APP_BASE_URL;?>admin/items">Работа с товарами</a></li>
-                <li><a href="<?php echo APP_BASE_URL;?>admin/security">Добавление админов</a></li>
                 <li><a href="<?php echo APP_BASE_URL;?>admin/properties">Редактирование характеристик товаров</a></li>
             </ul>
+            <a href="<?php echo APP_BASE_URL."admin/logout"; ?>">Выйти</a>
         </div>
     </nav>
     <div >

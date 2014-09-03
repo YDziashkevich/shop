@@ -1,5 +1,5 @@
 <?php include 'header.php' ?>
-<div class="container" style="margin: 25%">
+<div class="container">
     <div class="col-md-4">
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
@@ -14,11 +14,18 @@
                         <div class="form-group">
                             <input class="form-control" placeholder="Пароль" name="password" type="password" value="">
                         </div>
-                        <a href="" class="btn btn-sm btn-success">Войти</a>
+                        <input type="submit" name="submit" id="submit" value="Войти">
                     </fieldset>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+    <!-- Вывод сообщений об ошибках -->
+<?php if(!empty($this->msg)){ ?>
+    <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
+        <?php echo @$this->msg ?>
+    </div><br />
+<?php } ?>
 <?php include 'footer.php' ?>
