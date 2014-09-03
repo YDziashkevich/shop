@@ -13,6 +13,10 @@ class BasketModel extends Model
         $product->execute();
         return $product->fetch(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * @param $id id товара, который необходимо удалить
+     */
     public static function removeBasket($id){
         $i = 0;
         foreach($_SESSION["basket"] as $itemBasket){

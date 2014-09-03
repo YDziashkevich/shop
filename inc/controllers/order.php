@@ -20,6 +20,12 @@ class OrderController extends Controller
                 $order[] = $value;
             }
         }
+        //если есть зарегистрированный пользователь, нет необходимости заполнять данные
+        if($_SESSION["user"]["name"] != APP_BASE_USER){
+            $this->saveOrder($order, $_SESSION["user"]["name"]);
+            header('Location: '. APP_BASE_URL . "order/order");
+            exit();
+        }
         //валидация введенных данных
         if(!empty($_POST) && isset($_POST["ok"])){
             $valid = $this->order->isValid();

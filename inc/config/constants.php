@@ -9,3 +9,4 @@ define('APP_DB_USER', 'root');
 define('APP_DB_PASS', '');
 define('APP_DB_PREFIX', 'st_');
 define('APP_DEBUG_MODE', TRUE);
+define('APP_BASE_USER', 'guest');
