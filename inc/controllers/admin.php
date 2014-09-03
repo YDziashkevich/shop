@@ -25,7 +25,7 @@ class AdminController extends Controller
     /**
      * Базовый экшн, открывает шаблон главной страницы
      */
-    public function autorizationAction()
+    public function authAction()
     {
         if($this->session->isLoggedIn()){
             $this->redirect(APP_BASE_URL."admin/index");
@@ -48,7 +48,7 @@ class AdminController extends Controller
 
                 }
             }else{
-                $this->view->render("admin/autorization");
+                $this->view->render("admin/auth");
             }
         }
     }
