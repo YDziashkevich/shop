@@ -3,7 +3,6 @@
 class OrderModel extends Model
 {
     private $data = array();
-
     /**
      * @return array данные из формы
      */
@@ -29,7 +28,6 @@ class OrderModel extends Model
             $errors["phoneError"] = "Введенный мобильный телефон не соответствует шаблону: + 12345 123-45-67 ";
             $valid = false;
         }
-
         if($valid){
             return true;
         }else{
@@ -42,10 +40,10 @@ class OrderModel extends Model
      */
     public function getIdUser($name)
     {
-        $id = self::getDbc()->prepare("SELECT id FROM ".APP_DB_PREFIX."users WHERE `name` = :name");
+        $id = self::getDbc()->prepare("SELECT * FROM ".APP_DB_PREFIX."users WHERE `name` = :name");
         $id->bindParam(":name", $name);
         $id->execute();
-        return $id->fetchColumn();
+        return $id->fetch(PDO::FETCH_ASSOC);
     }
     /**
      * @param array $product товары в заказе
@@ -54,24 +52,46 @@ class OrderModel extends Model
      */
     public function saveOrder($product = array(), $name)
     {
-        $id = $this->getIdUser($name);
-        $idUser = $id["id"];
-        $order = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."orders (idUser, name, address, phone) VALUES (:idUser, :name, :address, :phone)");
-        $order->bindParam("idUser", $idUser, PDO::PARAM_INT);
-        $order->bindParam(":name", $this->data["name"]);
-        $order->bindParam(":address", $this->data["address"]);
-        $order->bindParam(":phone", $this->data["phone"]);
-        $addOrder = $order->execute();
-        $lastId = self::getDbc()->lastInsertId();
-        $flagItems = 0;
-        foreach($product as $productValue){
-            $items = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."items (idOrder, idProduct, numProduct) VALUES (:idOrder, :idProduct, :numProduct)");
-            $items->bindParam(":idOrder", $lastId, PDO::PARAM_INT);
-            $items->bindParam(":idProduct", $productValue["id"], PDO::PARAM_INT);
-            $items->bindParam(":numProduct", $productValue["num"], PDO::PARAM_INT);
-            $addItems = $items->execute();
-            if($addItems === false){
-                $flagItems ++;
+        $user = $this->getIdUser($name);
+        $idUser = $user["id"];
+        if($name == APP_BASE_USER){
+            $order = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."orders (idUser, name, address, phone) VALUES (:idUser, :name, :address, :phone)");
+            $order->bindParam("idUser", $idUser, PDO::PARAM_INT);
+            $order->bindParam(":name", $this->data["name"]);
+            $order->bindParam(":address", $this->data["address"]);
+            $order->bindParam(":phone", $this->data["phone"]);
+            $addOrder = $order->execute();
+            $lastId = self::getDbc()->lastInsertId();
+            $flagItems = 0;
+            foreach($product as $productValue){
+                $items = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."items (idOrder, idProduct, numProduct) VALUES (:idOrder, :idProduct, :numProduct)");
+                $items->bindParam(":idOrder", $lastId, PDO::PARAM_INT);
+                $items->bindParam(":idProduct", $productValue["id"], PDO::PARAM_INT);
+                $items->bindParam(":numProduct", $productValue["num"], PDO::PARAM_INT);
+                $addItems = $items->execute();
+                if($addItems === false){
+                    $flagItems ++;
+                }
+            }
+            //если зарегистрированный пользователь
+        }else{
+            $order = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."orders (idUser, name, address, phone) VALUES (:idUser, :name, :address, :phone)");
+            $order->bindParam("idUser", $idUser, PDO::PARAM_INT);
+            $order->bindParam(":name", $name);
+            $order->bindParam(":address", $user["address"]);
+            $order->bindParam(":phone", $user["phone"]);
+            $addOrder = $order->execute();
+            $lastId = self::getDbc()->lastInsertId();
+            $flagItems = 0;
+            foreach($product as $productValue){
+                $items = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."items (idOrder, idProduct, numProduct) VALUES (:idOrder, :idProduct, :numProduct)");
+                $items->bindParam(":idOrder", $lastId, PDO::PARAM_INT);
+                $items->bindParam(":idProduct", $productValue["id"], PDO::PARAM_INT);
+                $items->bindParam(":numProduct", $productValue["num"], PDO::PARAM_INT);
+                $addItems = $items->execute();
+                if($addItems === false){
+                    $flagItems ++;
+                }
             }
         }
         if($addOrder === true && $flagItems == 0){

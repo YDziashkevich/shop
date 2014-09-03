@@ -10,7 +10,6 @@ class MainModel extends Model
         $products = self::getDbc()->query("SELECT * FROM (SELECT * FROM ".APP_DB_PREFIX."products ORDER BY id DESC LIMIT 9) AS products ORDER BY RAND()");
         return $products->fetchAll(PDO::FETCH_ASSOC);
     }
-
     /**
      * @param $name имя пользователя, по умолчанию = Гость
      * @return string id пользователя
@@ -22,7 +21,6 @@ class MainModel extends Model
         $id->execute();
         return $id->fetchColumn();
     }
-
     /**
      * @param string $idProduct id товара
      * @return bool|int если нет записи в сессии то false, или общее количество товаров
@@ -56,5 +54,16 @@ class MainModel extends Model
         }else{
             return false;
         }
+    }
+
+    /**
+     * проверка пользователя для регистрации
+     * @return mixed данные о пользователе
+     */
+    public static function validUser()
+    {
+        $user = self::getDbc()->prepare("SELECT * FROM ".APP_DB_PREFIX."users WHERE `name`=:name AND password=:password");
+        $user->execute(array(":name"=>$_POST["loginName"], "password"=>$_POST["loginPaswd"]));
+        return $user->fetch(PDO::FETCH_ASSOC);
     }
 }

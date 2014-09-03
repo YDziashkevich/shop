@@ -66,20 +66,41 @@
 
 <div id="templatemo_wrapper">
     <div id="templatemo_header">
-        <div id="site_title"><h1><a href="<?php echo APP_BASE_URL;?>main/index">E-Shop</a></h1></div>
+        <div id="site_title"><a href='<?php echo APP_BASE_URL ?>main/index' style="text-decoration: none"> <h1>@SY-shop</h1></a></div>
 
         <div id="header_right">
-            <form class="form-inline" role="form">
-                <div class="form-group">
-                    <label class="sr-only" for="exampleInputEmail2">Email</label>
-                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Введите email">
+
+
+            <?php
+
+            if(isset($_POST['enterLogin']) && $_SESSION["user"]["name"] == APP_BASE_USER){
+                $link = "Неправильный пользователь, или пароль. Зарегистрируйтесь";
+            }else{
+                $link = "Зарегистрироваться";
+            }
+
+            if($_SESSION["user"]["name"] == APP_BASE_USER){
+                $html = " <form class='form-inline' role='form'  method='post' action='".APP_BASE_URL."main/enter'>
+                <div class='form-group'>
+                    <label class='sr-only' for='exampleInputEmail2'>Email</label>
+                    <input type='text' class='form-control'  name='loginName' placeholder='Введите имя пользователя'>
                 </div>
-                <div class="form-group">
-                    <label class="sr-only" for="exampleInputPassword2">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Пароль">
+                <div class='form-group'>
+                    <label class='sr-only' for='exampleInputPassword2'>Password</label>
+                    <input type='password' class='form-control' id='exampleInputPassword2' name='loginPaswd' placeholder='Пароль'>
                 </div>
-                <button type="submit" class="btn btn-default">Войти</button>
-            </form>
+                <input type='submit' class='btn btn-default' name='enterLogin' value='Войти'><br/>
+                <a href='".APP_BASE_URL."login/index'>".$link."</a>
+            </form>";
+            }else{
+                $html = "<a href='".APP_BASE_URL."login/user'><h3>" . $_SESSION["user"]["name"] . "</h3></a>";
+                $html .= "<a href='".APP_BASE_URL."main/exit'><h6>Выйти</h6></a>";
+            }
+            echo $html;
+
+            ?>
+
+
         </div> <!-- END -->
     </div> <!-- END of header -->
 
