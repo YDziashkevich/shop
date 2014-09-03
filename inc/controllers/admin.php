@@ -27,19 +27,30 @@ class AdminController extends Controller
      */
     public function autorizationAction()
     {
-        $this->login = isset($_POST['login']) ? $_POST['login'] : null;
-        $this->password = isset($_POST['password']) ? $_POST['password'] : null;
+        if($this->session->isLoggedIn()){
+            $this->redirect(APP_BASE_URL."admin/index");
+        }else{
+            session_start();
+            $this->login = isset($_POST['login']) ? $_POST['login'] : null;
+            $this->password = isset($_POST['password']) ? $_POST['password'] : null;
 
-        if(isset($_POST) && !empty($_POST)){
-            $validate = $this->admins->validate();
-            if(!$validate){
-                $this->view->msg = $validate;
+            if(isset($_POST) && !empty($_POST)){
+                $validate = $this->admins->authValidate($this->login, $this->password);
+                if(!$validate){
+                    $this->view->msg = $validate;
+                }else{
+                    $signIn = $this->admins->checkUser($this->login, $this->password);
+                    if($signIn){
+                        $_SESSION['login'] = $this->login;
+                    }else{
+                        $this->view->msg = "Неверно введен логин или пароль";
+                    }
+
+                }
             }else{
-
+                $this->view->render("admin/autorization");
             }
         }
-
-        $this->view->render("admin/autorization");
     }
 
     /**
