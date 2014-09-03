@@ -78,11 +78,6 @@
                     <label class="sr-only" for="exampleInputPassword2">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Пароль">
                 </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"> Запомнить
-                    </label>
-                </div>
                 <button type="submit" class="btn btn-default">Войти</button>
             </form>
         </div> <!-- END -->
