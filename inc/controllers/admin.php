@@ -57,7 +57,7 @@ class AdminController extends Controller
 
                 if($validate !== true){
                     // Вывод сообщений об ошибках
-                    $this->view->msg = implode('<br>', $validate);
+                    $this->view->msg = $validate;
                 }else{
 
                     // Поиск пользователя в базе
@@ -115,6 +115,7 @@ class AdminController extends Controller
             // Получение всех категорий
             $this->view->catalog = $this->admincatalog->getCategory();
 
+            $idCat = isset($_GET['cats']) ? $_GET['cats'] : null;
             // Проверяет была ли отправлена форма
             if(isset($_GET['add'])){
 
@@ -129,7 +130,7 @@ class AdminController extends Controller
             }else if(isset($_GET['edit'])){
 
                 // Вызов экшна редактирования товаров
-                $this->items_editAction();
+                $this->redirect(APP_BASE_URL."admin/items_edit?cats=".$idCat);
 
             }else{
                 $this->view->render("admin/items");
@@ -153,21 +154,21 @@ class AdminController extends Controller
                 $this->view->property = $this->adminproducts->getPropertiesProduct($this->cat_id);
 
                 // Получение данных из формы
-                $this->name = isset($_POST['name']) ? $_POST['name'] : '';
-                $this->desc = isset($_POST['description']) ? $_POST['description'] : '';
-                $this->price = isset($_POST['price']) ? $_POST['price'] : '';
+                $this->view->name = isset($_POST['name']) ? $_POST['name'] : '';
+                $this->view->desc = isset($_POST['description']) ? $_POST['description'] : '';
+                $this->view->price = isset($_POST['price']) ? $_POST['price'] : '';
                 $this->idCat = isset($_GET['cats']) ? $_GET['cats'] : '';
                 $this->value = isset($_POST['value']) ? $_POST['value'] : '';
                 $this->img = isset($_POST['img']) ? $_POST['img'] : '';
 
                 if($this->admincatalog->isPost()){
-                    $validate = $this->adminproducts->isValidProducts();
-                    if(!$validate){
+                    $validate = $this->adminproducts->isValidProducts($this->view->name, $this->view->desc, $this->view->price, $this->idCat);
+                    if($validate !== true){
                         $this->view->msg = $validate;
                     }else{
 
                         // Сохранение в бд
-                        $save = $this->adminproducts->saveProduct($this->name, $this->desc, $this->price, $this->idCat, $this->adminproducts->uploadfile);
+                        $save = $this->adminproducts->saveProduct($this->view->name, $this->view->desc, $this->view->price, $this->idCat, $this->adminproducts->uploadfile);
                         if(!$save){
                             $this->view->errors = "Не удалось сохранить в бд";
                         }else{
@@ -219,13 +220,15 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
-            $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
+            $this->view->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
+            $id = isset($_POST['id']) ? $_POST['id'] : null;
 
             // Получени списка всех товаров для данной категории
-            $this->view->products = $this->adminproducts->getProducts($this->catId);
+            $this->view->products = $this->adminproducts->getProducts($this->view->catId);
 
             if($this->isPost()){
-                $this->items_edit_nextAction();
+//                $this->items_edit_nextAction();
+                $this->redirect(APP_BASE_URL."admin/items_edit_next?cats=".$this->view->catId."&"."id=".$id);
             }else{
                 $this->view->render("admin/items_edit");
             }
@@ -238,8 +241,9 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
+            $this->view->msg = array();
             $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
-            $this->view->id = isset($_POST['id']) ? (int) $_POST['id'] : null;
+            $this->view->id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
             // Получение значений свойств
             $this->view->valueProperties = $this->adminproducts->getProductProperties($this->view->id);
@@ -253,29 +257,29 @@ class AdminController extends Controller
             }
 
             // Получение данных из формы
-            $this->view->id = isset($_POST['id']) ? $_POST['id'] : null;
+            $this->view->id = isset($_GET['id']) ? $_GET['id'] : null;
             $this->name = isset($_POST['name']) ? $_POST['name'] : null;
             $this->description = isset($_POST['description']) ? $_POST['description'] : null;
             $this->price = isset($_POST['price']) ? $_POST['price'] : null;
             $this->img = isset($_POST['img']) ? $_POST['img'] : null;
 
             if(isset($_POST['submit'])){
-                $validate = $this->adminproducts->isValidEditProducts();
-                if($validate){
+                $validate = $this->adminproducts->isValidEditProducts($this->name, $this->description, $this->price, $this->catId);
+                if($validate == true){
 
                     // Обновление данных в бд
                     $update = $this->adminproducts->alterProduct($this->view->id, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
                     if(!$update){
-                        $this->msg = "Не удалось отредактировать товар";
+                        $this->view->msg = "Не удалось отредактировать товар";
                     }else{
                         $this->redirect(APP_BASE_URL."admin/items");
                     }
                 }else{
                     $this->view->msg = $validate;
                 }
-            }else{
-                $this->view->render("admin/items_edit_next");
             }
+            $this->view->render("admin/items_edit_next");
+
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
@@ -327,8 +331,8 @@ class AdminController extends Controller
             $this->view->for_input = isset($_POST['for_input']) ? $_POST['for_input'] : null;
 
             if(isset($_POST['submit'])){
-                $val = $this->adminproducts->validateNewProperty();
-                if(!$val){
+                $val = $this->adminproducts->validateNewProperty($this->view->name, $this->view->for_input);
+                if($val !== true){
                     $this->view->msg = $val;
                 }else{
                     $add = $this->adminproducts->addProperty($this->view->name, $idCat, $this->view->for_input);
@@ -338,9 +342,9 @@ class AdminController extends Controller
                         $this->redirect(APP_BASE_URL."admin/properties");
                     }
                 }
-            }else{
-                $this->view->render("admin/properties_next_add");
             }
+                $this->view->render("admin/properties_next_add");
+
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
@@ -397,12 +401,20 @@ class AdminController extends Controller
         if($this->session->isLoggedIn()){
             $id = isset($_GET['id']) ? $_GET['id'] : null;
             $idCat = isset($_GET['idCat']) ? $_GET['idCat'] : null;
+
+            // Получение значений для формы из бд
+            $props = $this->adminproducts->getDataProperty($id);
+
+            $this->view->property = $props['property'];
+            $this->view->for_input = $props['for_input'];
+
+            // Получение данных из формы
             $property = isset($_POST['property']) ? $_POST['property'] : null;
             $for_input = isset($_POST['for_input']) ? $_POST['for_input'] : null;
 
             if(isset($_POST['submit'])){
-                $val = $this->adminproducts->validateNewProperty();
-                if(!$val){
+                $val = $this->adminproducts->validateNewProperty($property, $for_input);
+                if($val !== true){
                     $this->view->msg = $val;
                 }else{
                     $edit = $this->adminproducts->editProperty($id, $property, $idCat, $for_input);
@@ -412,14 +424,13 @@ class AdminController extends Controller
                         $this->redirect(APP_BASE_URL."admin/properties");
                     }
                 }
-            }else{
-                $this->view->render("admin/properties_next_edit_next");
             }
+                $this->view->render("admin/properties_next_edit_next");
+
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
     }
-
 
     /**
      * Экшн для добавления новой категории
@@ -445,7 +456,7 @@ class AdminController extends Controller
                 if($validate !== true){
 
                     // Получение всех ошибок
-                    $this->view->msg = implode('<br />', $validate);
+                    $this->view->msg = $validate;
                 }else{
 
                     // Добавление новой категории
@@ -542,11 +553,11 @@ class AdminController extends Controller
                 if($this->admincatalog->isPost()){
 
                     // Валидация данных
-                    $validate = $this->admincatalog->isValid2();
+                    $validate = $this->admincatalog->isValid2($this->id);
 
                     // Вывод ошибок, если не прошла валидация, и сохранение данных, если все хорошо
                     if($validate !== true){
-                        $this->view->msg = implode('<br />', $validate);
+                        $this->view->msg = $validate;
                     }else{
 
                         // Если файл для загрузки не менялся, то выполняется первый скрипт, иначе второй

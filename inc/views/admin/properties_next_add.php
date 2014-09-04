@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="property">Название свойства</label>
                 <div class="col-md-4">
-                    <input id="property" name="property" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->property; ?>">
+                    <input id="property" name="property" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->name; ?>">
                 </div>
             </div>
 
@@ -45,7 +45,11 @@
     <!-- Вывод сообщений об ошибках -->
 <?php if(!empty($this->msg)){ ?>
     <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
-        <?php echo @$this->msg; ?>
+        <?php
+            foreach($this->msg as $msg){
+                echo $msg."<br>";
+            }
+        ?>
     </div><br />
 <?php } ?>
 <?php include 'footer.php' ?>

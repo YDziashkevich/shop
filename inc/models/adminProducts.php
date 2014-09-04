@@ -18,58 +18,73 @@ Class adminProductsModel extends Model{
      * Валидация полей добавления товаров
      * @return array|bool|string
      */
-    public function isValidProducts(){
+    public function isValidProducts($name, $desc, $price, $idCat){
         $valid = true;
-        $this->errors = array();
+        $errors = array();
 
-        // Валидация остальных полей
+        // Валидация полей
+        if(empty($name)){
+            $errors['name'] = "Не введено название товара";
+            $valid = false;
+        }
+        if(empty($desc)){
+            $errors['description'] = "Не введено описание товара";
+            $valid = false;
+        }
+        if(empty($price)){
+            $errors['price'] = "Не введена цена товара";
+            $valid = false;
+        }
 
         // Валидация картинки
-        // Задаем директрию для хранения изображений
-        $uploadDirectory = 'img/';
-        $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
+        if($_FILES['img']['name']){
+            // Задаем директрию для хранения изображений
+            mkdir('img/'.$idCat.'/');
+            $uploadDirectory = 'img/'.$idCat.'/';
+            $key = microtime($get_as_float = true);
+            $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
-        if($this->uploadfile !== $uploadDirectory){
-            // Проверяем тип файлов
-            $type = $_FILES['img']['type'];
-            $validation = false;
+            if($this->uploadfile !== $uploadDirectory){
+                // Проверяем тип файлов
+                $type = $_FILES['img']['type'];
+                $validation = false;
 
-            switch($type){
-                case 'image/gif':
-                case 'image/jpeg':
-                case 'image/pjpeg':
-                case 'image/png':
-                    $validation = true;
-                    break;
-                default:
-                    $errors[] = "Данный тип файла не поддерживается";
-                    $valid = false;
-                    break;
+                switch($type){
+                    case 'image/gif':
+                    case 'image/jpeg':
+                    case 'image/pjpeg':
+                    case 'image/png':
+                        $validation = true;
+                        break;
+                    default:
+                        $errors['img'] = "Данный тип файла не поддерживается";
+                        $valid = false;
+                        break;
+                }
             }
+        }else{
+            $errors['img'] = "Не выбрано загружено изображение";
+            $valid = false;
         }
-        $this->errors = $errors;
         if($valid){
             // Если файл прошел проверки, то сохраняем его
             if($validation){
                 if(is_uploaded_file($_FILES['img']['tmp_name'])){
                     if(move_uploaded_file($_FILES['img']['tmp_name'],$this->uploadfile)){
-                        echo "Файл успешно загружен<br />";
+                        $this->view->msg = "Файл успешно загружен";
                     }else{
-                        echo $_FILES['img']['error'];
-                        $this->errors = "Загрузить файл не удалось";
-                        return $this->errors;
+                        $errors['img'] = "Загрузить файл не удалось";
                     }
                 }
             }else{
                 if(isset($_FILES['img']['tmp_name'])){
-                    $this->errors = "Файл слишком большой или некорректного формата";
-                    return $this->errors;
+                    $errors['img'] = "Файл слишком большой или некорректного формата";
                 }
             }
 
             return $valid;
         }else{
-            return $this->errors;
+            return $errors;
         }
     }
 
@@ -77,17 +92,30 @@ Class adminProductsModel extends Model{
      * Валидация полей при редактировании товаров
      * @return array|bool|string
      */
-    public function isValidEditProducts(){
+    public function isValidEditProducts($name, $desc, $price, $idCat){
         $valid = true;
-        $this->errors = array();
+        $errors = array();
 
-        // Валидация остальных полей
-
+        // Валидация полей
+        if(empty($name)){
+            $errors['name'] = "Не введено название товара";
+            $valid = false;
+        }
+        if(empty($desc)){
+            $errors['description'] = "Не введено описание товара";
+            $valid = false;
+        }
+        if(empty($price)){
+            $errors['price'] = "Не введена цена товара";
+            $valid = false;
+        }
         // Валидация картинки
 
+//        if(!empty($this->img)){
         // Задаем директрию для хранения изображений
-        $uploadDirectory = 'img/';
-        $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
+        $uploadDirectory = 'img/'.$idCat.'/';
+        $key = microtime($get_as_float = true);
+        $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
         if(isset($_FILES['img']['name'])){
             // Проверяем тип файлов
@@ -102,14 +130,12 @@ Class adminProductsModel extends Model{
                     $validation = true;
                     break;
                 default:
-                    $errors[] = "Данный тип файла не поддерживается";
+                    $errors['img'] = "Данный тип файла не поддерживается";
                     $valid = false;
                     break;
             }
         }
-
-
-        $this->errors = $errors;
+//        }
         if($valid){
             // Если файл прошел проверки, то сохраняем его
             if($validation){
@@ -117,21 +143,18 @@ Class adminProductsModel extends Model{
                     if(move_uploaded_file($_FILES['img']['tmp_name'],$this->uploadfile)){
                         echo "Файл успешно загружен<br />";
                     }else{
-                        echo $_FILES['img']['error'];
-                        $this->errors = "Загрузить файл не удалось";
-                        return $this->errors;
+                        $errors['img'] = "Загрузить файл не удалось";
                     }
                 }
             }else{
                 if(isset($_FILES['img']['tmp_name'])){
-                    $this->errors = "Файл слишком большой или некорректного формата";
-                    return $this->errors;
+                    $errors['img'] = "Файл слишком большой или некорректного формата";
                 }
             }
 
             return $valid;
         }else{
-            return $this->errors;
+            return $errors;
         }
     }
 
@@ -140,7 +163,7 @@ Class adminProductsModel extends Model{
      * @return bool true - товар отредактирован, иначе false
      */
     public function alterProduct($id, $name, $description, $price, $idCategory, $img){
-        echo 1;
+
         // Редактирование товара в таблице products название, описание, цену и картинку
         $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."products
                                       SET name = :name, description = :description, price = :price, img = :img
@@ -150,12 +173,19 @@ Class adminProductsModel extends Model{
         $st->bindValue(":price", $price, PDO::PARAM_INT);
         $st->bindValue(":img", $img);
         $st->bindValue(":id", $id, PDO::PARAM_INT);
-        $st->execute();
+        $r = $st->execute();
+        if(!$r){
+            var_dump($st->errorInfo());
+            var_dump($st->queryString);
+        }
 
         // Получение информации о требуемых полях
         $st = self::getDbc()->prepare("SELECT id, for_input FROM ".APP_DB_PREFIX."properties WHERE idCategory = :idCategory");
         $st->bindValue(":idCategory", $idCategory, PDO::PARAM_INT);
-        $st->execute();
+        $r = $st->execute();
+        if(!$r){
+            var_dump($st->errorInfo());
+        }
         $properties = $st->fetchAll(PDO::FETCH_ASSOC);
 
         // Запись в таблицу product2property значений
@@ -168,7 +198,9 @@ Class adminProductsModel extends Model{
             $st->bindValue(":idProperty", $property['id'], PDO::PARAM_INT);
             $st->bindValue(":value", $value);
             $r = $st->execute();
-            $st->execute();
+            if(!$r){
+                var_dump($st->errorInfo());
+            }
         }
         return $r;
     }
@@ -281,15 +313,25 @@ Class adminProductsModel extends Model{
         $st->bindValue(":name", $name);
         $st->bindValue(":catId", $catId, PDO::PARAM_INT);
         $st->bindValue(":for_input", $for_input);
-        $r = $st->execute();
-        if(!$r){
-            var_dump($st->errorInfo());
-        }
-        return $r;
+        return $st->execute();
     }
 
-    public function validateNewProperty(){
-        return true;
+    public function validateNewProperty($property, $for_input){
+        $valid = true;
+        $errors = array();
+        if(empty($property)){
+            $errors['property'] = "Не заполнено поле с названием характеристики";
+            $valid = false;
+        }
+        if(empty($for_input)){
+            $errors['for_input'] = "Не заполнено поле для формы";
+            $valid = false;
+        }
+        if($valid){
+            return $valid;
+        }else{
+            return $errors;
+        }
     }
 
     public function deleteProperty($id){
@@ -304,10 +346,13 @@ Class adminProductsModel extends Model{
         $st->bindValue(":property", $property);
         $st->bindValue(":catId", $catId, PDO::PARAM_INT);
         $st->bindValue(":for_input", $for_input);
-        $r = $st->execute();
-        if(!$r){
-            var_dump($st->errorInfo());
-        }
-        return $r;
+        return $st->execute();
+    }
+
+    public function getDataProperty($id){
+        $st = self::getDbc()->prepare("SELECT property, for_input FROM ".APP_DB_PREFIX."properties WHERE id = :id");
+        $st->bindValue(":id", $id);
+        $st->execute();
+        return $st->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="description">Описание</label>
                 <div class="col-md-4">
-                    <input id="description" name="description" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->description; ?>">
+                    <input id="description" name="description" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->desc; ?>">
 
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="<?php echo $one['for_input']; ?>"><?php echo $one['property']; ?></label>
                     <div class="col-md-4">
-                        <input id="<?php echo $one['for_input']; ?>" name="<?php echo $one['for_input']; ?>" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->name; ?>">
+                        <input id="<?php echo $one['for_input']; ?>" name="<?php echo $one['for_input']; ?>" type="text" placeholder="" class="form-control input-md" value="<?php echo @$this->for_input; ?>">
 
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                 <label class="col-md-4 control-label" for="img">Выберите картинку</label>
                 <div class="col-md-4">
                     <input type='hidden' name='MAX_FILE_SIZE' value='2000000' />
-                    <input id="img" name="img" class="input-file" type="file" accept="image/gif, image/jpeg, image/pjpeg, image/png" value="<?php echo @$this->img; ?>">
+                    <input id="img" name="img" class="input-file" type="file" accept="image/gif, image/jpeg, image/pjpeg, image/png" value="">
                 </div>
             </div>
 
@@ -78,10 +78,14 @@
 
 
     <!-- Вывод сообщений об ошибках -->
-    <?php if(!empty($this->msg)){ ?>
-        <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
-            <?php echo @$this->msg; ?>
-        </div><br />
-    <?php } ?>
+<?php if(!empty($this->msg)){ ?>
+    <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
+        <?php
+        foreach($this->msg as $msg){
+            echo $msg."<br>";
+        }
+        ?>
+    </div><br />
+<?php } ?>
 
 <?php include 'footer.php' ?>

@@ -21,8 +21,8 @@
     </div>
 </div>
 <div>
-    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_add">Добавить</a>
-    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_delete">Удалить</a>
-    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_edit">Редактирование</a>
+    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_add" class="btn btn-default" role="button">Добавить</a>
+    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_delete" class="btn btn-default" role="button">Удалить</a>
+    <a href="<?php echo APP_BASE_URL; ?>admin/catalog_edit" class="btn btn-default" role="button">Редактирование</a>
 </div>
 <?php include 'footer.php' ?>
