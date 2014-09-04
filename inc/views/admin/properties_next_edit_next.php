@@ -7,7 +7,7 @@
                 <li><a href="<?php echo APP_BASE_URL;?>admin/items">Работа с товарами</a></li>
                 <li class="active"><a href="<?php echo APP_BASE_URL;?>admin/properties">Редактирование характеристик товаров</a></li>
             </ul>
-            <a href="<?php echo APP_BASE_URL."admin/logout"; ?>">Выйти</a>
+            <a href="<?php echo APP_BASE_URL."admin/logout"; ?>" >Выйти</a>
         </div>
     </nav>
     <form class="form-horizontal" method="post">
