@@ -162,7 +162,9 @@ class AdminController extends Controller
                 $this->img = isset($_POST['img']) ? $_POST['img'] : '';
 
                 if($this->admincatalog->isPost()){
+
                     $validate = $this->adminproducts->isValidProducts($this->view->name, $this->view->desc, $this->view->price, $this->idCat);
+
                     if($validate !== true){
                         $this->view->msg = $validate;
                     }else{

@@ -16,10 +16,10 @@ class MainModel extends Model
      */
     public static function getIdUser($name)
     {
-        $id = self::getDbc()->prepare("SELECT id FROM st_users WHERE `name` = :name");
+        $id = self::getDbc()->prepare("SELECT * FROM st_users WHERE `name` = :name");
         $id->bindParam(":name", $name);
         $id->execute();
-        return $id->fetchColumn();
+        return $id->fetch();
     }
     /**
      * @param string $idProduct id товара

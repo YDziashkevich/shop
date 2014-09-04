@@ -18,6 +18,7 @@ Class adminProductsModel extends Model{
      * Валидация полей добавления товаров
      * @return array|bool|string
      */
+
     public function isValidProducts($name, $desc, $price, $idCat){
         $valid = true;
         $errors = array();
@@ -135,6 +136,7 @@ Class adminProductsModel extends Model{
                     break;
             }
         }
+
 //        }
         if($valid){
             // Если файл прошел проверки, то сохраняем его
@@ -198,9 +200,6 @@ Class adminProductsModel extends Model{
             $st->bindValue(":idProperty", $property['id'], PDO::PARAM_INT);
             $st->bindValue(":value", $value);
             $r = $st->execute();
-            if(!$r){
-                var_dump($st->errorInfo());
-            }
         }
         return $r;
     }
