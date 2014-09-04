@@ -98,22 +98,23 @@ Class adminCatalogModel extends Model{
      */
     public function isValid(){
         $valid = true;
-        $this->errors = array();
+        $errors = array();
 
         // Валидация названия
         if(strlen($this->name) < 5){
-            $errors[] = "Название короче 5 символов";
+            $errors['name'] = "Название короче 5 символов";
             $valid = false;
         }
 
         // Валидация описания
         if(strlen($this->description) < 15){
-            $errors[] = "Название короче 15 символов";
+            $errors['description'] = "Название короче 15 символов";
             $valid = false;
         }
 
         // Валидация картинки
-        if(isset($this->img)){
+
+        if($_FILES['img']['name']){
             // Задаем директрию для хранения изображений
             $uploadDirectory = 'img/';
             $this->uploadfile = $uploadDirectory.basename($_FILES['img']['name']);
@@ -130,14 +131,14 @@ Class adminCatalogModel extends Model{
                     $validation = true;
                     break;
                 default:
-                    $errors[] = "Данный тип файла не поддерживается";
+                    $errors['img'] = "Данный тип файла не поддерживается";
                     $valid = false;
                     break;
             }
-
-
+        }else{
+            $errors['img'] = "Не выбрано загружено изображение";
         }
-        $this->errors = $errors;
+
         if($valid){
             // Если файл прошел проверки, то сохраняем его
             if($validation){
@@ -146,20 +147,20 @@ Class adminCatalogModel extends Model{
                         echo "Файл успешно загружен<br />";
                     }else{
                         echo $_FILES['img']['error'];
-                        $this->errors = "Загрузить файл не удалось";
+                        $errors['img'] = "Загрузить файл не удалось";
                         return $this->errors;
                     }
                 }
             }else{
                 if(isset($_FILES['img']['tmp_name'])){
-                    $this->errors = "Файл слишком большой или некорректного формата";
+                    $errors['img'] = "Файл слишком большой или некорректного формата";
                     return $this->errors;
                 }
             }
 
             return $valid;
         }else{
-            return $this->errors;
+            return $errors;
         }
     }
 
