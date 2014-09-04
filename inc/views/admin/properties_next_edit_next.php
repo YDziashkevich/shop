@@ -45,7 +45,11 @@
     <!-- Вывод сообщений об ошибках -->
 <?php if(!empty($this->msg)){ ?>
     <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
-        <?php echo @$this->msg; ?>
+        <?php
+        foreach($this->msg as $msg){
+            echo $msg."<br>";
+        }
+        ?>
     </div><br />
 <?php } ?>
 <?php include 'footer.php' ?>

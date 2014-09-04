@@ -327,8 +327,8 @@ class AdminController extends Controller
             $this->view->for_input = isset($_POST['for_input']) ? $_POST['for_input'] : null;
 
             if(isset($_POST['submit'])){
-                $val = $this->adminproducts->validateNewProperty();
-                if(!$val){
+                $val = $this->adminproducts->validateNewProperty($this->view->name, $this->view->for_input);
+                if($val !== true){
                     $this->view->msg = $val;
                 }else{
                     $add = $this->adminproducts->addProperty($this->view->name, $idCat, $this->view->for_input);
@@ -338,9 +338,9 @@ class AdminController extends Controller
                         $this->redirect(APP_BASE_URL."admin/properties");
                     }
                 }
-            }else{
-                $this->view->render("admin/properties_next_add");
             }
+                $this->view->render("admin/properties_next_add");
+
         }else{
             $this->redirect(APP_BASE_URL."admin/auth");
         }
@@ -401,8 +401,8 @@ class AdminController extends Controller
             $for_input = isset($_POST['for_input']) ? $_POST['for_input'] : null;
 
             if(isset($_POST['submit'])){
-                $val = $this->adminproducts->validateNewProperty();
-                if(!$val){
+                $val = $this->adminproducts->validateNewProperty($property, $for_input);
+                if($val !== true){
                     $this->view->msg = $val;
                 }else{
                     $edit = $this->adminproducts->editProperty($id, $property, $idCat, $for_input);

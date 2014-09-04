@@ -281,14 +281,25 @@ Class adminProductsModel extends Model{
         $st->bindValue(":name", $name);
         $st->bindValue(":catId", $catId, PDO::PARAM_INT);
         $st->bindValue(":for_input", $for_input);
-        $r = $st->execute();
-        if(!$r){
-            var_dump($st->errorInfo());
-        }
-        return $r;
+        return $st->execute();
     }
 
-    public function validateNewProperty(){
+    public function validateNewProperty($property, $for_input){
+        $valid = true;
+        $errors = array();
+        if(empty($property)){
+            $errors['property'] = "Не заполнено поле с названием характеристики";
+            $valid = false;
+        }
+        if(empty($for_input)){
+            $errors['for_input'] = "Не заполнено поле для формы";
+            $valid = false;
+        }
+        if($valid){
+            return $valid;
+        }else{
+            return $errors;
+        }
         return true;
     }
 

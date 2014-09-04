@@ -54,10 +54,14 @@
     </form>
 
     <!-- Вывод сообщений об ошибках -->
-    <?php if(!empty($this->msg)){ ?>
-        <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
-            <?php echo @$this->msg; ?>
-        </div><br />
-    <?php } ?>
+<?php if(!empty($this->msg)){ ?>
+    <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
+        <?php
+        foreach($this->msg as $msg){
+            echo $msg."<br>";
+        }
+        ?>
+    </div><br />
+<?php } ?>
 
 <?php include 'footer.php' ?>
