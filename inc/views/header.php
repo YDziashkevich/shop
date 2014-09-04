@@ -93,10 +93,12 @@
                 <a href='".APP_BASE_URL."login/index'>".$link."</a>
             </form>";
             }else{
-                $html = "<a href='".APP_BASE_URL."login/user'><h3>" . $_SESSION["user"]["name"] . "</h3></a>";
+                $html = "<a href='".APP_BASE_URL."user/index'><h3>" . $_SESSION["user"]["name"] . "</h3></a>";
                 $html .= "<a href='".APP_BASE_URL."main/exit'><h6>Выйти</h6></a>";
             }
             echo $html;
+
+            //var_dump($_SESSION);
 
             ?>
 
@@ -127,6 +129,15 @@
             ?>
             <li><a href="<?php echo APP_BASE_URL;?>guestbook/index">Гостевая книга</a></li>
             <li><a href="<?php echo APP_BASE_URL;?>contact/index">Контакты</a></li>
+            <?php
+
+            if(isset($_SESSION["user"]["admin"]) && $_SESSION["user"]["admin"] == "1"){
+                $admin = "<li><a href='".APP_BASE_URL."admin/index'>Настройки магазина</a></li>";
+                echo $admin;
+            }
+
+
+            ?>
         </ul>
         <br style="clear: left" />
     </div> <!-- end of templatemo_menu -->

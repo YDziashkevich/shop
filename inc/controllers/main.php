@@ -14,12 +14,16 @@ class MainController extends Controller
         if(!isset($_SESSION["user"]) || empty($_SESSION["user"])){
             //не зарегистрированный пользовател = Гость
             $_SESSION["user"]["name"] = APP_BASE_USER;
-            $_SESSION["user"]["id"] = MainModel::getIdUser(APP_BASE_USER);
+            $userData = MainModel::getIdUser(APP_BASE_USER);
+            $_SESSION["user"]["id"] = $userData["id"];
+            $_SESSION["user"]["admin"] = $userData["isAdmin"];
         }
         if(isset($_SESSION["user"]) && $_SESSION["user"]["name"] != APP_BASE_USER ){
             //зарегистрированный пользователь
             $user = $_SESSION["user"]["name"];
-            $_SESSION["user"]["id"] = MainModel::getIdUser($user);
+            $userData = MainModel::getIdUser($user);
+            $_SESSION["user"]["id"] = $userData["id"];
+            $_SESSION["user"]["admin"] = $userData["isAdmin"];
         }
         if(isset($_POST["addBasket"]) && !empty($_POST["addBasket"])){
             $numProducts = MainModel::addBasket($_POST["idProduct"]);
@@ -37,7 +41,9 @@ class MainController extends Controller
     public function exitAction()
     {
         $_SESSION["user"]["name"] = "guest";
-        $_SESSION["user"]["id"] = MainModel::getIdUser("guest");
+        $userData = MainModel::getIdUser("guest");
+        $_SESSION["user"]["id"] = $userData["id"];
+        $_SESSION["user"]["admin"] = $userData["isAdmin"];
         unset($_SESSION["basket"]);
         unset($_SESSION["summ"]);
         header('Location:'.APP_BASE_URL);

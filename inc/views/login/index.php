@@ -32,7 +32,7 @@
                 <input type="text" name="regEmail" style="width:300px;"  />
                 адрес:
                 <input type="text" name="regAddress" style="width:300px;"  />
-                телефон (вид: +12345 123-45-67)*:
+                телефон (вид: + 12345 123-45-67)*:
                 <input type="text" name="regPhone" style="width:300px;"  />
                 пароль*:
                 <input type="password" name="regPaswd"  style="width:300px;"  />
