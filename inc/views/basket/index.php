@@ -68,7 +68,7 @@
                 $summ = 0;
                 foreach($element as $val){
                     $html .= "<tr>";
-                    $html .= "<td><img src='". APP_BASE_URL . "images/product/$val[img]'/></td>";
+                    $html .= "<td><img src='". APP_BASE_URL . "$val[img]'/></td>";
                     $html .= "<td>$val[productName]</td>";
                     $html .= "<td align='center'>" . $val["numProduct"] . "</td>";
                     $html .= "<td align='right'>$val[price]</td>";

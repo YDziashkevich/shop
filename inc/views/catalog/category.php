@@ -58,7 +58,7 @@
                     }else{
                         $html .= "<div class='col col_14 product_gallery'>";
                     }
-                    $html .= "<a href=" . APP_BASE_URL . "catalog/product/$itemProduct[id]><img src='". APP_BASE_URL . "images/product/" . $itemProduct["img"] . "'/></a>";
+                    $html .= "<a href=" . APP_BASE_URL . "catalog/product/$itemProduct[id]><img src='". APP_BASE_URL . $itemProduct["img"] . "'/></a>";
                     $html .= "<h3>" . $itemProduct["name"] . "</h3>";
                     $html .= "<p class='product_price'>$" . $itemProduct["price"] . "</p>";
                     //$html .= "<a href=" . APP_BASE_URL . "basket/index/$itemProduct[id] class='add_to_cart'>Добавить в корзину</a>";
