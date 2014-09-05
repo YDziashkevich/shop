@@ -1,6 +1,4 @@
-
-
-    <div class="cleaner h20"></div>
+<div class="cleaner h20"></div>
 
     <div id="templatemo_main_top"></div>
     <div id="templatemo_main">
@@ -8,7 +6,7 @@
             <div id="SlideItMoo_outer">
                 <div id="SlideItMoo_inner">
                     <div id="SlideItMoo_items">
-                        <<?php
+                        <?php
                         $slide = "";
 
                         /**
@@ -33,10 +31,9 @@
         <div id="sidebar">
             <h3>Каталог</h3>
             <ul class="sidebar_menu">
-                <!-- вывод списка категорий -->
                 <?php
                 /**
-                 * вывод списка категорий в меню
+                 * вывод категорий в левой части контента
                  */
                 foreach(self::$category as $value){
                     echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
@@ -47,73 +44,91 @@
 
         <div id="content">
 
-            <!-- корзина -->
-            <?php
-            /**
-             * вывод корзины с элементами
-             */
-            if(isset($element) && $element[0] != null && $element[0] != "empty"){
-                $head = "<table width='700px' cellspacing='0' cellpadding='5'>";
-                    $head .= "<tr bgcolor='#CCCCCC'>
-                        <th width='220' align='left'>Изображение </th>
-                        <th width='180' align='left'>Наименование</th>
-                        <th width='100' align='center'>Количество </th>
-                        <th width='60' align='right'>Цена </th>
-                        <th width='60' align='right'>Стоимость </th>
-                        <th width='90'> </th>
-                    </tr>";
-                echo $head;
+            <div class="col ">
+                <div id="">
+                    <form class="form-horizontal" method="post">
+                        <fieldset>
 
-                $html = "";
-                $summ = 0;
-                foreach($element as $val){
-                    $html .= "<tr>";
-                    $html .= "<td><img src='". APP_BASE_URL . "images/product/$val[img]'/></td>";
-                    $html .= "<td>$val[productName]</td>";
-                    $html .= "<td align='center'>" . $val["numProduct"] . "</td>";
-                    $html .= "<td align='right'>$val[price]</td>";
-                    $num = (int)$val["price"] * (int)$val["numProduct"];
-                    $html .= "<td align='right'>" . $num . "</td>";
-                    //$html .= "<td align='center'> <a href=" . APP_BASE_URL . "basket/index/!$val[id]><img src='" . APP_BASE_URL . "images/remove_x.gif' alt='remove' /><br />Remove</a> </td>";
-                    /*-----------------------------------------------------------------------------------*/
-                    $html .= "<td align='center'>";
-                    $html .= "<form method='post'>";
-                    $html .= "<input type='hidden' name='idProduct' value='".$val["id"]."' />";
-                    $html .= "<input type='submit' name='removeBasket' value='Удалить'/>";
-                    $html .="</form>";
-                    $html .= "</td>";
-                    /*-----------------------------------------------------------------------------------*/
-                    $html .= " </tr>";
-                    $summ = $summ + $num;
-                }
+                            <!-- Form Name -->
+                            <legend>Контактная информация</legend>
 
-                $_SESSION["summ"] = $summ;
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="name">Имя:</label>
+                                <div class="col-md-4">
+                                    <input id="name" name="name" type="text" placeholder="" class="form-control input-md" value="<?php echo $this->name; ?>">
 
-                $html .= "<tr>
-                    <td colspan='3' align='right'  height='40px'></td>
-                    <td align='right' style='background:#ccc; font-weight:bold'> Всего </td>
-                    <td align='right' style='background:#ccc; font-weight:bold'> $summ </td>
-                    <td style='background:#ccc; font-weight:bold'> </td>
-                    </tr>
-                    </table>
-                    <div style='float:right; width: 215px; margin-top: 20px;'>
-                    <div class='checkout'><a href=" . APP_BASE_URL . "basket/index/empty class='more'>Очистить корзину</a></div>
-                    <div class='cleaner h20'></div>";
-                /*-----------------------------------------------------------------------------------------------------------*/
+                                </div>
+                            </div>
 
-                    $html .= "<div class='checkout'><a href=" . APP_BASE_URL . "order/index/ class='more'>Оформить заказ</a></div>";
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="email">email</label>
+                                <div class="col-md-4">
+                                    <input id="email" name="email" type="email" placeholder="" class="form-control input-md" value="<?php echo $this->email; ?>">
 
-                /*-----------------------------------------------------------------------------------------------------------*/
-                $html .= " <div class='cleaner h20'></div>
-                    <div class='continueshopping'><a href=" . APP_BASE_URL . "catalog/index/  class='more'>Продолжить покупки</a></div>";
+                                </div>
+                            </div>
 
-                echo $html;
-            }else{
-                echo "<h2>Ваша корзина пуста</h2>";
-            }
-            ?>
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="topic">Тема</label>
+                                <div class="col-md-4">
+                                    <input id="topic" name="topic" type="text" placeholder="" class="form-control input-md" value="<?php echo $this->topic; ?>">
 
-        </div>
+                                </div>
+                            </div>
+
+                            <!-- Prepended text-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="captcha">Защита от ботов</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" style="padding: 0;""><img src="<?php echo APP_BASE_URL.'captcha/index'; ?>" ></span>
+                                        <input id="captcha" name="captcha" class="form-control" placeholder="" type="text">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Textarea -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="message">Сообщение</label>
+                                <div class="col-md-4">
+                                    <textarea class="form-control" id="message" name="message"><?php echo $this->message; ?></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Button (Double) -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="reset"></label>
+                                <div class="col-md-8">
+                                    <button type="reset" id="reset" name="reset" class="btn btn-default">Очистить</button>
+                                    <button type="submit" id="submit" name="submit" class="btn btn-success">Отправить</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                    <?php if(!empty($this->msg)){ ?>
+                        <div class="alert alert-warning" role="alert" style="width: 550px; margin: 0 auto;">
+                            <?php echo @$this->msg; ?>
+                        </div><br />
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="col col_13">
+                <h5>Контактные данные:</h5>
+                <strong>Адрес:</strong> Минск, пр-кт Машерова, 19<br />
+                <strong>Телефон:</strong> 8029 123-45-67<br />
+                <strong>Email:</strong> <a href="#">shop@shop.by</a> <br />
+                <div class="cleaner divider"></div>
+            </div>
+
+            <div class="cleaner h30"></div>
+
+            <iframe width="660" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=просп.+Машерова+19,+Минск,+Беларусь&amp;aq=&amp;sll=53.9162977,27.5625608&amp;sspn=53.9162977,27.5625608&amp;vpsrc=6&amp;ie=UTF8&amp;hq=&amp;hnear=просп.+Машерова+19,+Минск,+Беларусь&amp;t=m&amp;ll=53.9162977,27.5625608&amp;spn=53.9162977,27.5625608&amp;z=14&amp;output=embed"></iframe>
+
+        </div> <!-- END of content -->
         <div class="cleaner"></div>
     </div> <!-- END of main -->
-
