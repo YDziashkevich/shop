@@ -18,8 +18,7 @@ Class adminProductsModel extends Model{
      * Валидация полей добавления товаров
      * @return array|bool|string
      */
-
-    public function isValidProducts($name, $desc, $price, $idCat){
+    public function isValidProducts($name, $desc, $price, $folder){
         $valid = true;
         $errors = array();
 
@@ -40,8 +39,7 @@ Class adminProductsModel extends Model{
         // Валидация картинки
         if($_FILES['img']['name']){
             // Задаем директрию для хранения изображений
-            mkdir('img/'.$idCat.'/');
-            $uploadDirectory = 'img/'.$idCat.'/';
+            $uploadDirectory = 'images/product/'.$folder.'/';
             $key = microtime($get_as_float = true);
             $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
@@ -93,7 +91,7 @@ Class adminProductsModel extends Model{
      * Валидация полей при редактировании товаров
      * @return array|bool|string
      */
-    public function isValidEditProducts($name, $desc, $price, $idCat){
+    public function isValidEditProducts($name, $desc, $price, $folder){
         $valid = true;
         $errors = array();
 
@@ -114,7 +112,7 @@ Class adminProductsModel extends Model{
 
 //        if(!empty($this->img)){
         // Задаем директрию для хранения изображений
-        $uploadDirectory = 'img/'.$idCat.'/';
+        $uploadDirectory = 'images/product/'.$folder.'/';
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
@@ -136,7 +134,6 @@ Class adminProductsModel extends Model{
                     break;
             }
         }
-
 //        }
         if($valid){
             // Если файл прошел проверки, то сохраняем его
@@ -200,6 +197,9 @@ Class adminProductsModel extends Model{
             $st->bindValue(":idProperty", $property['id'], PDO::PARAM_INT);
             $st->bindValue(":value", $value);
             $r = $st->execute();
+            if(!$r){
+                var_dump($st->errorInfo());
+            }
         }
         return $r;
     }

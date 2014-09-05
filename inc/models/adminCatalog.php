@@ -89,6 +89,7 @@ Class adminCatalogModel extends Model{
         $this->name = isset($_POST['name']) ? trim($_POST['name']) : '';
         $this->description = isset($_POST['description']) ? trim($_POST['description']) : '';
         $this->img = isset($_POST['img']) ? $_POST['img'] : null;
+        $this->folder = isset($_POST['folder']) ? $_POST['folder'] : null;
         return true;
     }
 
@@ -96,7 +97,7 @@ Class adminCatalogModel extends Model{
      * Валидация формы
      * @return array|bool возвращает true или список ошибок
      */
-    public function isValid($idCat){
+    public function isValid($folder){
         $valid = true;
         $errors = array();
 
@@ -116,8 +117,8 @@ Class adminCatalogModel extends Model{
 
         if($_FILES['img']['name']){
             // Задаем директрию для хранения изображений
-            mkdir('img/'.$idCat.'/');
-            $uploadDirectory = 'img/'.$idCat.'/';
+            mkdir('images/product/'.$folder.'/');
+            $uploadDirectory = 'images/product/'.$folder.'/';
             $key = microtime($get_as_float = true);
             $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
@@ -170,9 +171,9 @@ Class adminCatalogModel extends Model{
      * Валидация формы при редактировании категории
      * @return array|bool возвращает true или список ошибок
      */
-    public function isValid2($idCat){
+    public function isValid2($folder){
         $valid = true;
-        $this->errors = array();
+        $errors = array();
 
         // Валидация названия
         if(strlen($this->name) < 5){
@@ -187,8 +188,7 @@ Class adminCatalogModel extends Model{
         }
 
         // Задаем директрию для хранения изображений
-        mkdir('img/'.$idCat.'/');
-        $uploadDirectory = 'img/'.$idCat.'/';
+        $uploadDirectory = 'images/product/'.$folder.'/';
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
@@ -205,12 +205,11 @@ Class adminCatalogModel extends Model{
                     $validation = true;
                     break;
                 default:
-                    $errors[] = "Данный тип файла не поддерживается";
+                    $errors['img'] = "Данный тип файла не поддерживается";
                     $valid = false;
                     break;
             }
         }
-        $this->errors = $errors;
         if($valid){
             if(!empty($this->img)){
                 // Если файл прошел проверки, то сохраняем его
@@ -220,20 +219,18 @@ Class adminCatalogModel extends Model{
                             echo "Файл успешно загружен<br />";
                         }else{
                             echo $_FILES['img']['error'];
-                            $this->errors = "Загрузить файл не удалось";
-                            return $this->errors;
+                            $errors['img'] = "Загрузить файл не удалось";
                         }
                     }
                 }else{
                     if(isset($_FILES['img']['tmp_name'])){
-                        $this->errors = "Файл слишком большой или некорректного формата";
-                        return $this->errors;
+                        $errors['img'] = "Файл слишком большой или некорректного формата";
                     }
                 }
             }
             return $valid;
         }else{
-            return $this->errors;
+            return $errors;
         }
     }
 
@@ -278,14 +275,13 @@ Class adminCatalogModel extends Model{
      */
     public function isValidProducts($idCat){
         $valid = true;
-        $this->errors = array();
+        $errors = array();
 
         // Валидация остальных полей
 
         // Валидация картинки
         // Задаем директрию для хранения изображений
-        mkdir('img/'.$idCat.'/');
-        $uploadDirectory = 'img/';
+        $uploadDirectory = 'images/product/'.$this->folder.'/';
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
@@ -302,12 +298,11 @@ Class adminCatalogModel extends Model{
                     $validation = true;
                     break;
                 default:
-                    $errors[] = "Данный тип файла не поддерживается";
+                    $errors['img'] = "Данный тип файла не поддерживается";
                     $valid = false;
                     break;
             }
         }
-        $this->errors = $errors;
         if($valid){
             // Если файл прошел проверки, то сохраняем его
             if($validation){
@@ -316,20 +311,18 @@ Class adminCatalogModel extends Model{
                         echo "Файл успешно загружен<br />";
                     }else{
                         echo $_FILES['img']['error'];
-                        $this->errors = "Загрузить файл не удалось";
-                        return $this->errors;
+                        $errors['img'] = "Загрузить файл не удалось";
                     }
                 }
             }else{
                 if(isset($_FILES['img']['tmp_name'])){
-                    $this->errors = "Файл слишком большой или некорректного формата";
-                    return $this->errors;
+                    $errors['img'] = "Файл слишком большой или некорректного формата";
                 }
             }
 
             return $valid;
         }else{
-            return $this->errors;
+            return $errors;
         }
     }
 
@@ -368,5 +361,17 @@ Class adminCatalogModel extends Model{
 
         }
         return $r;
+    }
+
+    /**
+     * Получение названия папки категории
+     * @param $id ид категории
+     * @return string название папки
+     */
+    public function getFolder($id){
+        $st = self::getDbc()->prepare("SELECT folder FROM ".APP_DB_PREFIX."category` WHERE id = :id");
+        $st->bindValue(":id", $id);
+        $st->execute();
+        return $st->fetchColumn();
     }
 }

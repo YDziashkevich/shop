@@ -163,8 +163,9 @@ class AdminController extends Controller
 
                 if($this->admincatalog->isPost()){
 
-                    $validate = $this->adminproducts->isValidProducts($this->view->name, $this->view->desc, $this->view->price, $this->idCat);
+                    $this->folder = $this->admincatalog->getFolder($this->idCat);
 
+                    $validate = $this->adminproducts->isValidProducts($this->view->name, $this->view->desc, $this->view->price, $this->folder);
                     if($validate !== true){
                         $this->view->msg = $validate;
                     }else{
@@ -229,7 +230,6 @@ class AdminController extends Controller
             $this->view->products = $this->adminproducts->getProducts($this->view->catId);
 
             if($this->isPost()){
-//                $this->items_edit_nextAction();
                 $this->redirect(APP_BASE_URL."admin/items_edit_next?cats=".$this->view->catId."&"."id=".$id);
             }else{
                 $this->view->render("admin/items_edit");
@@ -266,7 +266,8 @@ class AdminController extends Controller
             $this->img = isset($_POST['img']) ? $_POST['img'] : null;
 
             if(isset($_POST['submit'])){
-                $validate = $this->adminproducts->isValidEditProducts($this->name, $this->description, $this->price, $this->catId);
+                $this->folder = $this->admincatalog->getFolder($this->idCat);
+                $validate = $this->adminproducts->isValidEditProducts($this->name, $this->description, $this->price, $this->folder);
                 if($validate == true){
 
                     // Обновление данных в бд
@@ -453,7 +454,7 @@ class AdminController extends Controller
             if($this->admincatalog->isPost()){
 
                 // Валидация формы, если прошла то добавляет новую категорию в бд, иначе выводит сообщение об ошибке
-                $validate = $this->admincatalog->isValid();
+                $validate = $this->admincatalog->isValid($folder);
 
                 if($validate !== true){
 
