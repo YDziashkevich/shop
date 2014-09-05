@@ -89,10 +89,10 @@ Class adminCatalogModel extends Model{
      * @return bool
      */
     public function getData(){
-        $this->name = isset($_POST['name']) ? trim($_POST['name']) : '';
-        $this->description = isset($_POST['description']) ? trim($_POST['description']) : '';
-        $this->img = isset($_POST['img']) ? $_POST['img'] : null;
-        $this->folder = isset($_POST['folder']) ? $_POST['folder'] : null;
+        $this->name = isset($_POST['name']) ? htmlspecialchars(strip_tags(trim($_POST['name']))) : '';
+        $this->description = isset($_POST['description']) ? htmlspecialchars(strip_tags(trim($_POST['description']))) : '';
+        $this->img = isset($_POST['img']) ? htmlspecialchars(strip_tags(trim($_POST['img']))) : null;
+        $this->folder = isset($_POST['folder']) ? htmlspecialchars(strip_tags(trim($_POST['folder']))) : null;
         return $this;
     }
 
@@ -275,7 +275,7 @@ Class adminCatalogModel extends Model{
      * @return string
      */
     public function getCatsId(){
-        $this->catsId = isset($_POST['id']) ? $_POST['id'] : '';
+        $this->catsId = isset($_POST['id']) ? htmlspecialchars(strip_tags(trim($_POST['id']))) : '';
         return $this->catsId;
     }
 
