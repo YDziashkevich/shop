@@ -7,10 +7,6 @@ Class GuestbookModel extends Model{
     public $captcha;
     public  $errors;
 
-    public function __construct(){
-        parent::__construct();
-    }
-
     /**
      * Получение данных из формы
      * @return bool

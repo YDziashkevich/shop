@@ -114,7 +114,7 @@
                     <!-- вывод списка категорий -->
                     <?php
                     foreach(self::$category as $value){
-                        echo "<li> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
+                        echo "<li width='350px;'> <a href=" . APP_BASE_URL . "catalog/category/$value[id]> $value[name] </a> </li>";
                     }
                     ?>
                 </ul>

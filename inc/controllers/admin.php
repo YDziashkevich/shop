@@ -115,7 +115,7 @@ class AdminController extends Controller
             // Получение всех категорий
             $this->view->catalog = $this->admincatalog->getCategory();
 
-            $idCat = isset($_GET['cats']) ? htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
+            $idCat = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
             // Проверяет была ли отправлена форма
             if(isset($_GET['add'])){
 
@@ -150,16 +150,16 @@ class AdminController extends Controller
             if($this->adminproducts->isGet()){
 
                 // Получение списка всех свойтв для данной категории
-                $this->cat_id = isset($_GET['cats']) ? htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
+                $this->cat_id = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
                 $this->view->property = $this->adminproducts->getPropertiesProduct($this->cat_id);
 
                 // Получение данных из формы
                 $this->view->name = isset($_POST['name']) ? htmlspecialchars(strip_tags(trim($_POST['name']))) : '';
                 $this->view->desc = isset($_POST['description']) ? htmlspecialchars(strip_tags(trim($_POST['description']))) : '';
-                $this->view->price = isset($_POST['price']) ? htmlspecialchars(strip_tags(trim($_POST['price']))) : '';
-                $this->idCat = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : '';
+                $this->view->price = isset($_POST['price']) ? (int)$_POST['price'] : '';
+                $this->idCat = isset($_GET['cats']) ? (int) $_GET['cats'] : '';
                 $this->value = isset($_POST['value']) ? htmlspecialchars(strip_tags(trim($_POST['value']))) : '';
-                $this->img = isset($_POST['img']) ? htmlspecialchars(strip_tags(trim($_POST['img']))) : '';
+                $this->img = isset($_POST['img']) ? $_POST['img'] : '';
 
                 if($this->admincatalog->isPost()){
                     $this->folder = $this->admincatalog->getFolder($this->idCat);
@@ -190,13 +190,13 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
-            $this->catId = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
+            $this->catId = isset($_GET['cats']) ? (int) $_GET['cats'] : null;
 
             // Получени списка всех товаров для данной категории
             $this->view->products = $this->adminproducts->getProducts($this->catId);
 
             if($this->isPost()){
-                $idProducts = isset($_POST['id']) ? (int) htmlspecialchars(strip_tags(trim($_POST['id']))) : null;
+                $idProducts = isset($_POST['id']) ?  $_POST['id'] : null;
 
                 // Удаление товара из бд
                 $delete = $this->adminproducts->deleteProducts($idProducts);
@@ -220,8 +220,8 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
-            $this->view->catId = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
-            $id = isset($_POST['id']) ? (int) htmlspecialchars(strip_tags(trim($_POST['id']))) : null;
+            $this->view->catId = isset($_GET['cats']) ? (int) $_GET['cats'] : null;
+            $id = isset($_POST['id']) ? (int) $_POST['id'] : null;
 
             // Получени списка всех товаров для данной категории
             $this->view->products = $this->adminproducts->getProducts($this->view->catId);
@@ -241,8 +241,8 @@ class AdminController extends Controller
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->view->msg = array();
-            $this->catId = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
-            $this->view->id = isset($_GET['id']) ? (int) htmlspecialchars(strip_tags(trim($_GET['id']))) : null;
+            $this->catId = isset($_GET['cats']) ? (int) $_GET['cats'] : null;
+            $this->view->id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
             // Получение значений свойств
             $this->view->valueProperties = $this->adminproducts->getProductProperties($this->view->id);
@@ -256,11 +256,11 @@ class AdminController extends Controller
             }
 
             // Получение данных из формы
-            $this->view->id = isset($_GET['id']) ? (int) htmlspecialchars(strip_tags(trim($_GET['id']))) : null;
+            $this->view->id = isset($_GET['id']) ? (int) $_GET['id'] : null;
             $this->name = isset($_POST['name']) ? htmlspecialchars(strip_tags(trim($_POST['name']))) : null;
             $this->description = isset($_POST['description']) ? htmlspecialchars(strip_tags(trim($_POST['description']))) : null;
-            $this->price = isset($_POST['price']) ? htmlspecialchars(strip_tags(trim($_POST['price']))) : null;
-            $this->img = isset($_POST['img']) ? htmlspecialchars(strip_tags(trim($_POST['img']))) : null;
+            $this->price = isset($_POST['price']) ? (int)$_POST['price'] : null;
+            $this->img = isset($_POST['img']) ? $_POST['img'] : null;
 
             if(isset($_POST['submit'])){
 
@@ -316,7 +316,7 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
-            $this->view->idCat = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
+            $this->view->idCat = isset($_GET['cats']) ? (int) $_GET['cats'] : null;
 
             $this->view->properties = $this->adminproducts->getProperiesCategory($this->view->idCat);
 
@@ -333,7 +333,7 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
-            $idCat = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
+            $idCat = isset($_GET['cats']) ? (int) $_GET['cats'] : null;
 
             $this->view->name = isset($_POST['property']) ? htmlspecialchars(strip_tags(trim($_POST['property']))) : null;
             $this->view->for_input = isset($_POST['for_input']) ? htmlspecialchars(strip_tags(trim($_POST['for_input']))) : null;
@@ -365,10 +365,10 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
-            $idCat = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
+            $idCat = isset($_GET['cats']) ? (int) $_GET['cats'] : null;
             $this->view->properties = $this->adminproducts->getProperiesCategory($idCat);
 
-            $ids = isset($_POST['id']) ? (int) htmlspecialchars(strip_tags(trim($_POST['id']))) : null;
+            $ids = isset($_POST['id']) ? $_POST['id'] : null;
 
             if(isset($_POST['submit'])){
                 foreach($ids as $id){
@@ -394,10 +394,10 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
-            $this->view->catId = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
+            $this->view->catId = isset($_GET['cats']) ? (int) $_GET['cats'] : null;
             $this->view->properties = $this->adminproducts->getProperiesCategory($this->view->catId);
 
-            $id = isset($_GET['id']) ? (int) htmlspecialchars(strip_tags(trim($_GET['id']))) : null;
+            $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
             if(isset($_GET['edit'])){
                 $this->redirect(APP_BASE_URL."admin/properties_next_edit_next?id=".$id."&idCat=".$this->view->catId);
@@ -416,8 +416,8 @@ class AdminController extends Controller
 
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
-            $id = isset($_GET['id']) ? (int) htmlspecialchars(strip_tags(trim($_GET['id']))) : null;
-            $idCat = isset($_GET['idCat']) ? (int) htmlspecialchars(strip_tags(trim($_GET['idCat']))) : null;
+            $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
+            $idCat = isset($_GET['idCat']) ? (int) $_GET['idCat'] : null;
 
             // Получение значений для формы из бд
             $props = $this->adminproducts->getDataProperty($id);
@@ -529,7 +529,7 @@ class AdminController extends Controller
             // Получение всех категорий
             $this->view->catalog = $this->admincatalog->getCategory();
 
-            $catId = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : null;
+            $catId = isset($_GET['cats']) ? (int) $_GET['cats'] : null;
             // Проверяет была ли отправлена форма
             if($this->admincatalog->isGet()){
 
@@ -554,13 +554,13 @@ class AdminController extends Controller
             if($this->admincatalog->isGet()){
 
                 // Получение ид выбранной категории
-                $this->id = isset($_GET['cats']) ? (int) htmlspecialchars(strip_tags(trim($_GET['cats']))) : '';
+                $this->id = isset($_GET['cats']) ? (int) $_GET['cats'] : '';
 
                 // Получение свойств выбранной категории
                 $propertyCategory = $this->admincatalog->getOneCategory($this->id);
 
                 // Получение данных для представления
-                $this->view->id = isset($_POST['id']) ? htmlspecialchars(strip_tags(trim($_POST['id']))) : $propertyCategory['id'];
+                $this->view->id = isset($_POST['id']) ? (int) $_POST['id'] : $propertyCategory['id'];
                 $this->view->name = isset($_POST['name']) ? htmlspecialchars(strip_tags(trim($_POST['name']))) : $propertyCategory['name'];
                 $this->view->description = isset($_POST['description']) ? htmlspecialchars(strip_tags(trim($_POST['description']))) : $propertyCategory['description'];
                 $this->view->folder = isset($_POST['folder']) ? htmlspecialchars(strip_tags(trim($_POST['folder']))) : $propertyCategory['folder'];
