@@ -241,7 +241,7 @@ class AdminController extends Controller
         // Проверка залогирован ли админ
         if($this->session->isLoggedIn()){
             $this->view->msg = array();
-            $this->catId = isset($_GET['cats']) ? $_GET['cats'] : null;
+            $this->catId = isset($_GET['cats']) ? (int)$_GET['cats'] : null;
             $this->view->id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
             // Получение значений свойств
@@ -263,21 +263,22 @@ class AdminController extends Controller
             $this->img = isset($_POST['img']) ? $_POST['img'] : null;
 
             if(isset($_POST['submit'])){
-                $this->folder = $this->admincatalog->getFolder($this->idCat);
-                var_dump($this->folder);
+
+                $this->folder = $this->admincatalog->getFolder($this->catId);
+
                 $validate = $this->adminproducts->isValidEditProducts($this->name, $this->description, $this->price, $this->folder);
-//                if($validate == true){
-//
-//                    // Обновление данных в бд
-//                    $update = $this->adminproducts->alterProduct($this->view->id, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
-//                    if(!$update){
-//                        $this->view->msg = "Не удалось отредактировать товар";
-//                    }else{
-//                        $this->redirect(APP_BASE_URL."admin/items");
-//                    }
-//                }else{
-//                    $this->view->msg = $validate;
-//                }
+                if($validate == true){
+
+                    // Обновление данных в бд
+                    $update = $this->adminproducts->alterProduct($this->view->id, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
+                    if(!$update){
+                        $this->view->msg = "Не удалось отредактировать товар";
+                    }else{
+                        $this->redirect(APP_BASE_URL."admin/items");
+                    }
+                }else{
+                    $this->view->msg = $validate;
+                }
             }
             $this->view->render("admin/items_edit_next");
 

@@ -397,7 +397,10 @@ Class adminCatalogModel extends Model{
     public function getFolder($id){
         $st = self::getDbc()->prepare("SELECT folder FROM ".APP_DB_PREFIX."category WHERE id = :id");
         $st->bindValue(":id", $id);
-        $st->execute();
+        $r = $st->execute();
+        if(!$r){
+            var_dump($st->errorInfo());
+        }
         return $st->fetchColumn();
     }
 }

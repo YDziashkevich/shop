@@ -110,13 +110,13 @@ Class adminProductsModel extends Model{
         }
         // Валидация картинки
 
-//        if(!empty($this->img)){
+        if(isset($_FILES['img']['name'])){
         // Задаем директрию для хранения изображений
         $uploadDirectory = 'images/product/'.$folder.'/';
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
-        if(isset($_FILES['img']['name'])){
+
             // Проверяем тип файлов
             $type = $_FILES['img']['type'];
             $validation = false;
@@ -134,7 +134,7 @@ Class adminProductsModel extends Model{
                     break;
             }
         }
-//        }
+
         if($valid){
             // Если файл прошел проверки, то сохраняем его
             if($validation){
