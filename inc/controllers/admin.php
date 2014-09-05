@@ -515,11 +515,13 @@ class AdminController extends Controller
             // Получение всех категорий
             $this->view->catalog = $this->admincatalog->getCategory();
 
+            $catId = isset($_GET['cats']) ? $_GET['cats'] : null;
             // Проверяет была ли отправлена форма
             if($this->admincatalog->isGet()){
 
                 // Вызывает экшн редактирования категорий
-                $this->catalog_edit_nextAction();
+//                $this->catalog_edit_nextAction();
+                $this->redirect("catalog_edit_next?cats=".$catId);
             }else{
                 $this->view->render("admin/catalog_edit");
             }
@@ -557,8 +559,8 @@ class AdminController extends Controller
                 if($this->admincatalog->isPost()){
 
                     // Валидация данных
-                    $validate = $this->admincatalog->isValid2($this->view->folder);
-                    var_dump($this->view->msg);
+                    $validate = $this->admincatalog->isValid2();
+
 
                     // Вывод ошибок, если не прошла валидация, и сохранение данных, если все хорошо
                     if($validate !== true){
@@ -567,9 +569,9 @@ class AdminController extends Controller
 
                         // Если файл для загрузки не менялся, то выполняется первый скрипт, иначе второй
                         if(!isset($this->admincatalog->uploadfile)){
-                            $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->view->folder);
+                            $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->folder);
                         }else{
-                            $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->view->folder, $this->admincatalog->uploadfile);
+                            $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->folder, $this->admincatalog->uploadfile);
                         }
 
                         // Проверка выполнилось сохранение или нет

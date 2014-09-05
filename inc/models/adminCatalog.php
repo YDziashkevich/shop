@@ -42,14 +42,18 @@ Class adminCatalogModel extends Model{
             $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description, folder = :folder WHERE id = :id");
         }else{
             // Добавляется новое изображение
-            $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description, , folder = :folder, img = :img WHERE id = :id");
+            $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description, folder = :folder, img = :img WHERE id = :id");
             $st->bindValue(':img', $img);
         }
-        $st->bindValue(':id', $id);
+        $st->bindValue(':id', $id, PDO::PARAM_INT);
         $st->bindValue(':name', $name);
         $st->bindValue(':description', $description);
         $st->bindValue(':folder', $folder);
-        return $st->execute();
+        $r = $st->execute();
+        if(!$r){
+            var_dump($st->errorInfo());
+            var_dump($st->queryString);
+        }return $r;
     }
 
     /**
@@ -180,7 +184,7 @@ Class adminCatalogModel extends Model{
      * Валидация формы при редактировании категории
      * @return array|bool возвращает true или список ошибок
      */
-    public function isValid2($folder){
+    public function isValid2(){
         $valid = true;
         $errors = array();
 
@@ -197,14 +201,14 @@ Class adminCatalogModel extends Model{
         }
 
         // Валидация названия папок
-        if(strlen($folder) < 2){
+        if(strlen($this->folder) < 2){
             $errors['folder'] = "Название папки короче 2 символов";
             $valid = false;
         }
 
         // Задаем директрию для хранения изображений
-        mkdir('images/product/'.$folder.'/');
-        $uploadDirectory = 'images/product/'.$folder.'/';
+        mkdir('images/product/'.$this->folder.'/');
+        $uploadDirectory = 'images/product/'.$this->folder.'/';
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
@@ -229,7 +233,7 @@ Class adminCatalogModel extends Model{
         if($valid){
             if(isset($this->img)){
                 // Если файл прошел проверки, то сохраняем его
-                if($validation){echo 1;
+                if($validation){
                     if(is_uploaded_file($_FILES['img']['tmp_name'])){
                         if(move_uploaded_file($_FILES['img']['tmp_name'],$this->uploadfile)){
                             echo "Файл успешно загружен<br />";
