@@ -7,6 +7,7 @@
             <li><a href="<?php echo APP_BASE_URL;?>admin/items">Работа с товарами</a></li>
             <li><a href="<?php echo APP_BASE_URL;?>admin/properties">Редактирование характеристик товаров</a></li>
         </ul>
+        <a href="<?php echo APP_BASE_URL; ?>" class="btn btn-default" role="button" style="margin: 10px 0 10px 100px;">Магазин</a>
         <a href="<?php echo APP_BASE_URL."admin/logout"; ?>" class="btn btn-default" role="button" style="margin: 10px 0 10px 100px;">Выйти</a>
     </div>
 </nav>

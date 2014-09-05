@@ -43,7 +43,7 @@ Class adminProductsModel extends Model{
             $key = microtime($get_as_float = true);
             $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
-            if($this->uploadfile !== $uploadDirectory){
+
                 // Проверяем тип файлов
                 $type = $_FILES['img']['type'];
                 $validation = false;
@@ -60,7 +60,7 @@ Class adminProductsModel extends Model{
                         $valid = false;
                         break;
                 }
-            }
+
         }else{
             $errors['img'] = "Не выбрано загружено изображение";
             $valid = false;

@@ -120,12 +120,12 @@ class AdminController extends Controller
             if(isset($_GET['add'])){
 
                 // Вызов экшна добавления товаров
-                $this->items_nextAction();
+                $this->redirect(APP_BASE_URL."admin/items_next?cats=".$idCat);
 
             }else if(isset($_GET['delete'])){
 
                 // Вызов экшна удаления товаров
-                $this->items_deleteAction();
+                $this->redirect(APP_BASE_URL."admin/items_delete?cats=".$idCat);
 
             }else if(isset($_GET['edit'])){
 
