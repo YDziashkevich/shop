@@ -89,12 +89,12 @@
                     <label class='sr-only' for='exampleInputPassword2'>Password</label>
                     <input type='password' class='form-control' id='exampleInputPassword2' name='loginPaswd' placeholder='Пароль'>
                 </div>
-                <input type='submit' class='btn btn-default' name='enterLogin' value='Войти'><br/>
-                <a href='".APP_BASE_URL."login/index'>".$link."</a>
+                <input type='submit' class='btn btn-default' name='enterLogin' value='Войти'>
+                <a href='".APP_BASE_URL."login/index' class='btn btn-default' role='button' >".$link."</a>
             </form>";
             }else{
-                $html = "<a href='".APP_BASE_URL."user/index'><h3>" . $_SESSION["user"]["name"] . "</h3></a>";
-                $html .= "<a href='".APP_BASE_URL."main/exit'><h6>Выйти</h6></a>";
+                $html = "<a href='".APP_BASE_URL."user/index' class='btn btn-default' role='button' ><h3>" . $_SESSION["user"]["name"] . "</h3></a>";
+                $html .= "<a href='".APP_BASE_URL."main/exit' class='btn btn-default' role='button' ><h6>Выйти</h6></a>";
             }
             echo $html;
 

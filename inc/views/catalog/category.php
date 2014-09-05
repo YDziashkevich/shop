@@ -65,7 +65,7 @@
                     /*-----------------------------------------------------------------------------------*/
                     $html .= "<form method='post'>";
                     $html .= "<input type='hidden' name='idProduct' value='$itemProduct[id]'/>";
-                    $html .= "<input type='submit' name='addBasket' value='Добавить в корзину'/>";
+                    $html .= "<input type='submit' name='addBasket' class='btn btn-default' value='Добавить в корзину'/>";
                     $html .="</form>";
                     /*-----------------------------------------------------------------------------------*/
                     $html .= "</div>";

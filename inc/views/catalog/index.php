@@ -66,13 +66,13 @@
                 /*-----------------------------------------------------------------------------------*/
                 $html .= "<form method='post'>";
                 $html .= "<input type='hidden' name='idProduct' value='$itemProduct[id]'/>";
-                $html .= "<input type='submit' name='addBasket' value='Добавить в корзину'/>";
+                $html .= "<input type='submit' name='addBasket'  class='btn btn-default' value='Добавить в корзину'/>";
                 $html .="</form>";
                 /*-----------------------------------------------------------------------------------*/
                 $html .= "</div>";
             }
-            $html .= "<a href= " . APP_BASE_URL . "catalog/category/$item[id]  class='more float_r'>Посмотреть все товары</a>";
-            $html .= "<div class='cleaner h50'></div>";
+            $html .= "<a href= " . APP_BASE_URL . "catalog/category/$item[id]  class='float_r btn btn-success' style='margin-top: -30px; margin-right: 20px; color: white;'>Посмотреть все товары >>></a>";
+            $html .= "<div class='cleaner h10'></div>";
         }
         echo $html;
         ?>
