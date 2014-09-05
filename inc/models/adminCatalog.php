@@ -5,6 +5,7 @@ Class adminCatalogModel extends Model{
     public $description;
     public $img;
     public $uploadfile;
+    public $folder;
 
     /**
      * Получить массив всех категорий
@@ -35,18 +36,19 @@ Class adminCatalogModel extends Model{
      * @param string $img адрес картинки
      * @return bool true - выполнилось изменение, иначе false
      */
-    public function editCategory($id, $name, $description, $img = ''){
+    public function editCategory($id, $name, $description, $folder, $img = ''){
         if($img == ''){
             // Новое изображение не добавляется
-            $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description WHERE id = :id");
+            $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description, folder = :folder WHERE id = :id");
         }else{
             // Добавляется новое изображение
-            $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description, img = :img WHERE id = :id");
+            $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."category SET name = :name, description = :description, , folder = :folder, img = :img WHERE id = :id");
             $st->bindValue(':img', $img);
         }
         $st->bindValue(':id', $id);
         $st->bindValue(':name', $name);
         $st->bindValue(':description', $description);
+        $st->bindValue(':folder', $folder);
         return $st->execute();
     }
 
@@ -57,11 +59,12 @@ Class adminCatalogModel extends Model{
      * @param $img путь к картинке
      * @return bool true - добавлена категория, иначе false
      */
-    public function addCategory($name, $description, $uploadfile){
-        $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."category(name, description, img) VALUES(:name, :description, :img)");
+    public function addCategory($name, $description, $uploadfile, $folder){
+        $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."category(name, description, img, folder) VALUES(:name, :description, :img, :folder)");
         $st->bindValue(':name', $name);
         $st->bindValue(':description', $description);
         $st->bindValue(':img', $uploadfile);
+        $st->bindValue(':folder', $folder);
         return $st->execute();
     }
 
@@ -90,7 +93,7 @@ Class adminCatalogModel extends Model{
         $this->description = isset($_POST['description']) ? trim($_POST['description']) : '';
         $this->img = isset($_POST['img']) ? $_POST['img'] : null;
         $this->folder = isset($_POST['folder']) ? $_POST['folder'] : null;
-        return true;
+        return $this;
     }
 
     /**
@@ -110,6 +113,12 @@ Class adminCatalogModel extends Model{
         // Валидация описания
         if(strlen($this->description) < 15){
             $errors['description'] = "Название короче 15 символов";
+            $valid = false;
+        }
+
+        // Валидация названия папок
+        if(strlen($folder) < 2){
+            $errors['folder'] = "Название папки короче 2 символов";
             $valid = false;
         }
 
@@ -177,17 +186,24 @@ Class adminCatalogModel extends Model{
 
         // Валидация названия
         if(strlen($this->name) < 5){
-            $errors[] = "Название короче 5 символов";
+            $errors['name'] = "Название короче 5 символов";
             $valid = false;
         }
 
         // Валидация описания
         if(strlen($this->description) < 15){
-            $errors[] = "Название короче 15 символов";
+            $errors['desc'] = "Название короче 15 символов";
+            $valid = false;
+        }
+
+        // Валидация названия папок
+        if(strlen($folder) < 2){
+            $errors['folder'] = "Название папки короче 2 символов";
             $valid = false;
         }
 
         // Задаем директрию для хранения изображений
+        mkdir('images/product/'.$folder.'/');
         $uploadDirectory = 'images/product/'.$folder.'/';
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
@@ -211,24 +227,29 @@ Class adminCatalogModel extends Model{
             }
         }
         if($valid){
-            if(!empty($this->img)){
+            if(isset($this->img)){
                 // Если файл прошел проверки, то сохраняем его
-                if($validation){
+                if($validation){echo 1;
                     if(is_uploaded_file($_FILES['img']['tmp_name'])){
                         if(move_uploaded_file($_FILES['img']['tmp_name'],$this->uploadfile)){
                             echo "Файл успешно загружен<br />";
                         }else{
-                            echo $_FILES['img']['error'];
                             $errors['img'] = "Загрузить файл не удалось";
+                            $valid = false;
                         }
                     }
                 }else{
                     if(isset($_FILES['img']['tmp_name'])){
                         $errors['img'] = "Файл слишком большой или некорректного формата";
+                        $valid = false;
                     }
                 }
             }
-            return $valid;
+            if($valid){
+                return $valid;
+            }else{
+                return $errors;
+            }
         }else{
             return $errors;
         }

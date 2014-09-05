@@ -447,6 +447,7 @@ class AdminController extends Controller
             // Получение данных из формы
             $this->admincatalog->getData();
 
+            $this->view->folder = isset($_POST['folder']) ? $_POST['folder'] : null;
             $this->view->name = $this->admincatalog->name;
             $this->view->description = $this->admincatalog->description;
 
@@ -454,16 +455,15 @@ class AdminController extends Controller
             if($this->admincatalog->isPost()){
 
                 // Валидация формы, если прошла то добавляет новую категорию в бд, иначе выводит сообщение об ошибке
-                $validate = $this->admincatalog->isValid($folder);
+                $validate = $this->admincatalog->isValid($this->view->folder);
 
                 if($validate !== true){
 
                     // Получение всех ошибок
                     $this->view->msg = $validate;
                 }else{
-
                     // Добавление новой категории
-                    $save = $this->admincatalog->addCategory($this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile);
+                    $save = $this->admincatalog->addCategory($this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile, $this->folder);
 
                     if(!$save){
                         $this->view->msg = 'Не удалось сохранить';
@@ -548,6 +548,7 @@ class AdminController extends Controller
                 $this->view->id = isset($_POST['id']) ? $_POST['id'] : $propertyCategory['id'];
                 $this->view->name = isset($_POST['name']) ? $_POST['name'] : $propertyCategory['name'];
                 $this->view->description = isset($_POST['description']) ? $_POST['description'] : $propertyCategory['description'];
+                $this->view->folder = isset($_POST['folder']) ? $_POST['folder'] : $propertyCategory['folder'];
 
                 // Получение данных из формы
                 $this->admincatalog->getData();
@@ -556,7 +557,8 @@ class AdminController extends Controller
                 if($this->admincatalog->isPost()){
 
                     // Валидация данных
-                    $validate = $this->admincatalog->isValid2($this->id);
+                    $validate = $this->admincatalog->isValid2($this->view->folder);
+                    var_dump($this->view->msg);
 
                     // Вывод ошибок, если не прошла валидация, и сохранение данных, если все хорошо
                     if($validate !== true){
@@ -565,9 +567,9 @@ class AdminController extends Controller
 
                         // Если файл для загрузки не менялся, то выполняется первый скрипт, иначе второй
                         if(!isset($this->admincatalog->uploadfile)){
-                            $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description);
+                            $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->view->folder);
                         }else{
-                            $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile);
+                            $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->view->folder, $this->admincatalog->uploadfile);
                         }
 
                         // Проверка выполнилось сохранение или нет
