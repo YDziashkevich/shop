@@ -517,7 +517,6 @@ class AdminController extends Controller
             if($this->admincatalog->isGet()){
 
                 // Вызывает экшн редактирования категорий
-//                $this->catalog_edit_nextAction();
                 $this->redirect("catalog_edit_next?cats=".$catId);
             }else{
                 $this->view->render("admin/catalog_edit");

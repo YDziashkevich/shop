@@ -130,8 +130,8 @@ Class adminCatalogModel extends Model{
 
         if($_FILES['img']['name']){
             // Задаем директрию для хранения изображений
-            mkdir('images/product/'.$this->folder.'/');
             $uploadDirectory = 'images/product/'.$this->folder.'/';
+            if(!is_dir($uploadDirectory)) mkdir($uploadDirectory) ;;
             $key = microtime($get_as_float = true);
             $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
@@ -207,8 +207,9 @@ Class adminCatalogModel extends Model{
         }
 
         // Задаем директрию для хранения изображений
-        mkdir('images/product/'.$this->folder.'/');
+
         $uploadDirectory = 'images/product/'.$this->folder.'/';
+        if(!is_dir($uploadDirectory)) mkdir($uploadDirectory) ;;
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
@@ -231,7 +232,7 @@ Class adminCatalogModel extends Model{
             }
         }
         if($valid){
-            if(isset($this->img)){
+            if($_FILES['img']['name']){
                 // Если файл прошел проверки, то сохраняем его
                 if($validation){
                     if(is_uploaded_file($_FILES['img']['tmp_name'])){
