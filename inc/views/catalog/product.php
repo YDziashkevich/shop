@@ -53,7 +53,7 @@
             $html = "";
             $html .= "<h2>" . $productName . "</h2>";
             $html .= "<div class='col col_13'>";
-            $html .= "<img src='" . APP_BASE_URL . "images/product/" . $img . "'/></div>";
+            $html .= "<img src='" . APP_BASE_URL . $img . "'/></div>";
             $html .= "<div class='col col_13 no_margin_right'><table>";
             $html .= "<tr><td height='30' width='160'>Price:</td><td> $price$ </td></tr>";
             foreach($property as $key=>$item){
@@ -65,7 +65,7 @@
             /*-----------------------------------------------------------------------------------*/
             $html .= "<form method='post'>";
             $html .= "<input type='hidden' name='idProduct' value='$id'/>";
-            $html .= "<input type='submit' name='addBasket' value='Добавить в корзину'/>";
+            $html .= "<input type='submit' name='addBasket' class='btn btn-default' value='Добавить в корзину'/>";
             $html .="</form>";
             /*-----------------------------------------------------------------------------------*/
             $html .= "<div class='cleaner h30'></div>";

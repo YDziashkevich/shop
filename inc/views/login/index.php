@@ -22,42 +22,95 @@
     </div> <!-- END of sidebar -->
 
     <div id="content">
-        <form method="post">
-            <h2>Регистрация</h2>
+        <form class="form-horizontal" method="post">
+            <fieldset>
 
-            <div class="col col_13 checkout">
-                имя*:
-                <input type="text" name="regName"  style="width:300px;"  />
-                электронная почта*:
-                <input type="text" name="regEmail" style="width:300px;"  />
-                адрес:
-                <input type="text" name="regAddress" style="width:300px;"  />
-                телефон (вид: + 12345 123-45-67)*:
-                <input type="text" name="regPhone" style="width:300px;"  />
-                пароль*:
-                <input type="password" name="regPaswd"  style="width:300px;"  />
-                повторите пароль*:
-                <input type="password" name="confRegPaswd"  style="width:300px;"  />
-                * поля обязательного ввода:<br />
+                <!-- Form Name -->
+                <legend>Регистрация</legend>
 
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="regName">Имя*:</label>
+                    <div class="col-md-5">
+                        <input id="regName" name="regName" type="text" placeholder="" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="regEmail">Электронная почта*:</label>
+                    <div class="col-md-5">
+                        <input id="regEmail" name="regEmail" type="text" placeholder="" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="regAddress">Адрес:</label>
+                    <div class="col-md-5">
+                        <input id="regAddress" name="regAddress" type="text" placeholder="" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="regPhone">Телефон <br>(вид: + 12345 123-45-67)*:</label>
+                    <div class="col-md-5">
+                        <input id="regPhone" name="regPhone" type="text" placeholder="" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Password input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="passwordinput">Пароль*:</label>
+                    <div class="col-md-5">
+                        <input id="passwordinput" name="passwordinput" type="password" placeholder="" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Password input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="confRegPaswd">Повторите пароль*:</label>
+                    <div class="col-md-5">
+                        <input id="confRegPaswd" name="confRegPaswd" type="password" placeholder="" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <p align="center">* поля обязательного ввода:</p><br />
 
                 <hr />
                 <?php
                 if(isset($errors)){
                     foreach($errors as $itemErrors)
-                    echo "* " . $itemErrors . "<br />";
+                        echo "* " . $itemErrors . "<br />";
                 }
-
                 ?>
 
-            </div>
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="addUser"></label>
+                    <div class="col-md-4">
+                        <button id="addUser" name="addUser" class="btn btn-primary">Зарегистрироваться</button>
+                    </div>
+                </div>
 
-
-            <div class="cleaner h20"></div>
-            <input type="submit" name="addUser" value="зарегистрироваться"/>
-
-
+            </fieldset>
         </form>
+
+
+
+
+
+
+
+
+
 
     </div>
     <div class="cleaner"></div>

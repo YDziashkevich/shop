@@ -53,7 +53,7 @@
              * вывод корзины с элементами
              */
             if(isset($element) && $element[0] != null && $element[0] != "empty"){
-                $head = "<table width='700px' cellspacing='0' cellpadding='5'>";
+                $head = "<table width='670px' cellspacing='0' cellpadding='5'>";
                     $head .= "<tr bgcolor='#CCCCCC'>
                         <th width='220' align='left'>Изображение </th>
                         <th width='180' align='left'>Наименование</th>
@@ -79,7 +79,7 @@
                     $html .= "<td align='center'>";
                     $html .= "<form method='post'>";
                     $html .= "<input type='hidden' name='idProduct' value='".$val["id"]."' />";
-                    $html .= "<input type='submit' name='removeBasket' value='Удалить'/>";
+                    $html .= "<input type='submit' name='removeBasket' class='btn btn-default' value='Удалить'/>";
                     $html .="</form>";
                     $html .= "</td>";
                     /*-----------------------------------------------------------------------------------*/
