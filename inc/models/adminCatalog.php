@@ -209,7 +209,7 @@ Class adminCatalogModel extends Model{
         // Задаем директрию для хранения изображений
 
         $uploadDirectory = 'images/product/'.$this->folder.'/';
-        if(!is_dir($uploadDirectory)) mkdir($uploadDirectory) ;;
+        if(!is_dir($uploadDirectory)){mkdir($uploadDirectory);}
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 

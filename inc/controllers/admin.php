@@ -264,19 +264,20 @@ class AdminController extends Controller
 
             if(isset($_POST['submit'])){
                 $this->folder = $this->admincatalog->getFolder($this->idCat);
+                var_dump($this->folder);
                 $validate = $this->adminproducts->isValidEditProducts($this->name, $this->description, $this->price, $this->folder);
-                if($validate == true){
-
-                    // Обновление данных в бд
-                    $update = $this->adminproducts->alterProduct($this->view->id, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
-                    if(!$update){
-                        $this->view->msg = "Не удалось отредактировать товар";
-                    }else{
-                        $this->redirect(APP_BASE_URL."admin/items");
-                    }
-                }else{
-                    $this->view->msg = $validate;
-                }
+//                if($validate == true){
+//
+//                    // Обновление данных в бд
+//                    $update = $this->adminproducts->alterProduct($this->view->id, $this->name, $this->description, $this->price, $this->catId, $this->adminproducts->uploadfile);
+//                    if(!$update){
+//                        $this->view->msg = "Не удалось отредактировать товар";
+//                    }else{
+//                        $this->redirect(APP_BASE_URL."admin/items");
+//                    }
+//                }else{
+//                    $this->view->msg = $validate;
+//                }
             }
             $this->view->render("admin/items_edit_next");
 
@@ -537,7 +538,7 @@ class AdminController extends Controller
             if($this->admincatalog->isGet()){
 
                 // Получение ид выбранной категории
-                $this->id = isset($_GET['cats']) ? $_GET['cats'] : '';
+                $this->id = isset($_GET['cats']) ? (int)$_GET['cats'] : '';
 
                 // Получение свойств выбранной категории
                 $propertyCategory = $this->admincatalog->getOneCategory($this->id);
@@ -556,15 +557,14 @@ class AdminController extends Controller
 
                     // Валидация данных
                     $validate = $this->admincatalog->isValid2();
-
-
+                    $this->admincatalog->folder = $this->admincatalog->getFolder($this->id);
                     // Вывод ошибок, если не прошла валидация, и сохранение данных, если все хорошо
                     if($validate !== true){
                         $this->view->msg = $validate;
                     }else{
 
                         // Если файл для загрузки не менялся, то выполняется первый скрипт, иначе второй
-                        if(!isset($this->admincatalog->uploadfile)){
+                        if(isset($this->admincatalog->uploadfile)){
                             $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->folder);
                         }else{
                             $save = $this->admincatalog->editCategory($this->view->id, $this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->folder, $this->admincatalog->uploadfile);
