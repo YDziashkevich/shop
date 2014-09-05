@@ -35,11 +35,11 @@ class ContactController extends Controller
                 $this->view->msg = $this->contact->getErrors();
             }else{
                 // Сохранение данных
-                echo "save data";
                 $this->contact->save($this->contact->name, $this->contact->email, $this->contact->topic, $this->contact->message);
 
                 // Перенаправление на текущую страницу
                 header('Location: '.$_SERVER['REQUEST_URI']);
+                die;
             }
         }
 

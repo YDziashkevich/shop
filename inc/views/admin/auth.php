@@ -1,5 +1,5 @@
 <?php include 'header.php' ?>
-<div class="container">
+<div class="container" style="margin: 25% 0 0 30%">
     <div class="col-md-4">
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
@@ -14,7 +14,7 @@
                         <div class="form-group">
                             <input class="form-control" placeholder="Пароль" name="password" type="password" value="">
                         </div>
-                        <input type="submit" name="submit" id="submit" value="Войти">
+                        <input type="submit" name="submit" id="submit" class="btn btn-default" value="Войти">
                     </fieldset>
                 </form>
             </div>

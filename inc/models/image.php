@@ -13,12 +13,20 @@ class ImageModel extends Model {
         $this->text = $text;
     }
 
+    /**
+     * Текст для капчи
+     * @param $text
+     * @return $this
+     */
     public function setText($text){
         $this->text = str_split($text);
         $this->length = strlen($text);
         return $this;
     }
 
+    /**
+     * Создание изображения для капчи
+     */
     public function send(){
         // Создаем холст
         $img = imagecreate($this->imgWidth, $this->imgHeight);

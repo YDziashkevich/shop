@@ -43,7 +43,6 @@ Class adminProductsModel extends Model{
             $key = microtime($get_as_float = true);
             $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
-
                 // Проверяем тип файлов
                 $type = $_FILES['img']['type'];
                 $validation = false;
@@ -80,7 +79,6 @@ Class adminProductsModel extends Model{
                     $errors['img'] = "Файл слишком большой или некорректного формата";
                 }
             }
-
             return $valid;
         }else{
             return $errors;
@@ -116,7 +114,6 @@ Class adminProductsModel extends Model{
         $key = microtime($get_as_float = true);
         $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 
-
             // Проверяем тип файлов
             $type = $_FILES['img']['type'];
             $validation = false;
@@ -150,7 +147,6 @@ Class adminProductsModel extends Model{
                     $errors['img'] = "Файл слишком большой или некорректного формата";
                 }
             }
-
             return $valid;
         }else{
             return $errors;
@@ -172,19 +168,12 @@ Class adminProductsModel extends Model{
         $st->bindValue(":price", $price, PDO::PARAM_INT);
         $st->bindValue(":img", $img);
         $st->bindValue(":id", $id, PDO::PARAM_INT);
-        $r = $st->execute();
-        if(!$r){
-            var_dump($st->errorInfo());
-            var_dump($st->queryString);
-        }
+        $st->execute();
 
         // Получение информации о требуемых полях
         $st = self::getDbc()->prepare("SELECT id, for_input FROM ".APP_DB_PREFIX."properties WHERE idCategory = :idCategory");
         $st->bindValue(":idCategory", $idCategory, PDO::PARAM_INT);
-        $r = $st->execute();
-        if(!$r){
-            var_dump($st->errorInfo());
-        }
+        $st->execute();
         $properties = $st->fetchAll(PDO::FETCH_ASSOC);
 
         // Запись в таблицу product2property значений
@@ -197,9 +186,6 @@ Class adminProductsModel extends Model{
             $st->bindValue(":idProperty", $property['id'], PDO::PARAM_INT);
             $st->bindValue(":value", $value);
             $r = $st->execute();
-            if(!$r){
-                var_dump($st->errorInfo());
-            }
         }
         return $r;
     }
@@ -236,7 +222,6 @@ Class adminProductsModel extends Model{
             $st->bindValue(":idProperty", $property['id'], PDO::PARAM_INT);
             $st->bindValue(":value", $value);
             $r = $st->execute();
-
         }
         return $r;
     }
@@ -300,6 +285,11 @@ Class adminProductsModel extends Model{
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Получение свойств для категории
+     * @param $idCat ид категории
+     * @return array массив с данными
+     */
     public function getProperiesCategory($idCat){
         $st = self::getDbc()->prepare("SELECT id, property FROM ".APP_DB_PREFIX."properties WHERE idCategory = :idCat");
         $st->bindValue(":idCat", $idCat);
@@ -307,6 +297,13 @@ Class adminProductsModel extends Model{
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Добавление нового свойства
+     * @param $name название
+     * @param $catId ид категории
+     * @param $for_input название для инпута
+     * @return bool
+     */
     public function addProperty($name, $catId, $for_input){
         $st = self::getDbc()->prepare("INSERT INTO ".APP_DB_PREFIX."properties(property,idCategory,for_input) VALUES(:name,:catId,:for_input)");
         $st->bindValue(":name", $name);
@@ -315,6 +312,12 @@ Class adminProductsModel extends Model{
         return $st->execute();
     }
 
+    /**
+     * Валидация нового свойства
+     * @param $property свойство
+     * @param $for_input название для инпута
+     * @return array|bool
+     */
     public function validateNewProperty($property, $for_input){
         $valid = true;
         $errors = array();
@@ -333,12 +336,25 @@ Class adminProductsModel extends Model{
         }
     }
 
+    /**
+     * Удаление свойства
+     * @param $id ид свойства
+     * @return bool
+     */
     public function deleteProperty($id){
         $st = self::getDbc()->prepare("DELETE FROM ".APP_DB_PREFIX."properties WHERE id = :id");
         $st->bindValue(":id", $id, PDO::PARAM_INT);
         return $st->execute();
     }
 
+    /**
+     * Редактирование свойства
+     * @param $id ид свойства
+     * @param $property название
+     * @param $catId ид категории
+     * @param $for_input поле для инпута
+     * @return bool
+     */
     public function editProperty($id, $property, $catId, $for_input){
         $st = self::getDbc()->prepare("UPDATE ".APP_DB_PREFIX."properties SET property = :property, idCategory = :catId, for_input = :for_input WHERE id = :id");
         $st->bindValue(":id", $id);
@@ -348,6 +364,11 @@ Class adminProductsModel extends Model{
         return $st->execute();
     }
 
+    /**
+     * Получение данных о свойстве
+     * @param $id ид свойства
+     * @return mixed
+     */
     public function getDataProperty($id){
         $st = self::getDbc()->prepare("SELECT property, for_input FROM ".APP_DB_PREFIX."properties WHERE id = :id");
         $st->bindValue(":id", $id);

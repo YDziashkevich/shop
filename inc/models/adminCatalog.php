@@ -49,11 +49,7 @@ Class adminCatalogModel extends Model{
         $st->bindValue(':name', $name);
         $st->bindValue(':description', $description);
         $st->bindValue(':folder', $folder);
-        $r = $st->execute();
-        if(!$r){
-            var_dump($st->errorInfo());
-            var_dump($st->queryString);
-        }return $r;
+        return $st->execute();
     }
 
     /**
@@ -109,14 +105,14 @@ Class adminCatalogModel extends Model{
         $errors = array();
 
         // Валидация названия
-        if(strlen($this->name) < 5){
-            $errors['name'] = "Название короче 5 символов";
+        if(strlen($this->name) < 3){
+            $errors['name'] = "Название короче 3 символов";
             $valid = false;
         }
 
         // Валидация описания
-        if(strlen($this->description) < 15){
-            $errors['description'] = "Название короче 15 символов";
+        if(strlen($this->description) < 2){
+            $errors['description'] = "Название короче 2 символов";
             $valid = false;
         }
 
@@ -189,14 +185,14 @@ Class adminCatalogModel extends Model{
         $errors = array();
 
         // Валидация названия
-        if(strlen($this->name) < 5){
-            $errors['name'] = "Название короче 5 символов";
+        if(strlen($this->name) < 3){
+            $errors['name'] = "Название короче 3 символов";
             $valid = false;
         }
 
         // Валидация описания
-        if(strlen($this->description) < 15){
-            $errors['desc'] = "Название короче 15 символов";
+        if(strlen($this->description) < 2){
+            $errors['desc'] = "Название короче 2 символов";
             $valid = false;
         }
 
@@ -293,63 +289,6 @@ Class adminCatalogModel extends Model{
         $st->bindValue(":cat_id", $cat_id);
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Валидация полей добавления товаров
-     * @return array|bool|string
-     */
-    public function isValidProducts($idCat){
-        $valid = true;
-        $errors = array();
-
-        // Валидация остальных полей
-
-        // Валидация картинки
-        // Задаем директрию для хранения изображений
-        $uploadDirectory = 'images/product/'.$this->folder.'/';
-        $key = microtime($get_as_float = true);
-        $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
-
-        if($_FILES['img']['name']){
-            // Проверяем тип файлов
-            $type = $_FILES['img']['type'];
-            $validation = false;
-
-            switch($type){
-                case 'image/gif':
-                case 'image/jpeg':
-                case 'image/pjpeg':
-                case 'image/png':
-                    $validation = true;
-                    break;
-                default:
-                    $errors['img'] = "Данный тип файла не поддерживается";
-                    $valid = false;
-                    break;
-            }
-        }
-        if($valid){
-            // Если файл прошел проверки, то сохраняем его
-            if($validation){
-                if(is_uploaded_file($_FILES['img']['tmp_name'])){
-                    if(move_uploaded_file($_FILES['img']['tmp_name'],$this->uploadfile)){
-                        echo "Файл успешно загружен<br />";
-                    }else{
-                        echo $_FILES['img']['error'];
-                        $errors['img'] = "Загрузить файл не удалось";
-                    }
-                }
-            }else{
-                if(isset($_FILES['img']['tmp_name'])){
-                    $errors['img'] = "Файл слишком большой или некорректного формата";
-                }
-            }
-
-            return $valid;
-        }else{
-            return $errors;
-        }
     }
 
     /**

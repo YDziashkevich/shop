@@ -2,10 +2,6 @@
 
 Class StorageModel extends Model{
 
-    public function __construct(){
-        parent::__construct();
-    }
-
     /**
      * @return array Возвращает массив сообщений
      */

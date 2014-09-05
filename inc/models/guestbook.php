@@ -5,7 +5,6 @@ Class GuestbookModel extends Model{
     public $email;
     public $message;
     public $captcha;
-
     public  $errors;
 
     public function __construct(){

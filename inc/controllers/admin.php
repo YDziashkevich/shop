@@ -299,7 +299,7 @@ class AdminController extends Controller
             // Проверяет была ли отправлена форма
             if($this->admincatalog->isGet()){
 
-                // Вызывает экшн редактирования категорий
+                // Экшн для выбора категории
                 $this->properties_nextAction();
             }else{
                 $this->view->render("admin/properties");
@@ -309,6 +309,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Экшн для выбора категории
+     */
     public function properties_nextAction(){
 
         // Проверка залогирован ли админ
@@ -323,6 +326,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Экшн для добавления характеристик
+     */
     public function properties_next_addAction(){
 
         // Проверка залогирован ли админ
@@ -352,6 +358,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Экшн для удаления характеристик
+     */
     public function properties_next_deleteAction(){
 
         // Проверка залогирован ли админ
@@ -378,6 +387,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Экшн для редактирования характеристик
+     */
     public function properties_next_editAction(){
 
         // Проверка залогирован ли админ
@@ -397,6 +409,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Экшн для дальнейшего редактирования характеристик
+     */
     public function properties_next_edit_nextAction(){
 
         // Проверка залогирован ли админ
