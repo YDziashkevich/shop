@@ -157,19 +157,16 @@ class AdminController extends Controller
                 $this->view->name = isset($_POST['name']) ? $_POST['name'] : '';
                 $this->view->desc = isset($_POST['description']) ? $_POST['description'] : '';
                 $this->view->price = isset($_POST['price']) ? $_POST['price'] : '';
-                $this->idCat = isset($_GET['cats']) ? $_GET['cats'] : '';
+                $this->idCat = isset($_GET['cats']) ? (int) $_GET['cats'] : '';
                 $this->value = isset($_POST['value']) ? $_POST['value'] : '';
                 $this->img = isset($_POST['img']) ? $_POST['img'] : '';
 
                 if($this->admincatalog->isPost()){
-
                     $this->folder = $this->admincatalog->getFolder($this->idCat);
-
                     $validate = $this->adminproducts->isValidProducts($this->view->name, $this->view->desc, $this->view->price, $this->folder);
                     if($validate !== true){
                         $this->view->msg = $validate;
                     }else{
-
                         // Сохранение в бд
                         $save = $this->adminproducts->saveProduct($this->view->name, $this->view->desc, $this->view->price, $this->idCat, $this->adminproducts->uploadfile);
                         if(!$save){
