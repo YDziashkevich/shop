@@ -100,7 +100,7 @@ Class adminCatalogModel extends Model{
      * Валидация формы
      * @return array|bool возвращает true или список ошибок
      */
-    public function isValid($folder){
+    public function isValid(){
         $valid = true;
         $errors = array();
 
@@ -117,7 +117,7 @@ Class adminCatalogModel extends Model{
         }
 
         // Валидация названия папок
-        if(strlen($folder) < 2){
+        if(strlen($this->folder) < 2){
             $errors['folder'] = "Название папки короче 2 символов";
             $valid = false;
         }
@@ -126,8 +126,8 @@ Class adminCatalogModel extends Model{
 
         if($_FILES['img']['name']){
             // Задаем директрию для хранения изображений
-            mkdir('images/product/'.$folder.'/');
-            $uploadDirectory = 'images/product/'.$folder.'/';
+            mkdir('images/product/'.$this->folder.'/');
+            $uploadDirectory = 'images/product/'.$this->folder.'/';
             $key = microtime($get_as_float = true);
             $this->uploadfile = $uploadDirectory.$key.basename($_FILES['img']['name']);
 

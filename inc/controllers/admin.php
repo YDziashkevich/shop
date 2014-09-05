@@ -447,7 +447,7 @@ class AdminController extends Controller
             // Получение данных из формы
             $this->admincatalog->getData();
 
-            $this->view->folder = isset($_POST['folder']) ? $_POST['folder'] : null;
+            $this->view->folder = $this->admincatalog->folder;
             $this->view->name = $this->admincatalog->name;
             $this->view->description = $this->admincatalog->description;
 
@@ -463,7 +463,7 @@ class AdminController extends Controller
                     $this->view->msg = $validate;
                 }else{
                     // Добавление новой категории
-                    $save = $this->admincatalog->addCategory($this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile, $this->folder);
+                    $save = $this->admincatalog->addCategory($this->admincatalog->name, $this->admincatalog->description, $this->admincatalog->uploadfile, $this->view->folder);
 
                     if(!$save){
                         $this->view->msg = 'Не удалось сохранить';
