@@ -11,4 +11,5 @@ define('APP_DB_PREFIX', 'st_');
 define('APP_DEBUG_MODE', TRUE);
 define('APP_COUNT_PAGES', 10);
 define('APP_BASE_USER', 'guest');
+define('APP_BASE_MANAGER', 'manager');
 

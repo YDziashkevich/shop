@@ -21,4 +21,18 @@ class UserController extends Controller
         }
         $this->view->render("user/index",$data);
     }
+    /**
+     * список заказов
+     */
+    public function managerAction()
+    {
+        $lastOrderId = $this->user->getLastOrders();
+        $i = 0;
+        foreach($lastOrderId as $valueId){
+            $data["orders"][$i] = $this->user->getOrder($valueId["id"]);
+            $data["orders"][$i]["data"] = $this->user->getDataOrder($valueId["id"]);
+            $i ++;
+        }
+        $this->view->render("user/manager", $data);
+    }
 }

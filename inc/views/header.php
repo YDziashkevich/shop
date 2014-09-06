@@ -135,6 +135,10 @@
                 $admin = "<li><a href='".APP_BASE_URL."admin/index'>Настройки магазина</a></li>";
                 echo $admin;
             }
+            if(isset($_SESSION["user"]["name"]) && $_SESSION["user"]["name"] == APP_BASE_MANAGER){
+                $manager = "<li><a href='".APP_BASE_URL."user/manager'>Заказы магазина</a></li>";
+                echo $manager;
+            }
 
 
             ?>
